@@ -12,8 +12,8 @@ import {
   ListFilterIcon,
   LineChartIcon,
 } from "lucide-react";
-import Sidebar from "@/components/DashboardSidebar";
-import Header from "@/components/DashboardHeader";
+import Sidebar from "@/components/Dashboard/DashboardLayout/DashboardSidebar";
+import Header from "@/components/Dashboard/DashboardLayout/DashboardHeader";
 import { LinkItem } from "@/types/linkItem";
 
 interface DashboardLayoutProps {
@@ -74,7 +74,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       <Sidebar links={links} />
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
         <Header links={links} />
-        <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8     ">{children}</main>
+        <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">{children}</main>
       </div>
     </div>
   );

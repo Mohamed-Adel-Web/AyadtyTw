@@ -21,7 +21,7 @@ export default function LoginComponent() {
   const [loginError, setLoginError] = useState<string | null>(null);
 
   const { register, handleSubmit, formState } = useForm<loginData>();
-  const { errors, isSubmitting } = formState;
+  const { errors } = formState;
 
   const onSubmit = (loginData: loginData) => {
     setLoginError(null);

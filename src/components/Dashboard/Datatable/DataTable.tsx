@@ -64,6 +64,7 @@ export function DataTable<TData>({
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    initialState: { pagination: { pageSize: 10 } },
     state: {
       sorting,
       columnFilters,
@@ -78,9 +79,15 @@ export function DataTable<TData>({
         {filterKey && (
           <Input
             placeholder={filterPlaceholder}
-            value={(table.getColumn(filterKey as string)?.getFilterValue() as string) ?? ""}
+            value={
+              (table
+                .getColumn(filterKey as string)
+                ?.getFilterValue() as string) ?? ""
+            }
             onChange={(event) =>
-              table.getColumn(filterKey as string)?.setFilterValue(event.target.value)
+              table
+                .getColumn(filterKey as string)
+                ?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
           />
@@ -113,7 +120,7 @@ export function DataTable<TData>({
         </DropdownMenu>
       </div>
       <div className="rounded-md border">
-        <Table>
+        <Table >
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

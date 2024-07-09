@@ -1,0 +1,137 @@
+"use client";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import React, { useMemo } from "react";
+import { useForm } from "react-hook-form";
+import { Doctor, DoctorDetails } from "@/types/doctorsTypes/doctors";
+import { doctorUrl, specializationUrl } from "@/backend/backend";
+import useGetData from "@/customHooks/crudHooks/useGetData";
+import { Specialization } from "@/types/specializationsTypes/specialization";
+import useEditData from "@/customHooks/crudHooks/useEditData";
+import { fields } from "./fields";
+
+export function EditDialog({
+  open,
+  onOpenChange,
+  doctor,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  doctor: DoctorDetails | null;
+}) {
+  const { register, formState, handleSubmit, reset } = useForm<Doctor>();
+  const { data } = useGetData(specializationUrl, "allSpecialization");
+  const specializationsData = data?.data.data;
+  const { mutate, isSuccess ,isPending} = useEditData<FormData>(
+    doctorUrl,
+    doctor?.id,
+    "editDoctor",
+    "allDoctor"
+  );
+  const { errors } = formState;
+  const onSubmit = (data: Doctor) => {
+    const formData = new FormData();
+    formData.append("full_name", data.full_name);
+    formData.append("phone", data.phone);
+    formData.append("email", data.email);
+    if (data.password) {
+      formData.append("password", data.password);
+    }
+    formData.append("specialization_id", data.specialization_id.toString());
+    if (data.image && data.image[0]) {
+      formData.append("image", data.image[0]);
+    }
+    formData.append("consultant_price", data.consultant_price.toString());
+    formData.append("disclosure_price", data.disclosure_price.toString());
+    mutate(formData);
+  };
+  useMemo(() => {
+    if (isSuccess) {
+      onOpenChange(false);
+    }
+  }, [isSuccess, onOpenChange]);
+  React.useMemo(() => {
+    if (doctor) {
+      reset({
+        full_name: doctor.full_name,
+        email: doctor.email,
+        phone: doctor.phone,
+        specialization_id: doctor.specialization.id,
+        image: doctor.image,
+        consultant_price: doctor.consultant_price,
+        disclosure_price: doctor.disclosure_price,
+      });
+    }
+  }, [doctor, reset]);
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-[425px]">
+        <form noValidate onSubmit={handleSubmit(onSubmit)}>
+          <DialogHeader>
+            <DialogTitle>Edit Doctor</DialogTitle>
+            <DialogDescription>
+              Enter the details of the doctor. Click save when you&apos;re done.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-2">
+            {fields.filter(field => field.showInEdit).map((field) => (
+              <div key={field.name}>
+                <Label htmlFor={field.name} className="text-right">
+                  {field.label}
+                </Label>
+                <Input
+                  id={field.name}
+                  type={field.type}
+                  className="col-span-3"
+                  {...register(field.name, field.validate ? { required: field.required } : {})}
+                />
+                {errors[field.name] && (
+                  <div className="text-red-500 w-full">
+                    {errors[field.name]?.message}
+                  </div>
+                )}
+              </div>
+            ))}
+            <div>
+              <Label htmlFor="specialization" className="text-right">
+                Specialization
+              </Label>
+              <select
+                id="specialization"
+                {...register("specialization_id", {
+                  required: "Specialization is required",
+                })}
+                className="block w-full mt-2 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              >
+                <option value="">Select specialization</option>
+                {specializationsData?.map((spec: Specialization) => (
+                  <option key={spec.id} value={spec.id} className="m5-2">
+                    {spec.name}
+                  </option>
+                ))}
+              </select>
+              {errors.specialization_id && (
+                <div className="text-red-500 w-full">
+                  {errors.specialization_id?.message}
+                </div>
+              )}
+            </div>
+          </div>
+          <DialogFooter className="mt-3">
+            <Button type="submit" disabled={isPending}>Save changes</Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+}

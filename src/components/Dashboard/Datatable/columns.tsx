@@ -1,4 +1,3 @@
-"use client";
 import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
@@ -16,7 +15,15 @@ interface BaseData {
   id: string | number;
 }
 
-export function createColumns<T extends BaseData>(props: (keyof T)[]): ColumnDef<T>[] {
+function getNestedValue(obj: any, path: string): any {
+  return path.split('.').reduce((o, p) => (o ? o[p] : ''), obj);
+}
+
+export function createColumns<T extends BaseData>(
+  props: (keyof T | string)[],
+  handleOpenEditDialog: (row: T) => void,
+  handleOpenDeleteDialog: (row: T) => void
+): ColumnDef<T>[] {
   return [
     {
       id: "select",
@@ -42,21 +49,25 @@ export function createColumns<T extends BaseData>(props: (keyof T)[]): ColumnDef
     },
     ...props.map((prop) => ({
       accessorKey: prop as string,
-      header: ({ column }) => (
+      header: ({ column }: { column: any }) => (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {String(prop).charAt(0).toUpperCase() + String(prop).slice(1)}
+          {String(prop).split('.').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ')}
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
-      cell: ({ row }) => <div>{row.getValue(prop as string)}</div>,
+      cell: ({ row }: { row: any }) => (
+        <div>{getNestedValue(row.original, prop as string)}</div>
+      ),
     })),
     {
       id: "actions",
+      header: "Action",
       enableHiding: false,
       cell: ({ row }) => {
+        const rowOriginal = row.original;
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -68,9 +79,19 @@ export function createColumns<T extends BaseData>(props: (keyof T)[]): ColumnDef
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <Button className="w-full">Delete</Button>
+              <Button
+                className="w-full bg-red-700 hover:bg-red-700"
+                onClick={() => handleOpenDeleteDialog(rowOriginal)}
+              >
+                Delete
+              </Button>
               <DropdownMenuSeparator />
-              <Button className="w-full">Edit</Button>
+              <Button
+                className="w-full bg-blue-600 hover:bg-blue-600"
+                onClick={() => handleOpenEditDialog(rowOriginal)}
+              >
+                Edit
+              </Button>
             </DropdownMenuContent>
           </DropdownMenu>
         );

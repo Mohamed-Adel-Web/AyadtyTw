@@ -1,5 +1,5 @@
+import ClinicNavBar from "@/components/clinicSite/clinicNavBar";
 
-import ClinicNavBar from "@/components/clinicNavBar";
 
 
 
