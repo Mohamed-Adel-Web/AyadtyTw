@@ -10,11 +10,14 @@ import { Doctor, DoctorDetails } from "@/types/doctorsTypes/doctors";
 import { AddDialog } from "@/components/Dashboard/doctors/AddDoctorDialog";
 import DeleteDialog from "@/components/generalDialog/DeleteDialog";
 import { EditDialog } from "@/components/Dashboard/doctors/EditDoctorDialog";
+
 export default function App() {
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
-  const [selectedData, setSelectedData] = React.useState<DoctorDetails | null>(null);
+  const [selectedData, setSelectedData] = React.useState<DoctorDetails | null>(
+    null
+  );
   const { data } = useGetData(doctorUrl, "allDoctor");
   const doctorsData: DoctorDetails[] = data?.data.data;
 
@@ -33,7 +36,14 @@ export default function App() {
   };
 
   const columns = createColumns<DoctorDetails>(
-    ["full_name", "email", "phone", "specialization.name","consultant_price","disclosure_price"],
+    [
+      "full_name",
+      "email",
+      "phone",
+      "specialization.name",
+      "consultant_price",
+      "disclosure_price",
+    ],
     handleOpenEditDialog,
     handleOpenDeleteDialog
   );
@@ -48,8 +58,16 @@ export default function App() {
         <DataTable
           columns={columns}
           data={doctorsData}
-          filterKey="full_name"
-          filterPlaceholder="Filter Name ..."
+          filterKeys={[
+            "full_name",
+            "email",
+            "phone",
+            "specialization.name",
+            "consultant_price",
+            "disclosure_price",
+          ]}
+          filterPlaceholder="Filter..."
+    
         />
       )}
 

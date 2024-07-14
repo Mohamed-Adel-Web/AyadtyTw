@@ -17,13 +17,13 @@ const useAdminSignIn = () => {
     mutationFn: signInRequest,
     onSuccess: (data) => {
       console.log(data.data)
-      if (data.status === 200) {
+      if (data.data.status === 200) {
         toast({
           title: `${data.data.message}`,
         });
         Cookies.set("token", data.data.token, { expires: 30 });
         setToken(data.data.token);
-        window.location.href = "/Dashboard";
+        // window.location.href = "/Dashboard";
       } else {
         toast({
           variant: "destructive",

@@ -3,40 +3,39 @@ import * as React from "react";
 import { createColumns } from "../../../components/Dashboard/Datatable/columns";
 import { DataTable } from "../../../components/Dashboard/Datatable/DataTable";
 import { Button } from "@/components/ui/button";
-import { Specialization } from "@/types/specializationsTypes/specialization";
 import Heading from "@/components/Dashboard/DashboardLayout/Heading";
 import useGetData from "@/customHooks/crudHooks/useGetData";
-import { specializationUrl } from "@/backend/backend";
-import { AddDialog } from "@/components/Dashboard/specializations/AddSpecializationDialog";
-import EditDialog from "@/components/Dashboard/specializations/EditSpecializationDialog";
+import { assistantsUrl} from "@/backend/backend";
+import { assistant } from "@/types/assistantTypes/assistants";
+import { EditDialog } from "@/components/Dashboard/assistants/EditAssistantsDialog";
 import DeleteDialog from "@/components/generalDialog/DeleteDialog";
-
+import { AddDialog } from "@/components/Dashboard/assistants/AddAssistantsDialog";
 export default function App() {
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
-  const [selectedData, setSelectedData] = React.useState<Specialization | null>(
+  const [selectedData, setSelectedData] = React.useState<assistant | null>(
     null
   );
-  const { data } = useGetData(specializationUrl, "allSpecialization");
-  const specializationsData = data?.data.data;
+  const { data } = useGetData(assistantsUrl, "allAssistant");
+  const assistantsData = data?.data.data;
 
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
   };
 
-  const handleOpenEditDialog = (data: Specialization) => {
+  const handleOpenEditDialog = (data: assistant) => {
     setSelectedData(data);
     setOpenEdit(true);
   };
 
-  const handleOpenDeleteDialog = (data: Specialization) => {
+  const handleOpenDeleteDialog = (data: assistant) => {
     setSelectedData(data);
     setOpenDelete(true);
   };
 
-  const columns = createColumns<Specialization>(
-    ["name"],
+  const columns = createColumns<assistant>(
+    ["full_name"],
     handleOpenEditDialog,
     handleOpenDeleteDialog
   );
@@ -44,13 +43,13 @@ export default function App() {
   return (
     <>
       <div className="flex justify-between align-items-center">
-        <Heading title="Specializations" />
+        <Heading title="assistants" />
         <Button onClick={handleOpenAddDialog}>Add New</Button>
       </div>
-      {specializationsData && (
+      {assistantsData && (
         <DataTable
           columns={columns}
-          data={specializationsData}
+          data={assistantsData}
           filterKeys={["name"]}
           filterPlaceholder="Filter name..."
         />
@@ -60,16 +59,16 @@ export default function App() {
       <EditDialog
         open={openEdit}
         onOpenChange={setOpenEdit}
-        specialization={selectedData}
+        assistant={selectedData}
       />
-      <DeleteDialog<Specialization>
+      <DeleteDialog<assistant>
         open={openDelete}
         onOpenChange={setOpenDelete}
         item={selectedData}
-        url={specializationUrl}
-        mutationKey="deleteSpecialization"
-        queryKey="allSpecialization"
-        itemName="specialization"
+        url={assistantsUrl}
+        mutationKey="deleteAssistant"
+        queryKey="allAssistant"
+        itemName="assistant"
       />
     </>
   );

@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
@@ -48,6 +49,7 @@ export function createColumns<T extends BaseData>(
       enableHiding: false,
     },
     ...props.map((prop) => ({
+      id: prop as string, // Ensure the id is set correctly
       accessorKey: prop as string,
       header: ({ column }: { column: any }) => (
         <Button

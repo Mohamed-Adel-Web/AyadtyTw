@@ -3,7 +3,6 @@
 import * as React from "react";
 import {
   ColumnDef,
-  ColumnFiltersState,
   SortingState,
   VisibilityState,
   flexRender,
@@ -14,7 +13,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { ChevronDown } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -36,32 +34,51 @@ interface DataTableProps<TData> {
   columns: ColumnDef<TData, any>[];
   data: TData[];
   filterPlaceholder?: string;
-  filterKey?: keyof TData;
+  filterKeys?: Array<keyof TData | string>;
+}
+
+function getNestedValue(obj: any, path: string): any {
+  return path.split(".").reduce((o, p) => (o ? o[p] : ""), obj);
 }
 
 export function DataTable<TData>({
   columns,
   data,
   filterPlaceholder = "Filter...",
-  filterKey,
+  filterKeys = [],
 }: DataTableProps<TData>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
+  const [columnFilters, setColumnFilters] = React.useState<
+    { id: string; value: string }[]
+  >([]);
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>(
+    () => columns.reduce((acc, col) => {
+      acc[col.id as string] = true;
+      return acc;
+    }, {} as VisibilityState)
   );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+  const [selectedFilterKey, setSelectedFilterKey] = React.useState<
+    string | null
+  >(null);
+  const [filterValue, setFilterValue] = React.useState("");
+
+  const filteredData = React.useMemo(() => {
+    if (!selectedFilterKey || !filterValue) return data;
+    return data.filter((item) =>
+      String(getNestedValue(item, selectedFilterKey))
+        .toLowerCase()
+        .includes(filterValue.toLowerCase())
+    );
+  }, [data, selectedFilterKey, filterValue]);
 
   const table = useReactTable({
-    data,
+    data: filteredData,
     columns,
     onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     initialState: { pagination: { pageSize: 10 } },
@@ -73,54 +90,75 @@ export function DataTable<TData>({
     },
   });
 
+  const handleFilterKeyChange = (key: string) => {
+    setSelectedFilterKey(key);
+    setFilterValue("");
+  };
+
+  const handleFilterValueChange = (value: string) => {
+    setFilterValue(value);
+  };
+
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
-        {filterKey && (
+      <div className="flex items-center py-4 space-x-2">
+        {filterKeys.length > 0 && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="ml-auto">
+                {selectedFilterKey || "Select Filter"}{" "}
+                <ChevronDown className="ml-2 h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {filterKeys.map((key: any) => (
+                <DropdownMenuCheckboxItem
+                  key={key as string}
+                  checked={selectedFilterKey === key}
+                  onCheckedChange={() => handleFilterKeyChange(key as string)}
+                  className="capitalize"
+                >
+                  {key}
+                </DropdownMenuCheckboxItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
+        {selectedFilterKey && (
           <Input
             placeholder={filterPlaceholder}
-            value={
-              (table
-                .getColumn(filterKey as string)
-                ?.getFilterValue() as string) ?? ""
-            }
-            onChange={(event) =>
-              table
-                .getColumn(filterKey as string)
-                ?.setFilterValue(event.target.value)
-            }
+            value={filterValue}
+            onChange={(event) => handleFilterValueChange(event.target.value)}
             className="max-w-sm"
           />
         )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="outline" className="ml-2">
               Columns <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
+            {columns.map((column) => (
+              <DropdownMenuCheckboxItem
+                key={column.id as string}
+                checked={columnVisibility[column.id as string] ?? true}
+                onCheckedChange={() =>
+                  setColumnVisibility((prev) => ({
+                    ...prev,
+                    [column.id as string]: !prev[column.id as string],
+                  }))
+                }
+                className="capitalize"
+              >
+                {String(column.id)}
+              </DropdownMenuCheckboxItem>
+            ))}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
       <div className="rounded-md border">
-        <Table >
+        <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

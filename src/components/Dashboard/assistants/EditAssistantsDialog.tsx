@@ -18,41 +18,29 @@ import useGetData from "@/customHooks/crudHooks/useGetData";
 import { Specialization } from "@/types/specializationsTypes/specialization";
 import useEditData from "@/customHooks/crudHooks/useEditData";
 import { fields } from "./fields";
+import { assistant } from "@/types/assistantTypes/assistants";
 
 export function EditDialog({
   open,
   onOpenChange,
-  doctor,
+  assistant,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  doctor: DoctorDetails | null;
+  assistant: assistant | null;
 }) {
   const { register, formState, handleSubmit, reset } = useForm<Doctor>();
-  const { data } = useGetData(specializationUrl, "allSpecialization");
-  const specializationsData = data?.data.data;
   const { mutate, isSuccess, isPending } = useEditData<FormData>(
     doctorUrl,
-    doctor?.id,
-    "editDoctor",
-    "allDoctor"
+    assistant?.id,
+    "editAssistant",
+    "allAssistant"
   );
   const { errors } = formState;
-  const onSubmit = (data: Doctor) => {
+  const onSubmit = (data: assistant) => {
     const formData = new FormData();
     formData.append("full_name", data.full_name);
-    formData.append("phone", data.phone);
-    formData.append("email", data.email);
-    if (data.password) {
-      formData.append("password", data.password);
-    }
-    formData.append("specialization_id", data.specialization_id.toString());
-    if (data.image && data.image[0]) {
-      formData.append("image", data.image[0]);
-    }
-    formData.append("consultant_price", data.consultant_price.toString());
-    formData.append("disclosure_price", data.disclosure_price.toString());
-    formData.append("_method","PUT" );
+
     mutate(formData);
   };
   useMemo(() => {
@@ -61,26 +49,22 @@ export function EditDialog({
     }
   }, [isSuccess, onOpenChange]);
   React.useMemo(() => {
-    if (doctor) {
+    if (assistant) {
       reset({
-        full_name: doctor.full_name,
-        email: doctor.email,
-        phone: doctor.phone,
-        specialization_id: doctor.specialization.id,
-        consultant_price: doctor.consultant_price,
-        disclosure_price: doctor.disclosure_price,
+        full_name: assistant.full_name,
+     
       });
     }
-  }, [doctor, reset]);
+  }, [assistant, reset]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
-            <DialogTitle>Edit Doctor</DialogTitle>
+            <DialogTitle>Edit assistant</DialogTitle>
             <DialogDescription>
-              Enter the details of the doctor. Click save when you&apos;re done.
+              Enter the details of the assistant. Click save when you&apos;re done.
             </DialogDescription>
           </DialogHeader>
           {fields
@@ -106,30 +90,7 @@ export function EditDialog({
                 )}
               </div>
             ))}
-          <div>
-            <Label htmlFor="specialization" className="text-right">
-              Specialization
-            </Label>
-            <select
-              id="specialization"
-              {...register("specialization_id", {
-                required: "Specialization is required",
-              })}
-              className="block w-full mt-2 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            >
-              <option value="">Select specialization</option>
-              {specializationsData?.map((spec: Specialization) => (
-                <option key={spec.id} value={spec.id} className="m5-2">
-                  {spec.name}
-                </option>
-              ))}
-            </select>
-            {errors.specialization_id && (
-              <div className="text-red-500 w-full">
-                {errors.specialization_id?.message}
-              </div>
-            )}
-          </div>
+   
           <DialogFooter className="mt-3">
             <Button type="submit" disabled={isPending}>
               Save changes

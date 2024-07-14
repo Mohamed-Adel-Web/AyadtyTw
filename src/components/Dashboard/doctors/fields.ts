@@ -42,7 +42,7 @@ export const fields: {
       label: "Image",
       validate: false,
       showInAdd: true,
-      showInEdit: false,
+      showInEdit: true,
     },
     {
       name: "consultant_price",

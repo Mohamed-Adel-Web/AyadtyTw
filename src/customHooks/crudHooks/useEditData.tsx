@@ -4,7 +4,6 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "../loginHooks/useAuth";
-
 const useEditData = <T,>(
   url: string,
   id: number | undefined,
@@ -18,15 +17,13 @@ const useEditData = <T,>(
   if (cookieToken) {
     setToken(cookieToken);
   }
-
   const editDataRequest = (data: T) => {
-    return axios.put(`${url}/${id}`, data, {
+    return axios.post(`${url}/${id}`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
   };
-
   const queryClient = useQueryClient();
   const { mutate, data, error, isPending, isSuccess, isError } = useMutation({
     mutationKey: [mutationKey, id],
@@ -51,8 +48,6 @@ const useEditData = <T,>(
       });
     },
   });
-
   return { mutate, data, error, isPending, isSuccess, isError };
 };
-
 export default useEditData;
