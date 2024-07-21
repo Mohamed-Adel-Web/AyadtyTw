@@ -10,7 +10,6 @@ import { Doctor, DoctorDetails } from "@/types/doctorsTypes/doctors";
 import { AddDialog } from "@/components/Dashboard/doctors/AddDoctorDialog";
 import DeleteDialog from "@/components/generalDialog/DeleteDialog";
 import { EditDialog } from "@/components/Dashboard/doctors/EditDoctorDialog";
-
 export default function App() {
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
@@ -20,21 +19,17 @@ export default function App() {
   );
   const { data } = useGetData(doctorUrl, "allDoctor");
   const doctorsData: DoctorDetails[] = data?.data.data;
-
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
   };
-
   const handleOpenEditDialog = (data: DoctorDetails) => {
     setSelectedData(data);
     setOpenEdit(true);
   };
-
   const handleOpenDeleteDialog = (data: DoctorDetails) => {
     setSelectedData(data);
     setOpenDelete(true);
   };
-
   const columns = createColumns<DoctorDetails>(
     [
       "full_name",
@@ -47,6 +42,7 @@ export default function App() {
     handleOpenEditDialog,
     handleOpenDeleteDialog
   );
+
 
   return (
     <>
@@ -67,10 +63,8 @@ export default function App() {
             "disclosure_price",
           ]}
           filterPlaceholder="Filter..."
-    
         />
       )}
-
       <AddDialog open={openAdd} onOpenChange={setOpenAdd} />
       <EditDialog
         open={openEdit}

@@ -33,7 +33,8 @@ const EditDialog: React.FC<EditDialogProps> = ({
     specializationUrl,
     specialization?.id,
     "editSpecialization",
-    "allSpecialization"
+    "allSpecialization",
+    "post",
   );
   const { errors } = formState;
   const onSubmit = (data: Specialization) => {

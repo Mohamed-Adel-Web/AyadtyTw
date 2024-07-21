@@ -1,15 +1,16 @@
 import { Role } from "../RolesTypes/role";
-export interface assistant {
+
+export interface patient {
   id: number;
   full_name: string;
   email: string;
-  phone: string;
   password: string;
-  role: Role;
+  phone: string;
   doctor_id: number;
   image: File[];
+  role: Role;
 }
-export interface assistantDetails extends Omit<assistant, " doctor_id"> {
+export interface patientDetails extends Omit<patient, " doctor_id"> {
   doctor: {
     id: number;
     full_name: string;

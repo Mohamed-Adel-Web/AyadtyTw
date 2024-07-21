@@ -5,8 +5,8 @@ import { DataTable } from "../../../components/Dashboard/Datatable/DataTable";
 import { Button } from "@/components/ui/button";
 import Heading from "@/components/Dashboard/DashboardLayout/Heading";
 import useGetData from "@/customHooks/crudHooks/useGetData";
-import { assistantsUrl} from "@/backend/backend";
-import { assistant } from "@/types/assistantTypes/assistants";
+import { assistantsUrl } from "@/backend/backend";
+import { assistant, assistantDetails } from "@/types/assistantTypes/assistants";
 import { EditDialog } from "@/components/Dashboard/assistants/EditAssistantsDialog";
 import DeleteDialog from "@/components/generalDialog/DeleteDialog";
 import { AddDialog } from "@/components/Dashboard/assistants/AddAssistantsDialog";
@@ -14,9 +14,8 @@ export default function App() {
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
-  const [selectedData, setSelectedData] = React.useState<assistant | null>(
-    null
-  );
+  const [selectedData, setSelectedData] =
+    React.useState<assistantDetails | null>(null);
   const { data } = useGetData(assistantsUrl, "allAssistant");
   const assistantsData = data?.data.data;
 
@@ -24,18 +23,18 @@ export default function App() {
     setOpenAdd(true);
   };
 
-  const handleOpenEditDialog = (data: assistant) => {
+  const handleOpenEditDialog = (data: assistantDetails) => {
     setSelectedData(data);
     setOpenEdit(true);
   };
 
-  const handleOpenDeleteDialog = (data: assistant) => {
+  const handleOpenDeleteDialog = (data: assistantDetails) => {
     setSelectedData(data);
     setOpenDelete(true);
   };
 
-  const columns = createColumns<assistant>(
-    ["full_name"],
+  const columns = createColumns<assistantDetails>(
+    ["full_name","phone","email","doctor.full_name"],
     handleOpenEditDialog,
     handleOpenDeleteDialog
   );

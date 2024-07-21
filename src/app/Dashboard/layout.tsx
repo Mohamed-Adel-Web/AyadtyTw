@@ -11,6 +11,7 @@ import {
   FileIcon,
   ListFilterIcon,
   LineChartIcon,
+  ShieldBan,
 } from "lucide-react";
 import Sidebar from "@/components/Dashboard/DashboardLayout/DashboardSidebar";
 import Header from "@/components/Dashboard/DashboardLayout/DashboardHeader";
@@ -26,6 +27,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       href: "/Dashboard",
       label: "Home",
       icon: <HomeIcon className="h-5 w-5" />,
+    },
+    {
+      href: "/Dashboard/roles",
+      label: "Roles",
+      icon: <ShieldBan className="h-5 w-5" />,
     },
     {
       href: "/Dashboard/specializations",
@@ -74,7 +80,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       <Sidebar links={links} />
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
         <Header links={links} />
-        <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">{children}</main>
+        <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+          {children}
+        </main>
       </div>
     </div>
   );

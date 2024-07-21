@@ -13,11 +13,12 @@ import { Label } from "@/components/ui/label";
 import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { Doctor } from "@/types/doctorsTypes/doctors";
-import { doctorUrl, specializationUrl } from "@/backend/backend";
+import { doctorUrl, rolesUrl, specializationUrl } from "@/backend/backend";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { Specialization } from "@/types/specializationsTypes/specialization";
 import useAddData from "@/customHooks/crudHooks/useAddData";
 import { fields } from "./fields";
+import { Role } from "@/types/RolesTypes/role";
 
 export function AddDialog({
   open,
@@ -26,8 +27,10 @@ export function AddDialog({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
-  const { register, formState, handleSubmit } = useForm<Doctor>();
+  const { register, formState, handleSubmit,reset } = useForm<Doctor>();
   const { data } = useGetData(specializationUrl, "allSpecialization");
+  const { data: resData } = useGetData(rolesUrl, "allRole");
+  const rolesData = resData?.data;
   const specializationsData = data?.data.data;
   const { mutate, isSuccess, isPending } = useAddData<FormData>(
     doctorUrl,
@@ -47,13 +50,15 @@ export function AddDialog({
     }
     formData.append("consultant_price", data.consultant_price.toString());
     formData.append("disclosure_price", data.disclosure_price.toString());
+    formData.append("role_id", data.role.id.toString());
     mutate(formData);
   };
   useMemo(() => {
     if (isSuccess) {
       onOpenChange(false);
+      reset()
     }
-  }, [isSuccess, onOpenChange]);
+  }, [isSuccess, onOpenChange,reset]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -110,6 +115,30 @@ export function AddDialog({
             {errors.specialization_id && (
               <div className="text-red-500 w-full">
                 {errors.specialization_id?.message}
+              </div>
+            )}
+          </div>
+          <div>
+            <Label htmlFor="role" className="text-right">
+              Role
+            </Label>
+            <select
+              id="role"
+              {...register("role.id", {
+                required: "Role is required",
+              })}
+              className="block w-full mt-2 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            >
+              <option value="">Select role</option>
+              {rolesData?.map((spec: Role) => (
+                <option key={spec.id} value={spec.id} className="m5-2">
+                  {spec.name}
+                </option>
+              ))}
+            </select>
+            {errors.role?.id && (
+              <div className="text-red-500 w-full">
+                {errors.role?.id.message}
               </div>
             )}
           </div>

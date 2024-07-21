@@ -13,11 +13,12 @@ import { Label } from "@/components/ui/label";
 import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { Doctor, DoctorDetails } from "@/types/doctorsTypes/doctors";
-import { doctorUrl, specializationUrl } from "@/backend/backend";
+import { doctorUrl, rolesUrl, specializationUrl } from "@/backend/backend";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { Specialization } from "@/types/specializationsTypes/specialization";
 import useEditData from "@/customHooks/crudHooks/useEditData";
 import { fields } from "./fields";
+import { Role } from "@/types/RolesTypes/role";
 
 export function EditDialog({
   open,
@@ -30,12 +31,15 @@ export function EditDialog({
 }) {
   const { register, formState, handleSubmit, reset } = useForm<Doctor>();
   const { data } = useGetData(specializationUrl, "allSpecialization");
+  const { data: resData } = useGetData(rolesUrl, "allRole");
+  const rolesData = resData?.data;
   const specializationsData = data?.data.data;
   const { mutate, isSuccess, isPending } = useEditData<FormData>(
     doctorUrl,
     doctor?.id,
     "editDoctor",
-    "allDoctor"
+    "allDoctor",
+    "post"
   );
   const { errors } = formState;
   const onSubmit = (data: Doctor) => {
@@ -52,7 +56,8 @@ export function EditDialog({
     }
     formData.append("consultant_price", data.consultant_price.toString());
     formData.append("disclosure_price", data.disclosure_price.toString());
-    formData.append("_method","PUT" );
+    formData.append("role_id", data.role.id.toString());
+    formData.append("_method", "PUT");
     mutate(formData);
   };
   useMemo(() => {
@@ -69,6 +74,7 @@ export function EditDialog({
         specialization_id: doctor.specialization.id,
         consultant_price: doctor.consultant_price,
         disclosure_price: doctor.disclosure_price,
+        role: doctor.role
       });
     }
   }, [doctor, reset]);
@@ -127,6 +133,30 @@ export function EditDialog({
             {errors.specialization_id && (
               <div className="text-red-500 w-full">
                 {errors.specialization_id?.message}
+              </div>
+            )}
+          </div>
+          <div>
+            <Label htmlFor="role" className="text-right">
+              Role
+            </Label>
+            <select
+              id="role"
+              {...register("role.id", {
+                required: "Role is required",
+              })}
+              className="block w-full mt-2 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            >
+              <option value="">Select role</option>
+              {rolesData?.map((spec: Role) => (
+                <option key={spec.id} value={spec.id} className="m5-2">
+                  {spec.name}
+                </option>
+              ))}
+            </select>
+            {errors.role?.id && (
+              <div className="text-red-500 w-full">
+                {errors.role?.id.message}
               </div>
             )}
           </div>

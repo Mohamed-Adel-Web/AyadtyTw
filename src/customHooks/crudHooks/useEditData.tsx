@@ -8,7 +8,8 @@ const useEditData = <T,>(
   url: string,
   id: number | undefined,
   mutationKey: string,
-  invalidateQueryKey: string
+  invalidateQueryKey: string,
+  method: "post" | "put"
 ) => {
   const { token, setToken } = useAuth();
   const cookieToken = Cookies.get("token");
@@ -18,7 +19,7 @@ const useEditData = <T,>(
     setToken(cookieToken);
   }
   const editDataRequest = (data: T) => {
-    return axios.post(`${url}/${id}`, data, {
+    return axios[method](`${url}/${id}`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

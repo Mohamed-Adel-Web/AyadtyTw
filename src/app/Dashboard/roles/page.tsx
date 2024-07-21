@@ -5,37 +5,35 @@ import { DataTable } from "../../../components/Dashboard/Datatable/DataTable";
 import { Button } from "@/components/ui/button";
 import Heading from "@/components/Dashboard/DashboardLayout/Heading";
 import useGetData from "@/customHooks/crudHooks/useGetData";
-import { patientsUrl } from "@/backend/backend";
+import { doctorUrl, rolesUrl } from "@/backend/backend";
 import DeleteDialog from "@/components/generalDialog/DeleteDialog";
-import { AddDialog } from "@/components/Dashboard/patients/AddPateintDialog";
-import { EditDialog } from "@/components/Dashboard/patients/EditPatientDialog";
-import { patient, patientDetails } from "@/types/patientTypes/patient";
+import { Role } from "@/types/RolesTypes/role";
+import { AddDialog } from "@/components/Dashboard/roles/AddRoleDialog";
+import EditDialog from "@/components/Dashboard/roles/EditRoleDialog";
+
 export default function App() {
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
-  const [selectedData, setSelectedData] = React.useState<patientDetails | null>(
-    null
-  );
-  const { data } = useGetData(patientsUrl, "allPatient");
-  const patientsData = data?.data.data;
-
+  const [selectedData, setSelectedData] = React.useState<Role | null>(null);
+  const { data } = useGetData(rolesUrl, "allRole");
+  const roleData: Role[] = data?.data;
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
   };
 
-  const handleOpenEditDialog = (data: patientDetails) => {
+  const handleOpenEditDialog = (data: Role) => {
     setSelectedData(data);
     setOpenEdit(true);
   };
 
-  const handleOpenDeleteDialog = (data: patientDetails) => {
+  const handleOpenDeleteDialog = (data: Role) => {
     setSelectedData(data);
     setOpenDelete(true);
   };
 
-  const columns = createColumns<patientDetails>(
-    ["full_name", "phone", "email", "doctor.full_name"],
+  const columns = createColumns<Role>(
+    ["name"],
     handleOpenEditDialog,
     handleOpenDeleteDialog
   );
@@ -43,14 +41,14 @@ export default function App() {
   return (
     <>
       <div className="flex justify-between align-items-center">
-        <Heading title="Patients        " />
+        <Heading title="Roles" />
         <Button onClick={handleOpenAddDialog}>Add New</Button>
       </div>
-      {patientsData && (
+      {roleData && (
         <DataTable
           columns={columns}
-          data={patientsData}
-          filterKeys={["full_name","phone","email","doctor.full_name"]}
+          data={roleData}
+          filterKeys={["name"]}
           filterPlaceholder="Filter..."
         />
       )}
@@ -59,16 +57,16 @@ export default function App() {
       <EditDialog
         open={openEdit}
         onOpenChange={setOpenEdit}
-        patient={selectedData}
+        role={selectedData}
       />
-      <DeleteDialog<patient>
+      <DeleteDialog<Role>
         open={openDelete}
         onOpenChange={setOpenDelete}
         item={selectedData}
-        url={patientsUrl}
-        mutationKey="deletePatient"
-        queryKey="allPatient"
-        itemName="patient"
+        url={rolesUrl}
+        mutationKey="deleteRole"
+        queryKey="allRole"
+        itemName="role"
       />
     </>
   );

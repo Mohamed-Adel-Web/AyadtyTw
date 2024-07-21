@@ -25,7 +25,6 @@ const useAddData = <T,>(
       },
     });
   };
-
   const queryClient = useQueryClient();
   const { mutate, data, error, isPending, isSuccess, isError } = useMutation({
     mutationKey: [mutationKey],
