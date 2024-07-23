@@ -7,7 +7,7 @@ import { loginData } from "@/types/AuthTypes/loginTypes";
 import { useAuth } from "./useAuth";
 import { loginUrl } from "@/backend/backend";
 const useAdminSignIn = () => {
-  const { token, setToken } = useAuth();
+  const { token, setToken, setUser } = useAuth();
   const { toast } = useToast();
   const signInRequest = (adminData: loginData) => {
     return axios.post(loginUrl, adminData);
@@ -16,13 +16,14 @@ const useAdminSignIn = () => {
     mutationKey: ["SignIn"],
     mutationFn: signInRequest,
     onSuccess: (data) => {
-      console.log(data.data)
-      if (data.data.status === 200) {
+      if (data.data.status === "success") {
         toast({
           title: `${data.data.message}`,
         });
         Cookies.set("token", data.data.token, { expires: 30 });
+        Cookies.set("user",JSON.stringify( data.data.user), { expires: 30 });
         setToken(data.data.token);
+        setUser(data.data.user);
         // window.location.href = "/Dashboard";
       } else {
         toast({

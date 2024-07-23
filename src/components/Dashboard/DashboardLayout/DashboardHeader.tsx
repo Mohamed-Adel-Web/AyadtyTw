@@ -43,21 +43,25 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
         </SheetTrigger>
         <SheetContent side="left" className="sm:max-w-xs">
           <nav className="grid gap-6 text-lg font-medium">
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`flex items-center gap-4 px-2.5 ${
-                  currentPath === link.href
-                    ? "text-white bg-black"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-                prefetch={false}
-              >
-                {link.icon}
-                {link.label}
-              </Link>
-            ))}
+            {links.map((link) =>
+              link.permission ? (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`flex items-center gap-4 px-2.5 ${
+                    currentPath === link.href
+                      ? "text-white bg-black"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                  prefetch={false}
+                >
+                  {link.icon}
+                  {link.label}
+                </Link>
+              ) : (
+                ""
+              )
+            )}
           </nav>
         </SheetContent>
       </Sheet>

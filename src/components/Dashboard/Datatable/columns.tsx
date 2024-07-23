@@ -11,19 +11,27 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { hasPermission } from "@/lib/utils";
+import { Role } from "@/types/RolesTypes/role";
+
+function getNestedValue(obj: any, path: string): any {
+  return path.split(".").reduce((o, p) => (o ? o[p] : ""), obj);
+}
 
 interface BaseData {
   id: string | number;
 }
 
-function getNestedValue(obj: any, path: string): any {
-  return path.split('.').reduce((o, p) => (o ? o[p] : ''), obj);
+export function hasStatus(obj: any): obj is { status: boolean } {
+  return "status" in obj;
 }
 
 export function createColumns<T extends BaseData>(
   props: (keyof T | string)[],
   handleOpenEditDialog: (row: T) => void,
-  handleOpenDeleteDialog: (row: T) => void
+  handleOpenDeleteDialog: (row: T) => void,
+  currentSection: string,
+  role: Role | undefined
 ): ColumnDef<T>[] {
   return [
     {
@@ -49,28 +57,49 @@ export function createColumns<T extends BaseData>(
       enableHiding: false,
     },
     ...props.map((prop) => ({
-      id: prop as string, // Ensure the id is set correctly
+      id: prop as string,
       accessorKey: prop as string,
       header: ({ column }: { column: any }) => (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {String(prop).split('.').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ')}
+          {String(prop)
+            .split(".")
+            .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+            .join(" ")}
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
-      cell: ({ row }: { row: any }) => (
-        <div>{getNestedValue(row.original, prop as string)}</div>
-      ),
+      cell: ({ row }: { row: any }) =>
+        prop === "status" ? (
+          <div
+            className={`${
+              hasStatus(row.original)
+                ? row.original.status
+                  ? "text-green-700 font-extrabold bg-green-200 inline-block py-1 px-2 rounded"
+                  : "text-red-700 font-extrabold bg-red-200 inline-block py-1 px-2 rounded"
+                : ""
+            }`}
+          >
+            {row.original.status ? "Available" : "Not Available"}
+          </div>
+        ) : (
+          <div>{getNestedValue(row.original, prop as string)}</div>
+        ),
     })),
     {
       id: "actions",
-      header: "Action",
+      header:
+        hasPermission(role, currentSection, "update") ||
+        hasPermission(role, currentSection, "delete")
+          ? "Action"
+          : "",
       enableHiding: false,
       cell: ({ row }) => {
         const rowOriginal = row.original;
-        return (
+        return hasPermission(role, currentSection, "update") ||
+          hasPermission(role, currentSection, "delete") ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
@@ -81,21 +110,31 @@ export function createColumns<T extends BaseData>(
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <Button
-                className="w-full bg-red-700 hover:bg-red-700"
-                onClick={() => handleOpenDeleteDialog(rowOriginal)}
-              >
-                Delete
-              </Button>
+              {hasPermission(role, currentSection, "delete") ? (
+                <Button
+                  className="w-full bg-red-700 hover:bg-red-700"
+                  onClick={() => handleOpenDeleteDialog(rowOriginal)}
+                >
+                  Delete
+                </Button>
+              ) : (
+                ""
+              )}
               <DropdownMenuSeparator />
-              <Button
-                className="w-full bg-blue-600 hover:bg-blue-600"
-                onClick={() => handleOpenEditDialog(rowOriginal)}
-              >
-                Edit
-              </Button>
+              {hasPermission(role, currentSection, "update") ? (
+                <Button
+                  className="w-full bg-blue-600 hover:bg-blue-600"
+                  onClick={() => handleOpenEditDialog(rowOriginal)}
+                >
+                  Edit
+                </Button>
+              ) : (
+                ""
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
+        ) : (
+          ""
         );
       },
     },

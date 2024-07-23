@@ -1,6 +1,11 @@
 "use client";
 
-import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import {
+  TooltipProvider,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 import Link from "next/link";
 import { SettingsIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -15,24 +20,28 @@ const Sidebar: React.FC<SidebarProps> = ({ links }) => {
     <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
       <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
         <TooltipProvider>
-          {links.map((link) => (
-            <Tooltip key={link.href}>
-              <TooltipTrigger asChild>
-                <Link
-                  href={link.href}
-                  className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors md:h-8 md:w-8 ${
-                    currentPath === link.href
-                      ? "text-white bg-black"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {link.icon}
-                  <span className="sr-only">{link.label}</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">{link.label}</TooltipContent>
-            </Tooltip>
-          ))}
+          {links.map((link) =>
+            link.permission ? (
+              <Tooltip key={link.href}>
+                <TooltipTrigger asChild>
+                  <Link
+                    href={link.href}
+                    className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors md:h-8 md:w-8 ${
+                      currentPath === link.href
+                        ? "text-white bg-black"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {link.icon}
+                    <span className="sr-only">{link.label}</span>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent side="right">{link.label}</TooltipContent>
+              </Tooltip>
+            ) : (
+              ""
+            )
+          )}
         </TooltipProvider>
       </nav>
       <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">

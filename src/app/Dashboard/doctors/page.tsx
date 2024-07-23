@@ -10,7 +10,11 @@ import { Doctor, DoctorDetails } from "@/types/doctorsTypes/doctors";
 import { AddDialog } from "@/components/Dashboard/doctors/AddDoctorDialog";
 import DeleteDialog from "@/components/generalDialog/DeleteDialog";
 import { EditDialog } from "@/components/Dashboard/doctors/EditDoctorDialog";
+import useUser from "@/customHooks/loginHooks/useUser";
+import { hasPermission } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 export default function App() {
+  const router = useRouter();
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
@@ -30,6 +34,8 @@ export default function App() {
     setSelectedData(data);
     setOpenDelete(true);
   };
+  const { user } = useUser();
+
   const columns = createColumns<DoctorDetails>(
     [
       "full_name",
@@ -40,15 +46,20 @@ export default function App() {
       "disclosure_price",
     ],
     handleOpenEditDialog,
-    handleOpenDeleteDialog
+    handleOpenDeleteDialog,
+    "doctor",
+    user?.role
   );
-
-
+  if (user && !hasPermission(user?.role, "doctor", "read")) {
+    router.push("/unauthorized");
+  }
   return (
     <>
       <div className="flex justify-between align-items-center">
         <Heading title="Doctors" />
-        <Button onClick={handleOpenAddDialog}>Add New</Button>
+        {hasPermission(user?.role, "doctor", "create") && (
+          <Button onClick={handleOpenAddDialog}>Add New</Button>
+        )}
       </div>
       {doctorsData && (
         <DataTable

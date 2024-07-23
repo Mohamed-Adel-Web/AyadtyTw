@@ -10,8 +10,12 @@ import DeleteDialog from "@/components/generalDialog/DeleteDialog";
 import { Role } from "@/types/RolesTypes/role";
 import { AddDialog } from "@/components/Dashboard/roles/AddRoleDialog";
 import EditDialog from "@/components/Dashboard/roles/EditRoleDialog";
+import useUser from "@/customHooks/loginHooks/useUser";
+import { hasPermission } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 export default function App() {
+  const router = useRouter();
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
@@ -31,12 +35,17 @@ export default function App() {
     setSelectedData(data);
     setOpenDelete(true);
   };
-
+  const { user } = useUser();
   const columns = createColumns<Role>(
     ["name"],
     handleOpenEditDialog,
-    handleOpenDeleteDialog
+    handleOpenDeleteDialog,
+    "role",
+    user?.role
   );
+  if (user && !hasPermission(user?.role, "role", "read")) {
+    router.push("/unauthorized");
+  }
 
   return (
     <>

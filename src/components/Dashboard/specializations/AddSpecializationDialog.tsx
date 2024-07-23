@@ -22,7 +22,7 @@ export function AddDialog({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
-  const { register, formState, handleSubmit } = useForm<Specialization>();
+  const { register, formState, handleSubmit,reset } = useForm<Specialization>();
   const { mutate, isSuccess,isPending } = useAddData<Specialization>(
     specializationUrl,
     "addSpecialization",
@@ -35,8 +35,9 @@ export function AddDialog({
   useMemo(() => {
     if (isSuccess) {
       onOpenChange(false);
+      reset()
     }
-  }, [isSuccess, onOpenChange]);
+  }, [isSuccess, onOpenChange,reset]);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">

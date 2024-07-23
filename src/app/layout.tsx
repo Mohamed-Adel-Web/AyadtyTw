@@ -6,11 +6,11 @@ import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import AuthProvider from "@/customHooks/loginHooks/useAuth";
 
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
-  
 });
 const queryClient = new QueryClient();
 
@@ -18,18 +18,20 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <QueryClientProvider client={queryClient}>
-        <body
-          className={cn(
-            "min-h-screen bg-background font-sans antialiased",
-            fontSans.variable
-          )}
-        >
-          <main>{children}</main>
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <body
+            className={cn(
+              "min-h-screen bg-background font-sans antialiased",
+              fontSans.variable
+            )}
+          >
+            <main>{children}</main>
 
-          <Toaster />
-        </body>
-      </QueryClientProvider>
+            <Toaster />
+          </body>
+        </QueryClientProvider>
+      </AuthProvider>
     </html>
   );
 }

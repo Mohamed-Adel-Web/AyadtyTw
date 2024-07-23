@@ -4,7 +4,11 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useAuth } from "../loginHooks/useAuth";
 
-const useGetData = (url: string, queryKey: string) => {
+const useGetData = (
+  url: string,
+  queryKey: string,
+  dependencies: string[] = []
+) => {
   const { token, setToken } = useAuth();
   const cookieToken = Cookies.get("token");
   if (cookieToken) {
@@ -20,7 +24,7 @@ const useGetData = (url: string, queryKey: string) => {
   };
 
   const { data, error, isPending, isSuccess, isError } = useQuery({
-    queryKey: [queryKey],
+    queryKey: [queryKey, ...dependencies],
     queryFn: getDataRequest,
   });
 

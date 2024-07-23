@@ -10,7 +10,11 @@ import DeleteDialog from "@/components/generalDialog/DeleteDialog";
 import { AddDialog } from "@/components/Dashboard/patients/AddPateintDialog";
 import { EditDialog } from "@/components/Dashboard/patients/EditPatientDialog";
 import { patient, patientDetails } from "@/types/patientTypes/patient";
+import { useRouter } from "next/navigation";
+import useUser from "@/customHooks/loginHooks/useUser";
+import { hasPermission } from "@/lib/utils";
 export default function App() {
+  const router = useRouter();
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
@@ -33,24 +37,32 @@ export default function App() {
     setSelectedData(data);
     setOpenDelete(true);
   };
-
+  const { user } = useUser();
   const columns = createColumns<patientDetails>(
     ["full_name", "phone", "email", "doctor.full_name"],
     handleOpenEditDialog,
-    handleOpenDeleteDialog
+    handleOpenDeleteDialog,
+    "patient",
+    user?.role
   );
-
+  if (user && !hasPermission(user?.role, "patient", "read")) {
+    router.push("/unauthorized");
+  }
   return (
     <>
       <div className="flex justify-between align-items-center">
         <Heading title="Patients        " />
-        <Button onClick={handleOpenAddDialog}>Add New</Button>
+        {hasPermission(user?.role, "patient", "create") ? (
+          <Button onClick={handleOpenAddDialog}>Add New</Button>
+        ) : (
+          ""
+        )}
       </div>
       {patientsData && (
         <DataTable
           columns={columns}
           data={patientsData}
-          filterKeys={["full_name","phone","email","doctor.full_name"]}
+          filterKeys={["full_name", "phone", "email", "doctor.full_name"]}
           filterPlaceholder="Filter..."
         />
       )}

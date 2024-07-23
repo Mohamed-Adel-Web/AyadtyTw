@@ -29,6 +29,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { hasStatus } from "./columns";
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData, any>[];
@@ -183,6 +184,13 @@ export function DataTable<TData>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className={`${
+                    hasStatus(row.original)
+                      ? row.original.status
+                        ? "bg-green"
+                        : "bg"
+                      : ""
+                  }`}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

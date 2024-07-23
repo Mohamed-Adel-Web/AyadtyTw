@@ -10,8 +10,13 @@ import { specializationUrl } from "@/backend/backend";
 import { AddDialog } from "@/components/Dashboard/specializations/AddSpecializationDialog";
 import EditDialog from "@/components/Dashboard/specializations/EditSpecializationDialog";
 import DeleteDialog from "@/components/generalDialog/DeleteDialog";
+import useUser from "@/customHooks/loginHooks/useUser";
+import { useRouter } from "next/navigation";
+import { hasPermission } from "@/lib/utils";
 
 export default function App() {
+  const router = useRouter();
+
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
@@ -34,18 +39,28 @@ export default function App() {
     setSelectedData(data);
     setOpenDelete(true);
   };
+  const { user } = useUser();
 
   const columns = createColumns<Specialization>(
     ["name"],
     handleOpenEditDialog,
-    handleOpenDeleteDialog
+    handleOpenDeleteDialog,
+    "specialization",
+    user?.role
   );
+  if (user && !hasPermission(user?.role, "assistant", "read")) {
+    router.push("/unauthorized");
+  }
 
   return (
     <>
       <div className="flex justify-between align-items-center">
         <Heading title="Specializations" />
-        <Button onClick={handleOpenAddDialog}>Add New</Button>
+        {hasPermission(user?.role, "specialization", "create") ? (
+          <Button onClick={handleOpenAddDialog}>Add New</Button>
+        ) : (
+          ""
+        )}
       </div>
       {specializationsData && (
         <DataTable

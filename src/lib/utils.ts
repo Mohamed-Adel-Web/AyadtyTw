@@ -8,9 +8,9 @@ export const formatUrl = (str: string): string => {
   return str.toLowerCase().replace(/ /g, "-");
 };
 export function hasPermission(
-  role: Role,
+  role: Role |undefined,
   section: string,
   action: "create" | "read" | "update" | "delete"
 ): boolean {
-  return role.permissions[section]?.[action] ?? false;
+  return role?.permissions[section]?.[action] ?? false;
 }

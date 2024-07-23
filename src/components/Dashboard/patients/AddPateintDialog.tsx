@@ -18,9 +18,7 @@ import { fields } from "./fields";
 import { patient } from "@/types/patientTypes/patient";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { Doctor } from "@/types/doctorsTypes/doctors";
-import { DevTool } from "@hookform/devtools";
 import { Role } from "@/types/RolesTypes/role";
-
 export function AddDialog({
   open,
   onOpenChange,
@@ -63,7 +61,7 @@ export function AddDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[480px]">
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
-          <DialogHeader>
+          <DialogHeader>  
             <DialogTitle>Add New Patient</DialogTitle>
             <DialogDescription>
               Enter the details of the new patient. Click save when you&apos;re

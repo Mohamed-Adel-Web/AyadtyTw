@@ -64,9 +64,8 @@ export function EditDialog({
   useMemo(() => {
     if (isSuccess) {
       onOpenChange(false);
-      reset();
     }
-  }, [isSuccess, onOpenChange, reset]);
+  }, [isSuccess, onOpenChange]);
   React.useMemo(() => {
     if (assistant) {
       reset({
@@ -74,6 +73,7 @@ export function EditDialog({
         email: assistant.email,
         phone: assistant.phone,
         doctor_id: assistant.doctor.id,
+        role: assistant.role
       });
     }
   }, [assistant, reset]);
