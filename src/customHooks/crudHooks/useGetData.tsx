@@ -7,7 +7,7 @@ import { useAuth } from "../loginHooks/useAuth";
 const useGetData = (
   url: string,
   queryKey: string,
-  dependencies: string[] = []
+  dependencies: any[] = []
 ) => {
   const { token, setToken } = useAuth();
   const cookieToken = Cookies.get("token");

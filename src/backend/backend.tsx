@@ -7,3 +7,4 @@ export const assistantsUrl = `${baseUrl}/assistants`;
 export const patientsUrl = `${baseUrl}/patients`;
 export const rolesUrl = `${baseUrl}/roles`;
 export const appointmentUrl = `${baseUrl}/appointments`;
+export const doctorBySpecializationUrl = `${baseUrl}/doctors/by-specialization`;

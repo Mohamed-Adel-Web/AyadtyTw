@@ -70,6 +70,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       permission: true,
     },
     {
+      href: "/Dashboard/reservations",
+      label: "Reservations",
+      icon: <FileIcon className="h-5 w-5" />,
+      permission: true,
+    },
+    {
       href: "/Dashboard/visits",
       label: "Visits",
       icon: <ListFilterIcon className="h-5 w-5" />,

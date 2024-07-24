@@ -74,7 +74,7 @@ export function createColumns<T extends BaseData>(
       cell: ({ row }: { row: any }) =>
         prop === "status" ? (
           <div
-            className={`${
+            className={` ${
               hasStatus(row.original)
                 ? row.original.status
                   ? "text-green-700 font-extrabold bg-green-200 inline-block py-1 px-2 rounded"

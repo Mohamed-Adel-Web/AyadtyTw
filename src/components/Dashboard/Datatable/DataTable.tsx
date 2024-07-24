@@ -184,7 +184,7 @@ export function DataTable<TData>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className={`${
+                  className={`font-medium text-lg${
                     hasStatus(row.original)
                       ? row.original.status
                         ? "bg-green"
