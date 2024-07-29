@@ -7,6 +7,7 @@ export interface reservation {
   id: number;
   patient_id: number;
   appointment_id: number;
+  examination_id: number;
 }
 export interface reservationDetails extends reservation {
   patient: patientDetails;

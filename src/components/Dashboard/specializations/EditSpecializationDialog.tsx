@@ -29,12 +29,12 @@ const EditDialog: React.FC<EditDialogProps> = ({
 }) => {
   const { register, formState, handleSubmit, reset } =
     useForm<Specialization>();
-  const { mutate, isSuccess,isPending } = useEditData(
+  const { mutate, isSuccess, isPending } = useEditData(
     specializationUrl,
     specialization?.id,
     "editSpecialization",
     "allSpecialization",
-    "post",
+    "post"
   );
   const { errors } = formState;
   const onSubmit = (data: Specialization) => {

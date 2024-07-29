@@ -14,7 +14,10 @@ export default function SelectDoctorAppointment({
   return (
     <div className="space-y-4 my-4">
       <div className="flex flex-col space-y-2">
-        <Label htmlFor="doctor" className="text-start font-medium text-gray-700">
+        <Label
+          htmlFor="doctor"
+          className="text-start font-medium text-gray-700"
+        >
           Select Doctor to View Appointments
         </Label>
         <select
@@ -28,13 +31,14 @@ export default function SelectDoctorAppointment({
           <option value="">Show ALL Doctors</option>
           {doctorsData?.map((doctor: Doctor) => (
             <option key={doctor.id} value={doctor.id}>
-              {doctor.full_name}
+              {doctor.first_name + " " + doctor.last_name}
             </option>
           ))}
         </select>
       </div>
       <div className="text-sm text-gray-500">
-        Please select a doctor from the dropdown above to view their appointments.
+        Please select a doctor from the dropdown above to view their
+        appointments.
       </div>
     </div>
   );

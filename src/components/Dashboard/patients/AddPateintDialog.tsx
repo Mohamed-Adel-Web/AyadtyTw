@@ -36,7 +36,8 @@ export function AddDialog({
   const { errors } = formState;
   const onSubmit = (data: patient) => {
     const formData = new FormData();
-    formData.append("full_name", data.full_name);
+    formData.append("first_name", data.first_name);
+    formData.append("last_name", data.last_name);
     formData.append("email", data.email);
     formData.append("password", data.password);
     formData.append("phone", data.phone);
@@ -50,7 +51,7 @@ export function AddDialog({
       onOpenChange(false);
       reset();
     }
-  }, [isSuccess, onOpenChange,reset]);
+  }, [isSuccess, onOpenChange, reset]);
 
   const { data } = useGetData(doctorUrl, "allDoctor");
   const doctorsData = data?.data.data;
@@ -61,7 +62,7 @@ export function AddDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[480px]">
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
-          <DialogHeader>  
+          <DialogHeader>
             <DialogTitle>Add New Patient</DialogTitle>
             <DialogDescription>
               Enter the details of the new patient. Click save when you&apos;re
@@ -102,7 +103,7 @@ export function AddDialog({
             <option value="">Select doctor</option>
             {doctorsData?.map((spec: Doctor) => (
               <option key={spec.id} value={spec.id} className="m5-2">
-                {spec.full_name}
+                {spec.first_name + " " + spec.last_name}
               </option>
             ))}
           </select>

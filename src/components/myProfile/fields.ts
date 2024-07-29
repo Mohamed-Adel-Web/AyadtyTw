@@ -1,8 +1,9 @@
 import { assistant } from "@/types/assistantTypes/assistants";
 import { Doctor } from "@/types/doctorsTypes/doctors";
+import { patient } from "@/types/patientTypes/patient";
 
 export const fields: {
-  name: keyof assistant;
+  name: keyof patient;
   type: string;
   label: string;
   required?: string;
@@ -13,8 +14,8 @@ export const fields: {
   {
     name: "first_name",
     type: "text",
-    label: "Full Name",
-    required: "Full name is required",
+    label: "First Name",
+    required: "First name is required",
     validate: true,
     showInAdd: true,
     showInEdit: true,
@@ -22,20 +23,26 @@ export const fields: {
   {
     name: "last_name",
     type: "text",
-    label: "Full Name",
-    required: "Full name is required",
+    label: "last Name",
+    required: "last name is required",
     validate: true,
-    showInAdd: true,
-    showInEdit: true,
+
   },
   {
     name: "email",
     type: "email",
     label: "Email",
-    required: "Email is required",
+    required: "Email name is required",
     validate: true,
-    showInAdd: true,
-    showInEdit: true,
+
+  },
+  {
+    name: "phone",
+    type: "phone",
+    label: "Phone",
+    required: "Phone number is required",
+    validate: true,
+
   },
   {
     name: "password",
@@ -43,24 +50,14 @@ export const fields: {
     label: "Password",
     required: "Password is required",
     validate: true,
-    showInAdd: true,
-    showInEdit: false,
-  },
-  {
-    name: "phone",
-    type: "text",
-    label: "Phone",
-    required: "Phone number is required",
-    validate: true,
-    showInAdd: true,
-    showInEdit: true,
+   
   },
   {
     name: "image",
     type: "file",
     label: "Image",
+    required: "Image is required",
     validate: false,
-    showInAdd: true,
-    showInEdit: true,
+
   },
 ];

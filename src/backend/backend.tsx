@@ -8,3 +8,6 @@ export const patientsUrl = `${baseUrl}/patients`;
 export const rolesUrl = `${baseUrl}/roles`;
 export const appointmentUrl = `${baseUrl}/appointments`;
 export const doctorBySpecializationUrl = `${baseUrl}/doctors/by-specialization`;
+export const doctorByNameUrl = `${baseUrl}/doctor-search`;
+export const reservationUrl = `${baseUrl}/reservations`;
+export const examinationTypeUrl = `${baseUrl}/examination-types`;

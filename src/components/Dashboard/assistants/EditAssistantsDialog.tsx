@@ -49,7 +49,8 @@ export function EditDialog({
   const { errors } = formState;
   const onSubmit = (data: assistant) => {
     const formData = new FormData();
-    formData.append("full_name", data.full_name);
+    formData.append("first_name", data.first_name);
+    formData.append("last_name", data.first_name);
     formData.append("email", data.email);
     formData.append("phone", data.phone);
     if (data.image.length) {
@@ -59,7 +60,6 @@ export function EditDialog({
     formData.append("doctor_id", data.doctor_id.toString());
     formData.append("role_id", data.role.id.toString());
     mutate(formData);
-    
   };
   useMemo(() => {
     if (isSuccess) {
@@ -69,11 +69,12 @@ export function EditDialog({
   React.useMemo(() => {
     if (assistant) {
       reset({
-        full_name: assistant.full_name,
+        first_name: assistant.first_name,
+        last_name: assistant.last_name,
         email: assistant.email,
         phone: assistant.phone,
         doctor_id: assistant.doctor.id,
-        role: assistant.role
+        role: assistant.role,
       });
     }
   }, [assistant, reset]);
@@ -122,7 +123,7 @@ export function EditDialog({
             <option value="">Select doctor</option>
             {doctorsData?.map((spec: Doctor) => (
               <option key={spec.id} value={spec.id} className="m5-2">
-                {spec.full_name}
+                {spec.first_name + " " + spec.last_name}
               </option>
             ))}
           </select>

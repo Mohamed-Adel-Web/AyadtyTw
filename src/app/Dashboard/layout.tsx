@@ -34,6 +34,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       permission: true,
     },
     {
+      href: "/Dashboard/MyProfile",
+      label: "profile",
+      icon: <ShieldBan className="h-5 w-5" />,
+      permission: true,
+    },
+    {
       href: "/Dashboard/roles",
       label: "Roles",
       icon: <ShieldBan className="h-5 w-5" />,
@@ -76,6 +82,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       permission: true,
     },
     {
+      href: "/Dashboard/examinationType",
+      label: "Examination Type",
+      icon: <FileIcon className="h-5 w-5" />,
+      permission: true,
+    },
+    {
       href: "/Dashboard/visits",
       label: "Visits",
       icon: <ListFilterIcon className="h-5 w-5" />,
@@ -99,7 +111,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       <Sidebar links={links} />
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
         <Header links={links} />
-        <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+        <main className="grid flex-1 items-start gap-4 p-8 sm:px-6 sm:py-0 md:gap-8">
           {children}
         </main>
       </div>

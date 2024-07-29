@@ -12,10 +12,19 @@ export const fields: {
   showInEdit?: boolean;
 }[] = [
   {
-    name: "full_name",
+    name: "first_name",
     type: "text",
-    label: "Full Name",
-    required: "Full name is required",
+    label: "First Name",
+    required: "First name is required",
+    validate: true,
+    showInAdd: true,
+    showInEdit: true,
+  },
+  {
+    name: "last_name",
+    type: "text",
+    label: "last Name",
+    required: "last name is required",
     validate: true,
     showInAdd: true,
     showInEdit: true,

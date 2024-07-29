@@ -39,7 +39,7 @@ export default function App() {
   };
   const { user } = useUser();
   const columns = createColumns<patientDetails>(
-    ["full_name", "phone", "email", "doctor.full_name"],
+    ["first_name","last_name", "phone", "email", "doctor.first_name"],
     handleOpenEditDialog,
     handleOpenDeleteDialog,
     "patient",

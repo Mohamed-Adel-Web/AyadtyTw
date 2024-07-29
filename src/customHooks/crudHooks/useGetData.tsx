@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import { useAuth } from "../loginHooks/useAuth";
 
 const useGetData = (
-  url: string,
+  url: string ,
   queryKey: string,
   dependencies: any[] = []
 ) => {

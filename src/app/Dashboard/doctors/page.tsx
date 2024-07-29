@@ -38,7 +38,8 @@ export default function App() {
 
   const columns = createColumns<DoctorDetails>(
     [
-      "full_name",
+      "first_name",
+      "last_name",
       "email",
       "phone",
       "specialization.name",
@@ -66,7 +67,8 @@ export default function App() {
           columns={columns}
           data={doctorsData}
           filterKeys={[
-            "full_name",
+            "first_name",
+            "last_name",
             "email",
             "phone",
             "specialization.name",

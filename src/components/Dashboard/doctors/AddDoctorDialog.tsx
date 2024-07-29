@@ -27,7 +27,7 @@ export function AddDialog({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
-  const { register, formState, handleSubmit,reset } = useForm<Doctor>();
+  const { register, formState, handleSubmit, reset } = useForm<Doctor>();
   const { data } = useGetData(specializationUrl, "allSpecialization");
   const { data: resData } = useGetData(rolesUrl, "allRole");
   const rolesData = resData?.data;
@@ -40,7 +40,8 @@ export function AddDialog({
   const { errors } = formState;
   const onSubmit = (data: Doctor) => {
     const formData = new FormData();
-    formData.append("full_name", data.full_name);
+    formData.append("first_name", data.first_name);
+    formData.append("last_name", data.last_name);
     formData.append("phone", data.phone);
     formData.append("email", data.email);
     formData.append("password", data.password);
@@ -48,20 +49,19 @@ export function AddDialog({
     if (data.image && data.image[0]) {
       formData.append("image", data.image[0]);
     }
-    formData.append("consultant_price", data.consultant_price.toString());
-    formData.append("disclosure_price", data.disclosure_price.toString());
+
     formData.append("role_id", data.role.id.toString());
     mutate(formData);
   };
   useMemo(() => {
     if (isSuccess) {
       onOpenChange(false);
-      reset()
+      reset();
     }
-  }, [isSuccess, onOpenChange,reset]);
+  }, [isSuccess, onOpenChange, reset]);
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={onOpenChange} >
       <DialogContent className="sm:max-w-[480px]">
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>

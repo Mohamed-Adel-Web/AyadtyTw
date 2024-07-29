@@ -2,7 +2,8 @@ import { Role } from "../RolesTypes/role";
 
 export interface patient {
   id: number;
-  full_name: string;
+  first_name: string;
+  last_name: string;
   email: string;
   password: string;
   phone: string;
@@ -13,6 +14,7 @@ export interface patient {
 export interface patientDetails extends Omit<patient, " doctor_id"> {
   doctor: {
     id: number;
-    full_name: string;
+    first_name: string;
+    last_name: string;
   };
 }

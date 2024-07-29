@@ -1,7 +1,8 @@
 import { Role } from "../RolesTypes/role";
 export interface assistant {
   id: number;
-  full_name: string;
+  first_name: string;
+  last_name: string;
   email: string;
   phone: string;
   password: string;
@@ -12,6 +13,7 @@ export interface assistant {
 export interface assistantDetails extends Omit<assistant, " doctor_id"> {
   doctor: {
     id: number;
-    full_name: string;
+    first_name: string;
+    last_name: string;
   };
 }

@@ -44,7 +44,13 @@ export default function App() {
   };
   const { user } = useUser();
   const columns = createColumns<appointmentDetails>(
-    ["time_start", "time_end", "status", "doctor.full_name"],
+    [
+      "time_start",
+      "time_end",
+      "status",
+      "doctor.first_name",
+      "doctor.last_name",
+    ],
     handleOpenEditDialog,
     handleOpenDeleteDialog,
     "appointment",
@@ -70,12 +76,7 @@ export default function App() {
         <DataTable
           columns={columns}
           data={appointmentsData}
-          filterKeys={[
-            "time_start",
-            "time_end",
-            "status",
-            "doctor.full_name",
-          ]}
+          filterKeys={["time_start", "time_end", "status", "doctor.full_name"]}
           filterPlaceholder="Filter name..."
         />
       )}

@@ -44,7 +44,8 @@ export function EditDialog({
   const { errors } = formState;
   const onSubmit = (data: Doctor) => {
     const formData = new FormData();
-    formData.append("full_name", data.full_name);
+    formData.append("first_name", data.first_name);
+    formData.append("last_name", data.last_name);
     formData.append("phone", data.phone);
     formData.append("email", data.email);
     if (data.password) {
@@ -54,8 +55,7 @@ export function EditDialog({
     if (data.image && data.image[0]) {
       formData.append("image", data.image[0]);
     }
-    formData.append("consultant_price", data.consultant_price.toString());
-    formData.append("disclosure_price", data.disclosure_price.toString());
+
     formData.append("role_id", data.role.id.toString());
     formData.append("_method", "PUT");
     mutate(formData);
@@ -68,13 +68,13 @@ export function EditDialog({
   React.useMemo(() => {
     if (doctor) {
       reset({
-        full_name: doctor.full_name,
+        first_name: doctor.first_name,
+        last_name: doctor.last_name,
         email: doctor.email,
         phone: doctor.phone,
         specialization_id: doctor.specialization.id,
-        consultant_price: doctor.consultant_price,
-        disclosure_price: doctor.disclosure_price,
-        role: doctor.role
+
+        role: doctor.role,
       });
     }
   }, [doctor, reset]);
@@ -132,7 +132,7 @@ export function EditDialog({
             </select>
             {errors.specialization_id && (
               <div className="text-red-500 w-full">
-                {errors.specialization_id?.message}
+                {errors.specialization_id?.message}s
               </div>
             )}
           </div>

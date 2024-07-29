@@ -1,17 +1,10 @@
-"use client";
 import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { hasPermission } from "@/lib/utils";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { formatDateTime, hasPermission } from "@/lib/utils";
 import { Role } from "@/types/RolesTypes/role";
 
 function getNestedValue(obj: any, path: string): any {
@@ -84,8 +77,20 @@ export function createColumns<T extends BaseData>(
           >
             {row.original.status ? "Available" : "Not Available"}
           </div>
+        ) : prop === "time_start" || prop === "time_end" ? (
+          <div className="border-r border-gray-200 px-3 py-2">
+            {formatDateTime(getNestedValue(row.original, prop as string))}
+          </div>
+        ) : prop === "color" ? (
+          <div className="flex items-center space-x-2">
+            <div
+              className="w-4 h-4 rounded"
+              style={{ backgroundColor: row.original.color }}
+            ></div>
+            <span>{row.original.color}</span>
+          </div>
         ) : (
-          <div>{getNestedValue(row.original, prop as string)}</div>
+          <div className="border-r border-gray-200 px-3 py-2">{getNestedValue(row.original, prop as string)}</div>
         ),
     })),
     {

@@ -5,4 +5,6 @@ export const sections = [
   "patient",
   "appointment",
   "reservation",
+  "examination Type",
+  "profile",
 ];

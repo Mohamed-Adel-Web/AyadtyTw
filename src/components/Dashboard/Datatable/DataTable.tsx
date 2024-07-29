@@ -101,8 +101,8 @@ export function DataTable<TData>({
   };
 
   return (
-    <div className="w-full">
-      <div className="flex items-center py-4 space-x-2">
+    <div className="w-full shadow-2xl rounded-lg border border-gray-200">
+      <div className="flex items-center py-4 px-6 space-x-4 bg-gray-50 rounded-t-lg">
         {filterKeys.length > 0 && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -158,14 +158,17 @@ export function DataTable<TData>({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
+      <div className="overflow-x-auto rounded-b-lg border-t border-gray-200">
+        <Table className="min-w-full divide-y divide-gray-200">
+          <TableHeader className="bg-gray-100">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead
+                      key={header.id}
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -178,22 +181,19 @@ export function DataTable<TData>({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+          <TableBody className="bg-white divide-y divide-gray-200">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className={`font-medium text-lg${
-                    hasStatus(row.original)
-                      ? row.original.status
-                        ? "bg-green"
-                        : "bg"
-                      : ""
-                  }`}
+                  className={`font-medium text-lg `}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      key={cell.id}
+                      className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -206,7 +206,7 @@ export function DataTable<TData>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="h-24 text-center text-gray-500"
                 >
                   No results.
                 </TableCell>
@@ -215,8 +215,8 @@ export function DataTable<TData>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
+      <div className="flex items-center justify-end space-x-2 py-4 px-6 bg-gray-50 rounded-b-lg">
+        <div className="flex-1 text-sm text-gray-500">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>

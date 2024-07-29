@@ -5,59 +5,71 @@ import { DataTable } from "../../../components/Dashboard/Datatable/DataTable";
 import { Button } from "@/components/ui/button";
 import Heading from "@/components/Dashboard/DashboardLayout/Heading";
 import useGetData from "@/customHooks/crudHooks/useGetData";
-import { doctorUrl, rolesUrl } from "@/backend/backend";
+import { examinationTypeUrl } from "@/backend/backend";
 import DeleteDialog from "@/components/generalDialog/DeleteDialog";
-import { Role } from "@/types/RolesTypes/role";
-import { AddDialog } from "@/components/Dashboard/roles/AddRoleDialog";
-import EditDialog from "@/components/Dashboard/roles/EditRoleDialog";
+import { useRouter } from "next/navigation";
 import useUser from "@/customHooks/loginHooks/useUser";
 import { hasPermission } from "@/lib/utils";
-import { useRouter } from "next/navigation";
-
+import {
+  examinationDetails,
+} from "@/types/examinationTypes/examinationTypes";
+import { AddDialog } from "@/components/Dashboard/examinationType/AddExaminationTypeDialog";
+import { EditDialog } from "@/components/Dashboard/examinationType/EditExaminationTypeDialog";
 export default function App() {
   const router = useRouter();
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
-  const [selectedData, setSelectedData] = React.useState<Role | null>(null);
-  const { data } = useGetData(rolesUrl, "allRole");
-  const roleData: Role[] = data?.data;
+  const [selectedData, setSelectedData] =
+    React.useState<examinationDetails | null>(null);
+  const { data } = useGetData(examinationTypeUrl, "allExaminationType");
+  const examinationData = data?.data.data;
+
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
   };
 
-  const handleOpenEditDialog = (data: Role) => {
+  const handleOpenEditDialog = (data: examinationDetails) => {
     setSelectedData(data);
     setOpenEdit(true);
   };
 
-  const handleOpenDeleteDialog = (data: Role) => {
+  const handleOpenDeleteDialog = (data: examinationDetails) => {
     setSelectedData(data);
     setOpenDelete(true);
   };
   const { user } = useUser();
-  const columns = createColumns<Role>(
-    ["name"],
+  const columns = createColumns<examinationDetails>(
+    ["name", "amount", "color", "doctor.first_name", "doctor.last_name"],
     handleOpenEditDialog,
     handleOpenDeleteDialog,
     "patient",
     user?.role
   );
-  if (user?.role.name !== "superAdmin") {
+  if (user && !hasPermission(user?.role, "patient", "read")) {
     router.push("/unauthorized");
   }
-
   return (
     <>
       <div className="flex justify-between align-items-center">
-        <Heading title="Roles" />
-        <Button onClick={handleOpenAddDialog}>Add New</Button>
+        <Heading title="Examination Type" />
+        {hasPermission(user?.role, "patient", "create") ? (
+          <Button onClick={handleOpenAddDialog}>Add New</Button>
+        ) : (
+          ""
+        )}
       </div>
-      {roleData && (
+      {examinationData && (
         <DataTable
           columns={columns}
-          data={roleData}
-          filterKeys={["name"]}
+          data={examinationData}
+          filterKeys={[
+            "name",
+            "amount",
+            "color",
+            "doctor.firstName",
+            "doctor.lastName",
+          ]}
           filterPlaceholder="Filter..."
         />
       )}
@@ -66,16 +78,16 @@ export default function App() {
       <EditDialog
         open={openEdit}
         onOpenChange={setOpenEdit}
-        role={selectedData}
+        examinationType={selectedData}
       />
-      <DeleteDialog<Role>
+      <DeleteDialog<examinationDetails>
         open={openDelete}
         onOpenChange={setOpenDelete}
         item={selectedData}
-        url={rolesUrl}
-        mutationKey="deleteRole"
-        queryKey="allRole"
-        itemName="role"
+        url={examinationTypeUrl}
+        mutationKey="deleteExamination"
+        queryKey="allExaminationType"
+        itemName="Examination Type"
       />
     </>
   );

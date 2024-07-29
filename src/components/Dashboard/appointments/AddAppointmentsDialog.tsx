@@ -98,7 +98,7 @@ export function AddDialog({
               <option value="">Select doctor</option>
               {doctorsData?.map((spec: Doctor) => (
                 <option key={spec.id} value={spec.id} className="m5-2">
-                  {spec.full_name}
+                  {spec.first_name + " " + spec.last_name}
                 </option>
               ))}
             </select>
