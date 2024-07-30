@@ -26,7 +26,6 @@ export const fields: {
     label: "last Name",
     required: "last name is required",
     validate: true,
-
   },
   {
     name: "email",
@@ -34,7 +33,6 @@ export const fields: {
     label: "Email",
     required: "Email name is required",
     validate: true,
-
   },
   {
     name: "phone",
@@ -42,22 +40,13 @@ export const fields: {
     label: "Phone",
     required: "Phone number is required",
     validate: true,
+  },
 
-  },
-  {
-    name: "password",
-    type: "password",
-    label: "Password",
-    required: "Password is required",
-    validate: true,
-   
-  },
   {
     name: "image",
     type: "file",
     label: "Image",
     required: "Image is required",
     validate: false,
-
   },
 ];

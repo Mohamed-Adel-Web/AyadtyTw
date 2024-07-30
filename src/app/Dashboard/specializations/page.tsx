@@ -39,16 +39,16 @@ export default function App() {
     setSelectedData(data);
     setOpenDelete(true);
   };
-  const { user } = useUser();
+  const { user, role,isSuccess } = useUser();
 
   const columns = createColumns<Specialization>(
     ["name"],
     handleOpenEditDialog,
     handleOpenDeleteDialog,
     "specialization",
-    user?.role
+    role
   );
-  if (user && !hasPermission(user?.role, "assistant", "read")) {
+  if (isSuccess && !hasPermission(role, "assistant", "read")) {
     router.push("/unauthorized");
   }
 
@@ -56,7 +56,7 @@ export default function App() {
     <>
       <div className="flex justify-between align-items-center">
         <Heading title="Specializations" />
-        {hasPermission(user?.role, "specialization", "create") ? (
+        {hasPermission(role, "specialization", "create") ? (
           <Button onClick={handleOpenAddDialog}>Add New</Button>
         ) : (
           ""

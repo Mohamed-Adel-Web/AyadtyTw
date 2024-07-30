@@ -8,7 +8,7 @@ import { registerPatientUrl } from "@/backend/backend";
 import { useToast } from "@/components/ui/use-toast";
 
 export const useRegisterPatient = () => {
-  const { token, setToken } = useAuth();
+  const { token, setToken, setUser } = useAuth();
   const { toast } = useToast();
 
   const registerPatientRequest = (adminData: RegisterData) => {
@@ -18,18 +18,19 @@ export const useRegisterPatient = () => {
     mutationKey: ["registerPatient"],
     mutationFn: registerPatientRequest,
     onSuccess: (data) => {
-      console.log(data.data);
-      if (data.data.status) {
+      if (data.data.status === "success") {
         toast({
-          title: `${data.data.msg}`,
+          title: `${data.data.message}`,
         });
         Cookies.set("token", data.data.data.token, { expires: 30 });
+        Cookies.set("user", JSON.stringify(data.data.data.user), { expires: 30 });
         setToken(data.data.token);
-        // window.location.href = "/Dashboard";
+        setUser(data.data.data.user);
+        // window.location.href = "/Dashboard"; 
       } else {
         toast({
           variant: "destructive",
-          title: `${data.data.validation_error[0]}`,
+          title: `${data.data.message}`,
         });
       }
     },

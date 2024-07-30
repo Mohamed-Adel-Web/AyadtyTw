@@ -8,12 +8,16 @@ import {
 } from "@/backend/backend"; // Ensure you have this URL configured
 import { Specialization } from "@/types/specializationsTypes/specialization";
 import React from "react";
-import DoctorReservationCard from "@/components/Dashboard/reservations/DoctoreReservationCard";
 import { Doctor } from "@/types/doctorsTypes/doctors";
 import ReservationSearch from "@/components/Dashboard/reservations/reservationFilters/ReservationSearch";
 import SpecializationFilter from "@/components/Dashboard/reservations/reservationFilters/SpecializationFilter";
+import { hasPermission } from "@/lib/utils";
+import useUser from "@/customHooks/loginHooks/useUser";
+import { useRouter } from "next/navigation";
+import DoctorReservationCard from "@/components/Dashboard/reservations/DoctorReservationCard";
 
-export default function SheetSide() {
+export default function App() {
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSpecialty, setSelectedSpecialty] = useState<Specialization>();
   const [openSheet, setOpenSheet] = useState<boolean>(false);
@@ -21,6 +25,7 @@ export default function SheetSide() {
     specializationUrl,
     "allSpecialization"
   );
+  const { user, role, isSuccess: roleSuccess } = useUser();
   const specializationList = specializationsData?.data.data;
   const url = searchTerm
     ? `${doctorByNameUrl}?name=${searchTerm}`
@@ -47,6 +52,9 @@ export default function SheetSide() {
     setSearchTerm("");
     setSelectedSpecialty(specialization);
   };
+  if (roleSuccess && !hasPermission(role, "reservation", "read")) {
+    router.push("/unauthorized");
+  }
   return (
     <>
       <div className="grid grid-cols-12 gap-4 p-4">

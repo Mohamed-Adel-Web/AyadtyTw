@@ -18,7 +18,7 @@ import React from "react";
 import { DatePickerComponent } from "../DatePicker";
 import { fields } from "./fields";
 const RegisterComponent: React.FC = () => {
-  const { mutate, isPending } = useRegisterPatient();
+  const { mutate, isPending,isSuccess } = useRegisterPatient();
   const currentDate = new Date();
   const { register, handleSubmit, setValue, control, formState } =
     useForm<RegisterData>({

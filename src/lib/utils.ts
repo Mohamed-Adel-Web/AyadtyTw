@@ -8,11 +8,11 @@ export const formatUrl = (str: string): string => {
   return str.toLowerCase().replace(/ /g, "-");
 };
 export function hasPermission(
-  role: Role | undefined,
+  role: Role,
   section: string,
   action: "create" | "read" | "update" | "delete"
 ): boolean {
-  return role?.permissions[section]?.[action] ?? false;
+  return role?.permissions[section]?.[action] ? true : false;
 }
 export function formatDateTime(dateTime: string): string {
   const date = new Date(dateTime);
@@ -26,3 +26,14 @@ export function formatDateTime(dateTime: string): string {
   };
   return new Intl.DateTimeFormat("en-US", options).format(date);
 }
+export const generateDefaultPermissions = (sections: string[]) => {
+  return sections.reduce((acc, section) => {
+    acc[section] = {
+      create: false,
+      read: false,
+      update: false,
+      delete: false,
+    };
+    return acc;
+  }, {} as Record<string, { create: boolean; read: boolean; update: boolean; delete: boolean }>);
+};

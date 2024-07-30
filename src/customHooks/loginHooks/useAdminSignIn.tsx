@@ -21,10 +21,10 @@ const useAdminSignIn = () => {
           title: `${data.data.message}`,
         });
         Cookies.set("token", data.data.token, { expires: 30 });
-        Cookies.set("user",JSON.stringify( data.data.user), { expires: 30 });
+        Cookies.set("user", JSON.stringify(data.data.user), { expires: 30 });
         setToken(data.data.token);
         setUser(data.data.user);
-        // window.location.href = "/Dashboard";
+        window.location.href = "/Dashboard";
       } else {
         toast({
           variant: "destructive",

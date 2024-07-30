@@ -21,7 +21,8 @@ import { patient } from "@/types/patientTypes/patient";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { examinationDetails } from "@/types/examinationTypes/examinationTypes";
 import Select from "react-select";
-
+import { hasPermission } from "@/lib/utils";
+import useUser from "@/customHooks/loginHooks/useUser";
 export function AddDialog({
   open,
   onOpenChange,
@@ -31,8 +32,8 @@ export function AddDialog({
   onOpenChange: (open: boolean) => void;
   appointmentId: number;
 }) {
-  const { register, formState, handleSubmit, reset, setValue } =
-    useForm<reservation>();
+  const { formState, handleSubmit, reset, setValue } = useForm<reservation>();
+  const { user, role } = useUser();
   const [examinationPrice, setExaminationPrice] = useState<number>();
   const { mutate, isSuccess, isPending } = useAddData<reservation>(
     reservationUrl,
@@ -49,9 +50,16 @@ export function AddDialog({
   const { errors } = formState;
 
   const onSubmit = (data: reservation) => {
-    mutate({ ...data, appointment_id: appointmentId });
+    if (role?.name == "patient" && user?.id) {
+      mutate({
+        ...data,
+        appointment_id: appointmentId,
+        patient_id: user.id,
+      });
+    } else {
+      mutate({ ...data, appointment_id: appointmentId });
+    }
   };
-
   useMemo(() => {
     if (isSuccess) {
       onOpenChange(false);
@@ -73,7 +81,6 @@ export function AddDialog({
     setValue("examination_id", selectedOption ? selectedOption.value : "");
     setExaminationPrice(selectedOption.amount);
   };
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
@@ -85,25 +92,30 @@ export function AddDialog({
               you&apos;re done.
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-2 my-3">
-            <Label htmlFor="patient" className="text-right">
-              Patient Name
-            </Label>
-            <Select
-              id="patient"
-              options={patientsData?.map((patient: patient) => ({
-                value: patient.id,
-                label: `${patient.first_name} ${patient.last_name}`,
-              }))}
-              onChange={handlePatientChange}
-              className="block w-full mt-3"
-            />
-            {errors.patient_id && (
-              <div className="text-red-500 w-full">
-                {errors.patient_id?.message}
-              </div>
-            )}
-          </div>
+          {role?.name == "patient" ? (
+            ""
+          ) : (
+            <div className="space-y-2 my-3">
+              <Label htmlFor="patient" className="text-right">
+                Patient Name
+              </Label>
+              <Select
+                id="patient"
+                options={patientsData?.map((patient: patient) => ({
+                  value: patient.id,
+                  label: `${patient.first_name} ${patient.last_name}`,
+                }))}
+                onChange={handlePatientChange}
+                className="block w-full mt-3"
+              />
+              {errors.patient_id && (
+                <div className="text-red-500 w-full">
+                  {errors.patient_id?.message}
+                </div>
+              )}
+            </div>
+          )}
+
           <div className="space-y-2 my-3">
             <Label htmlFor="examination" className="text-right">
               Examination Type

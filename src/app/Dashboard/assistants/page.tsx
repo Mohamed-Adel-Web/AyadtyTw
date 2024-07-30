@@ -14,6 +14,7 @@ import { hasPermission } from "@/lib/utils";
 import useUser from "@/customHooks/loginHooks/useUser";
 import { useRouter } from "next/navigation";
 export default function App() {
+  const { user, role, isSuccess } = useUser();
   const router = useRouter();
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
@@ -22,36 +23,32 @@ export default function App() {
     React.useState<assistantDetails | null>(null);
   const { data } = useGetData(assistantsUrl, "allAssistant");
   const assistantsData = data?.data.data;
-
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
   };
-
   const handleOpenEditDialog = (data: assistantDetails) => {
     setSelectedData(data);
     setOpenEdit(true);
   };
-
   const handleOpenDeleteDialog = (data: assistantDetails) => {
     setSelectedData(data);
     setOpenDelete(true);
   };
-  const { user } = useUser();
   const columns = createColumns<assistantDetails>(
     ["full_name", "phone", "email", "doctor.full_name"],
     handleOpenEditDialog,
     handleOpenDeleteDialog,
     "assistant",
-    user?.role
+    role
   );
-  if (user && !hasPermission(user?.role, "assistant", "read")) {
+  if (isSuccess && !hasPermission(role, "assistant", "read")) {
     router.push("/unauthorized");
   }
   return (
     <>
       <div className="flex justify-between align-items-center">
         <Heading title="assistants" />
-        {hasPermission(user?.role, "assistant", "create") && (
+        {hasPermission(role, "assistant", "create") && (
           <Button onClick={handleOpenAddDialog}>Add New</Button>
         )}
       </div>

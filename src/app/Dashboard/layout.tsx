@@ -12,6 +12,16 @@ import {
   ListFilterIcon,
   LineChartIcon,
   ShieldBan,
+  UserIcon,
+  KeyIcon,
+  StarIcon,
+  UserPlusIcon,
+  UserCogIcon,
+  CalendarIcon,
+  CalendarCheckIcon,
+  ClipboardIcon,
+  MapPinIcon,
+  DollarSignIcon,
 } from "lucide-react";
 import Sidebar from "@/components/Dashboard/DashboardLayout/DashboardSidebar";
 import Header from "@/components/Dashboard/DashboardLayout/DashboardHeader";
@@ -25,7 +35,8 @@ interface DashboardLayoutProps {
 }
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-  const { user } = useUser();
+  const { user, role } = useUser();
+
   const links: LinkItem[] = [
     {
       href: "/Dashboard",
@@ -35,82 +46,84 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     },
     {
       href: "/Dashboard/MyProfile",
-      label: "profile",
-      icon: <ShieldBan className="h-5 w-5" />,
-      permission: true,
+      label: "Profile",
+      icon: <UserIcon className="h-5 w-5" />,
+      permission: hasPermission(role, "profile", "read"),
     },
     {
       href: "/Dashboard/roles",
       label: "Roles",
-      icon: <ShieldBan className="h-5 w-5" />,
-      permission: hasPermission(user?.role, "role", "read"),
+      icon: <KeyIcon className="h-5 w-5" />,
+      permission: hasPermission(role, "role", "read"),
     },
     {
       href: "/Dashboard/specializations",
       label: "Specializations",
-      icon: <SettingsIcon className="h-5 w-5" />,
-      permission: hasPermission(user?.role, "specialization", "read"),
+      icon: <StarIcon className="h-5 w-5" />,
+      permission: hasPermission(role, "specialization", "read"),
     },
     {
       href: "/Dashboard/doctors",
       label: "Doctors",
-      icon: <UsersIcon className="h-5 w-5" />,
-      permission: hasPermission(user?.role, "doctor", "read"),
+      icon: <UserPlusIcon className="h-5 w-5" />,
+      permission: hasPermission(role, "doctor", "read"),
     },
     {
       href: "/Dashboard/assistants",
       label: "Assistants",
-      icon: <PackageIcon className="h-5 w-5" />,
-      permission: hasPermission(user?.role, "assistant", "read"),
+      icon: <UserCogIcon className="h-5 w-5" />,
+      permission: hasPermission(role, "assistant", "read"),
     },
     {
       href: "/Dashboard/patients",
       label: "Patients",
-      icon: <ShoppingCartIcon className="h-5 w-5" />,
-      permission: hasPermission(user?.role, "patient", "read"),
+      icon: <UserIcon className="h-5 w-5" />,
+      permission: hasPermission(role, "patient", "read"),
     },
     {
       href: "/Dashboard/appointments",
       label: "Appointments",
-      icon: <FileIcon className="h-5 w-5" />,
-      permission: true,
+      icon: <CalendarIcon className="h-5 w-5" />,
+      permission: hasPermission(role, "appointment", "read"),
     },
     {
       href: "/Dashboard/reservations",
       label: "Reservations",
-      icon: <FileIcon className="h-5 w-5" />,
-      permission: true,
+      icon: <CalendarCheckIcon className="h-5 w-5" />,
+      permission: hasPermission(role, "reservation", "read"),
     },
     {
       href: "/Dashboard/examinationType",
       label: "Examination Type",
-      icon: <FileIcon className="h-5 w-5" />,
-      permission: true,
+      icon: <ClipboardIcon className="h-5 w-5" />,
+      permission: hasPermission(role, "examination Type", "read"),
     },
     {
       href: "/Dashboard/visits",
       label: "Visits",
-      icon: <ListFilterIcon className="h-5 w-5" />,
+      icon: <MapPinIcon className="h-5 w-5" />,
       permission: true,
     },
     {
       href: "/Dashboard/income",
       label: "Income",
-      icon: <LineChartIcon className="h-5 w-5" />,
+      icon: <DollarSignIcon className="h-5 w-5" />,
       permission: true,
     },
     {
       href: "/Dashboard/expenses",
       label: "Expenses",
-      icon: <PackageIcon className="h-5 w-5" />,
+      icon: <DollarSignIcon className="h-5 w-5" />,
       permission: true,
     },
   ];
+  const filteredLinks = links.filter((link) => link.permission);
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
-      <Sidebar links={links} />
+      <Sidebar links={filteredLinks} />
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
-        <Header links={links} />
+        <Header links={filteredLinks} />
         <main className="grid flex-1 items-start gap-4 p-8 sm:px-6 sm:py-0 md:gap-8">
           {children}
         </main>

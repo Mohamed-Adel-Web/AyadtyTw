@@ -21,6 +21,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { sections } from "./sections";
+import { generateDefaultPermissions } from "@/lib/utils";
 
 export function AddDialog({
   open,
@@ -31,32 +32,7 @@ export function AddDialog({
 }) {
   const { register, formState, handleSubmit } = useForm<Role>({
     defaultValues: {
-      permissions: {
-        specialization: {
-          create: false,
-          read: false,
-          update: false,
-          delete: false,
-        },
-        doctor: {
-          create: false,
-          read: false,
-          update: false,
-          delete: false,
-        },
-        assistant: {
-          create: false,
-          read: false,
-          update: false,
-          delete: false,
-        },
-        patient: {
-          create: false,
-          read: false,
-          update: false,
-          delete: false,
-        },
-      },
+      permissions: generateDefaultPermissions(sections),
     },
   });
   const { mutate, isSuccess, isPending } = useAddData<Role>(
@@ -67,7 +43,6 @@ export function AddDialog({
   const { errors } = formState;
 
   const onSubmit = (data: Role) => {
-    console.log(data);
     mutate(data);
   };
 

@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import { useAuth } from "../loginHooks/useAuth";
 
 const useGetData = (
-  url: string ,
+  url: string | null,
   queryKey: string,
   dependencies: any[] = []
 ) => {
@@ -16,6 +16,9 @@ const useGetData = (
   }
 
   const getDataRequest = () => {
+    if (!url) {
+      return Promise.reject(new Error("URL is required"));
+    }
     return axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -23,12 +26,13 @@ const useGetData = (
     });
   };
 
-  const { data, error, isPending, isSuccess, isError } = useQuery({
+  const { data, error, isLoading, isSuccess, isError } = useQuery({
     queryKey: [queryKey, ...dependencies],
     queryFn: getDataRequest,
+    enabled: !!url, 
   });
 
-  return { data, error, isPending, isSuccess, isError };
+  return { data, error, isLoading, isSuccess, isError };
 };
 
 export default useGetData;

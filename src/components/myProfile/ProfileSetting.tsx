@@ -11,15 +11,25 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { BellIcon, PencilIcon, SettingsIcon } from "lucide-react";
+import { PencilIcon } from "lucide-react";
 import { fields } from "./fields";
 import { useForm } from "react-hook-form";
 import { patient } from "@/types/patientTypes/patient";
-import UseUser from "@/customHooks/loginHooks/useUser";
-export default function ProfileSetting() {
-  const { user } = UseUser();
+import { useMemo } from "react";
+export default function ProfileSetting({ patient }: { patient: patient }) {
   const { register, formState, handleSubmit, control, reset } =
     useForm<patient>();
+  useMemo(() => {
+    if (patient) {
+      reset({
+        first_name: patient.first_name,
+        last_name: patient.last_name,
+        email: patient.email,
+        phone: patient.phone
+      
+      });
+    }
+  }, [patient, reset]);
   const { errors } = formState;
   return (
     <>
@@ -32,10 +42,11 @@ export default function ProfileSetting() {
             </Avatar>
             <div className="grid gap-0.5">
               <div className="text-lg font-semibold"></div>
-              <div className="text-sm text-muted-foreground">@johndoe</div>
+              <div className="text-sm text-muted-foreground">
+                {patient?.first_name + "" + patient?.last_name}
+              </div>
             </div>
           </div>
-
         </header>
         <main className="flex-1 px-4 py-6 sm:px-6">
           <div className="mx-auto grid max-w-3xl gap-8">

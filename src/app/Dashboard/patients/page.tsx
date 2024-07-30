@@ -37,22 +37,22 @@ export default function App() {
     setSelectedData(data);
     setOpenDelete(true);
   };
-  const { user } = useUser();
+  const { user,role,isSuccess } = useUser();
   const columns = createColumns<patientDetails>(
-    ["first_name","last_name", "phone", "email", "doctor.first_name"],
+    ["first_name", "last_name", "phone", "email", "doctor.first_name"],
     handleOpenEditDialog,
     handleOpenDeleteDialog,
     "patient",
-    user?.role
+    role
   );
-  if (user && !hasPermission(user?.role, "patient", "read")) {
+  if (isSuccess && !hasPermission(role, "patient", "read")) {
     router.push("/unauthorized");
   }
   return (
     <>
       <div className="flex justify-between align-items-center">
         <Heading title="Patients        " />
-        {hasPermission(user?.role, "patient", "create") ? (
+        {hasPermission(role, "patient", "create") ? (
           <Button onClick={handleOpenAddDialog}>Add New</Button>
         ) : (
           ""

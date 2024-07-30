@@ -29,10 +29,7 @@ export default function DoctorReservationCard({ doctor }: { doctor: Doctor }) {
             <MailIcon className="w-4 h-4 mr-2" />
             <span>{doctor.email}</span>
           </div>
-          <div className="flex items-center md:justify-start justify-center text-gray-500 mt-1">
-            <BadgeDollarSign className="w-4 h-4 mr-2" />
-            Fees :<span className="ml-1">{doctor.consultant_price} EGP</span>
-          </div>
+        
         </div>
         <div className="mt-4 flex justify-center md:justify-start space-x-2">
           <Link

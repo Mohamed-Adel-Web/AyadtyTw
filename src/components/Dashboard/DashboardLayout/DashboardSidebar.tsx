@@ -23,7 +23,7 @@ const Sidebar: React.FC<SidebarProps> = ({ links }) => {
     <>
       <aside
         className={`fixed inset-y-0 left-0 z-20 flex flex-col border-r bg-background transition-all duration-300 ${
-          isOpen ? "w-64" : "w-20"
+          isOpen ? "w-64" : "w-15"
         } ${isOpen ? "block" : "hidden"} sm:block`}
       >
         <div className="flex items-center justify-between px-4 py-2">
@@ -49,7 +49,7 @@ const Sidebar: React.FC<SidebarProps> = ({ links }) => {
                       setIsOpen(false);
                     }}
                     href={link.href}
-                    className={`flex items-center justify-center rounded-lg transition-colors ${
+                    className={`flex items-center justify-start rounded-lg transition-colors ${
                       currentPath === link.href
                         ? "text-white bg-black"
                         : "text-muted-foreground hover:text-foreground"

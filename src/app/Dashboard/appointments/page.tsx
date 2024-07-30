@@ -42,7 +42,7 @@ export default function App() {
     setSelectedData(data);
     setOpenDelete(true);
   };
-  const { user } = useUser();
+  const { user, role, isSuccess } = useUser();
   const columns = createColumns<appointmentDetails>(
     [
       "time_start",
@@ -54,9 +54,9 @@ export default function App() {
     handleOpenEditDialog,
     handleOpenDeleteDialog,
     "appointment",
-    user?.role
+    role
   );
-  if (user && !hasPermission(user?.role, "appointment", "read")) {
+  if (isSuccess && !hasPermission(role, "appointment", "read")) {
     router.push("/unauthorized");
   }
   return (
@@ -64,7 +64,7 @@ export default function App() {
       <div className="flex justify-between align-items-center">
         <Heading title="appointments" />
 
-        {hasPermission(user?.role, "appointment", "create") && (
+        {hasPermission(role, "appointment", "create") && (
           <>
             <SelectDoctorAppointment handleAppointment={handleAppointment} />
 

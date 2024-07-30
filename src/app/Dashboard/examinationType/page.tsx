@@ -10,9 +10,7 @@ import DeleteDialog from "@/components/generalDialog/DeleteDialog";
 import { useRouter } from "next/navigation";
 import useUser from "@/customHooks/loginHooks/useUser";
 import { hasPermission } from "@/lib/utils";
-import {
-  examinationDetails,
-} from "@/types/examinationTypes/examinationTypes";
+import { examinationDetails } from "@/types/examinationTypes/examinationTypes";
 import { AddDialog } from "@/components/Dashboard/examinationType/AddExaminationTypeDialog";
 import { EditDialog } from "@/components/Dashboard/examinationType/EditExaminationTypeDialog";
 export default function App() {
@@ -38,22 +36,22 @@ export default function App() {
     setSelectedData(data);
     setOpenDelete(true);
   };
-  const { user } = useUser();
+  const { user,role,isSuccess } = useUser();
   const columns = createColumns<examinationDetails>(
     ["name", "amount", "color", "doctor.first_name", "doctor.last_name"],
     handleOpenEditDialog,
     handleOpenDeleteDialog,
-    "patient",
-    user?.role
+    "examination Type",
+    role
   );
-  if (user && !hasPermission(user?.role, "patient", "read")) {
+  if (isSuccess && !hasPermission(role, "examination Type", "read")) {
     router.push("/unauthorized");
   }
   return (
     <>
       <div className="flex justify-between align-items-center">
         <Heading title="Examination Type" />
-        {hasPermission(user?.role, "patient", "create") ? (
+        {hasPermission(role, "examination Type", "create") ? (
           <Button onClick={handleOpenAddDialog}>Add New</Button>
         ) : (
           ""

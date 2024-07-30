@@ -7,10 +7,16 @@ export const fields: {
   required: string;
 }[] = [
   {
-    name: "full_name",
+    name: "first_name",
     type: "text",
-    label: "Full Name",
-    required: "full  name is required",
+    label: "First Name",
+    required: "First  name is required",
+  },
+  {
+    name: "last_name",
+    type: "text",
+    label: "Last Name",
+    required: "Last  name is required",
   },
   {
     name: "email",

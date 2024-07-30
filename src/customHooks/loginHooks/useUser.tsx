@@ -1,17 +1,28 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useAuth } from "./useAuth";
+import useGetData from "../crudHooks/useGetData";
+import { rolesUrl } from "@/backend/backend";
 
-export default function UseUser() {
+export default function useUser() {
   const { user, setUser } = useAuth();
+  const [roleId, setRoleId] = useState(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const cookieUser = Cookies.get("user");
     if (cookieUser) {
-      setUser(JSON.parse(cookieUser));
+      const parsedUser = JSON.parse(cookieUser);
+      setUser(parsedUser);
+      setRoleId(parsedUser.role.id);
     }
   }, [setUser]);
 
-  return { user };
+  const { data, isSuccess } = useGetData(
+    !!roleId ? `${rolesUrl}/${roleId}` : null,
+    "role",
+    [roleId]
+  );
+
+  return { user, role: data?.data.role,isSuccess };
 }
