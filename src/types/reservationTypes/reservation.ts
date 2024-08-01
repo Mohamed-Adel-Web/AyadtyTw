@@ -8,6 +8,8 @@ export interface reservation {
   patient_id: number;
   appointment_id: number;
   examination_id: number;
+  status:string
+  created_at:string
 }
 export interface reservationDetails extends reservation {
   patient: patientDetails;

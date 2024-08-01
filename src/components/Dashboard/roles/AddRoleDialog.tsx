@@ -30,7 +30,7 @@ export function AddDialog({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
-  const { register, formState, handleSubmit } = useForm<Role>({
+  const { register, formState, handleSubmit, reset } = useForm<Role>({
     defaultValues: {
       permissions: generateDefaultPermissions(sections),
     },
@@ -49,8 +49,9 @@ export function AddDialog({
   useMemo(() => {
     if (isSuccess) {
       onOpenChange(false);
+      reset();
     }
-  }, [isSuccess, onOpenChange]);
+  }, [isSuccess, onOpenChange,reset]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

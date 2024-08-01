@@ -18,7 +18,7 @@ const useEditData = <T,>(
   if (cookieToken) {
     setToken(cookieToken);
   }
-  const editDataRequest = (data: T) => {
+  const editDataRequest = (data?: T) => {
     return axios[method](`${url}/${id}`, data, {
       headers: {
         Authorization: `Bearer ${token}`,

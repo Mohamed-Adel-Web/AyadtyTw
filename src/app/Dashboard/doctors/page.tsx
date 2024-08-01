@@ -43,8 +43,7 @@ export default function App() {
       "email",
       "phone",
       "specialization.name",
-      "consultant_price",
-      "disclosure_price",
+
     ],
     handleOpenEditDialog,
     handleOpenDeleteDialog,
@@ -72,8 +71,7 @@ export default function App() {
             "email",
             "phone",
             "specialization.name",
-            "consultant_price",
-            "disclosure_price",
+          
           ]}
           filterPlaceholder="Filter..."
         />

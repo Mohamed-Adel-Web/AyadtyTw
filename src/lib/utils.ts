@@ -37,3 +37,15 @@ export const generateDefaultPermissions = (sections: string[]) => {
     return acc;
   }, {} as Record<string, { create: boolean; read: boolean; update: boolean; delete: boolean }>);
 };
+export const getBadgeClass = (status: string) => {
+  switch (status) {
+    case "reserved":
+      return "bg-black text-white";
+    case "visited":
+      return "bg-green-500 text-white";
+    case "canceled":
+      return "bg-red-500 text-white"; 
+    default:
+      return "bg-gray-300 text-black";
+  }
+};

@@ -7,7 +7,6 @@ export interface patient {
   email: string;
   password: string;
   phone: string;
-  doctor_id: number;
   image: File[];
   role: Role;
 }

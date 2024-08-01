@@ -35,18 +35,17 @@ export default function App() {
     setSelectedData(data);
     setOpenDelete(true);
   };
-  const { user } = useUser();
+  const { user, role, isSuccess } = useUser();
   const columns = createColumns<Role>(
     ["name"],
     handleOpenEditDialog,
     handleOpenDeleteDialog,
     "patient",
-    user?.role
+    role
   );
-  if (user?.role.name !== "superAdmin") {
+  if (isSuccess && role?.name !== "superAdmin") {
     router.push("/unauthorized");
   }
-
   return (
     <>
       <div className="flex justify-between align-items-center">

@@ -19,6 +19,7 @@ interface DeleteDialogProps<T> {
   mutationKey: string;
   queryKey: string;
   itemName?: string;
+  method?: "put" | "delete";
 }
 
 const DeleteDialog = <T extends { id: number | undefined }>({
@@ -29,12 +30,14 @@ const DeleteDialog = <T extends { id: number | undefined }>({
   mutationKey,
   queryKey,
   itemName = "item",
+  method = "delete",
 }: DeleteDialogProps<T>) => {
-  const { mutate, isSuccess,isPending } = useDeleteData(
+  const { mutate, isSuccess, isPending } = useDeleteData(
     url,
     item?.id,
     mutationKey,
-    queryKey
+    queryKey,
+    method
   );
 
   const handleDelete = () => {
@@ -54,14 +57,20 @@ const DeleteDialog = <T extends { id: number | undefined }>({
           <DialogTitle>Confirm Delete</DialogTitle>
         </DialogHeader>
         <DialogDescription>
-          Are you sure you want to delete this {itemName}?
+          {method == "put"
+            ? `Are you sure you want to cancel this ${itemName}`
+            : `Are you sure you want to delete this ${itemName}`}
         </DialogDescription>
         <DialogFooter>
           <Button variant="ghost" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button variant="destructive" disabled={isPending} onClick={handleDelete}>
-            Delete
+          <Button
+            variant="destructive"
+            disabled={isPending}
+            onClick={handleDelete}
+          >
+            {method == "put" ? "Cancel" : "Delete"}
           </Button>
         </DialogFooter>
       </DialogContent>

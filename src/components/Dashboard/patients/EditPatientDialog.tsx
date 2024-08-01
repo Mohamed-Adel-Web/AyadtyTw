@@ -51,7 +51,6 @@ export function EditDialog({
     if (data.image.length) {
       formData.append("image", data.image[0]);
     }
-    formData.append("doctor_id", data.doctor_id.toString());
     formData.append("role_id", data.role.id.toString());
     mutate(formData);
   };
@@ -67,7 +66,6 @@ export function EditDialog({
         last_name: patient.last_name,
         email: patient.email,
         phone: patient.phone,
-        doctor_id: patient.doctor.id,
         role: patient.role,
       });
     }
@@ -106,26 +104,7 @@ export function EditDialog({
                 )}
               </div>
             ))}
-          <h3 className="text-xl font-bold"> Doctor Name</h3>
-          <select
-            id="doctor"
-            {...register("doctor_id", {
-              required: "doctor name is required",
-            })}
-            className="block w-full mt-3 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-          >
-            <option value="">Select doctor</option>
-            {doctorsData?.map((spec: Doctor) => (
-              <option key={spec.id} value={spec.id} className="m5-2">
-                {spec.first_name + " " + spec.last_name}
-              </option>
-            ))}
-          </select>
-          {errors.doctor_id && (
-            <div className="text-red-500 w-full">
-              {errors.doctor_id?.message}
-            </div>
-          )}
+  
           <h3 className="text-xl font-bold"> Role</h3>
           <select
             id="role"

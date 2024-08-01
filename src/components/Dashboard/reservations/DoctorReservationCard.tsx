@@ -8,7 +8,7 @@ export default function DoctorReservationCard({ doctor }: { doctor: Doctor }) {
     <div className="lg:col-span-3 md:col-span-6 col-span-12 shadow-lg border rounded-lg p-4">
       <div className="col-span-12 md:col-span-1">
         <Image
-          src={`${doctor.image}`}
+          src={`${"/"}`}
           width={100}
           height={100}
           alt="Doctor's avatar"

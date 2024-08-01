@@ -9,7 +9,8 @@ const useDeleteData = (
   url: string,
   id: number | undefined,
   mutationKey: string,
-  invalidateQueryKey: string
+  invalidateQueryKey: string,
+  method: "put" | "delete" = "delete"
 ) => {
   const { token, setToken } = useAuth();
   const cookieToken = Cookies.get("token");
@@ -20,7 +21,7 @@ const useDeleteData = (
   }
 
   const deleteDataRequest = () => {
-    return axios.delete(`${url}/${id}`, {
+    return axios[method](`${url}/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -32,6 +33,7 @@ const useDeleteData = (
     mutationKey: [mutationKey, id],
     mutationFn: deleteDataRequest,
     onSuccess: (data) => {
+      console.log(data)
       if (data.data.status === 200) {
         toast({
           title: `${data.data.message}`,

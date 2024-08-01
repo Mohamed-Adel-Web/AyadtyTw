@@ -1,5 +1,6 @@
 "use client";
 import { patientsUrl } from "@/backend/backend";
+import ProfileReservation from "@/components/myProfile/ProfileReservation";
 import ProfileSetting from "@/components/myProfile/ProfileSetting";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useGetData from "@/customHooks/crudHooks/useGetData";
@@ -15,9 +16,10 @@ export default function App() {
     router.push("/unauthorized");
   }
   const { data, isLoading, error } = useGetData(
-    user?.id ? `${patientsUrl}/${user.id}` : null,
+    `${patientsUrl}/${user?.id}`,
     "patient",
-    [user?.id]
+    [user?.id],
+    !!user?.id
   );
   const patientData = data?.data.data;
 
@@ -31,7 +33,9 @@ export default function App() {
       <TabsContent value="AccountSettings">
         <ProfileSetting patient={patientData} />
       </TabsContent>
-      <TabsContent value="Invoices"></TabsContent>
+      <TabsContent value="reservation">
+        <ProfileReservation reservations={patientData?.reservations} />
+      </TabsContent>
     </Tabs>
   );
 }

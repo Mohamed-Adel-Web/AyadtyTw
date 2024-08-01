@@ -3,7 +3,13 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { formatDateTime, hasPermission } from "@/lib/utils";
 import { Role } from "@/types/RolesTypes/role";
 
@@ -24,7 +30,7 @@ export function createColumns<T extends BaseData>(
   handleOpenEditDialog: (row: T) => void,
   handleOpenDeleteDialog: (row: T) => void,
   currentSection: string,
-  role: Role | undefined
+  role: Role
 ): ColumnDef<T>[] {
   return [
     {
@@ -90,7 +96,9 @@ export function createColumns<T extends BaseData>(
             <span>{row.original.color}</span>
           </div>
         ) : (
-          <div className="border-r border-gray-200 px-3 py-2">{getNestedValue(row.original, prop as string)}</div>
+          <div className="border-r border-gray-200 px-3 py-2">
+            {getNestedValue(row.original, prop as string)}
+          </div>
         ),
     })),
     {
@@ -145,3 +153,4 @@ export function createColumns<T extends BaseData>(
     },
   ];
 }
+

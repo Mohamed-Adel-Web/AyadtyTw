@@ -39,7 +39,7 @@ export default function App() {
   };
   const { user,role,isSuccess } = useUser();
   const columns = createColumns<patientDetails>(
-    ["first_name", "last_name", "phone", "email", "doctor.first_name"],
+    ["first_name", "last_name", "phone", "email",],
     handleOpenEditDialog,
     handleOpenDeleteDialog,
     "patient",
@@ -62,7 +62,7 @@ export default function App() {
         <DataTable
           columns={columns}
           data={patientsData}
-          filterKeys={["full_name", "phone", "email", "doctor.full_name"]}
+          filterKeys={["full_name", "phone", "email", ]}
           filterPlaceholder="Filter..."
         />
       )}

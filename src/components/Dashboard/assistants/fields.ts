@@ -1,6 +1,4 @@
 import { assistant } from "@/types/assistantTypes/assistants";
-import { Doctor } from "@/types/doctorsTypes/doctors";
-
 export const fields: {
   name: keyof assistant;
   type: string;
@@ -13,7 +11,7 @@ export const fields: {
   {
     name: "first_name",
     type: "text",
-    label: "Full Name",
+    label: "First Name",
     required: "Full name is required",
     validate: true,
     showInAdd: true,
@@ -22,7 +20,7 @@ export const fields: {
   {
     name: "last_name",
     type: "text",
-    label: "Full Name",
+    label: "Last Name",
     required: "Full name is required",
     validate: true,
     showInAdd: true,

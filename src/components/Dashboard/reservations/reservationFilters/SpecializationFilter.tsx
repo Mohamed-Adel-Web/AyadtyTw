@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState } from "react";
 import {
   Sheet,
@@ -16,8 +15,8 @@ import { Specialization } from "@/types/specializationsTypes/specialization";
 
 interface SpecializationFilterProps {
   specializations: Specialization[];
-  selectedSpecialty: Specialization | undefined;
-  onSpecialtySelect: (specialization: Specialization) => void;
+  selectedSpecialty: Specialization | null;
+  onSpecialtySelect: (specialization: Specialization | null) => void; // Adjusted to accept null
 }
 
 export default function SpecializationFilter({
@@ -27,7 +26,7 @@ export default function SpecializationFilter({
 }: SpecializationFilterProps) {
   const [openSheet, setOpenSheet] = useState(false);
 
-  const handleGetDoctorBySpecial = (specialization: Specialization) => {
+  const handleGetDoctorBySpecial = (specialization: Specialization | null) => {
     onSpecialtySelect(specialization);
     setOpenSheet(false);
   };
@@ -36,9 +35,7 @@ export default function SpecializationFilter({
     <Sheet open={openSheet} onOpenChange={setOpenSheet}>
       <SheetTrigger asChild>
         <Button variant="outline" className="w-full">
-          {selectedSpecialty?.name
-            ? selectedSpecialty.name
-            : "Choose Specialty"}
+          {selectedSpecialty?.name ? selectedSpecialty.name : "Choose Specialty"}
         </Button>
       </SheetTrigger>
       <SheetContent side="top">
@@ -49,14 +46,17 @@ export default function SpecializationFilter({
           </SheetDescription>
         </SheetHeader>
         <div className="grid grid-cols-12 gap-4 py-4">
+          <Button
+            variant={!selectedSpecialty ? "default" : "outline"}
+            onClick={() => handleGetDoctorBySpecial(null)}
+            className="col-span-3 text-md font-bold"
+          >
+            All Specializations
+          </Button>
           {specializations?.map((specialty: Specialization) => (
             <Button
               key={specialty.id}
-              variant={
-                specialty.name === selectedSpecialty?.name
-                  ? "default"
-                  : "outline"
-              }
+              variant={specialty.name === selectedSpecialty?.name ? "default" : "outline"}
               onClick={() => handleGetDoctorBySpecial(specialty)}
               className="col-span-3 text-md font-bold"
             >

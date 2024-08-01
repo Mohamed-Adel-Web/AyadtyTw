@@ -8,9 +8,9 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { EventInput } from "@fullcalendar/core/index.js";
-import useAddData from "@/customHooks/crudHooks/useAddData";
 import ReservationFilter from "@/components/Dashboard/reservations/reservationFilters/ReservationFilter";
 import { AddDialog } from "@/components/Dashboard/reservations/AddReservationDialog";
+
 export default function DoctorAppointment({
   params,
 }: {
@@ -20,9 +20,9 @@ export default function DoctorAppointment({
   const { data, isSuccess } = useGetData(
     `${doctorUrl}/${doctorId}`,
     "doctorAppointmentDetails",
-    [doctorId]
+    [doctorId],
+    !!doctorId
   );
-
   const [events, setEvents] = useState<EventInput[]>([]);
   const [filter, setFilter] = useState<string>("all");
   const [open, setOpen] = useState<boolean>(false);
@@ -31,8 +31,11 @@ export default function DoctorAppointment({
   const doctorData = data?.data.data;
   useMemo(() => {
     if (isSuccess) {
+      const now = new Date();
       const filteredAppointments = appointmentsData.filter(
         (appointment: any) => {
+          const appointmentEnd = new Date(appointment.time_end);
+          if (appointmentEnd < now) return false; // Exclude past appointments
           if (filter === "available") return appointment.status;
           if (filter === "notAvailable") return !appointment.status;
           return true;
