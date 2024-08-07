@@ -6,5 +6,5 @@ export const sections = [
   "appointment",
   "reservation",
   "examination Type",
-  "profile",
+  "profileType",
 ];

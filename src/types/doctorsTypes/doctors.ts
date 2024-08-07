@@ -10,7 +10,6 @@ export interface Doctor {
   email: string;
   password: string;
   specialization_id: number;
-
   role: Role;
 }
 export interface DoctorDetails extends Omit<Doctor, " specialization_id"> {

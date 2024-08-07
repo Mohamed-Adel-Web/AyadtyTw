@@ -14,7 +14,7 @@ export function hasPermission(
 ): boolean {
   return role?.permissions[section]?.[action] ? true : false;
 }
-export function formatDateTime(dateTime: string): string {
+export function formatDateTime(dateTime: string | Date): string {
   const date = new Date(dateTime);
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
@@ -44,7 +44,7 @@ export const getBadgeClass = (status: string) => {
     case "visited":
       return "bg-green-500 text-white";
     case "canceled":
-      return "bg-red-500 text-white"; 
+      return "bg-red-500 text-white";
     default:
       return "bg-gray-300 text-black";
   }

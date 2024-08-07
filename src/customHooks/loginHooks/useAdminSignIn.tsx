@@ -16,7 +16,7 @@ const useAdminSignIn = () => {
     mutationKey: ["SignIn"],
     mutationFn: signInRequest,
     onSuccess: (data) => {
-      if (data.data.status === "success") {
+      if (data.data.status === 200) {
         toast({
           title: `${data.data.message}`,
         });

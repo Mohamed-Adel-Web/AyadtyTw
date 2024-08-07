@@ -48,13 +48,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       href: "/Dashboard/MyProfile",
       label: "Profile",
       icon: <UserIcon className="h-5 w-5" />,
-      permission: hasPermission(role, "profile", "read"),
+      permission: true,
     },
     {
       href: "/Dashboard/roles",
       label: "Roles",
       icon: <KeyIcon className="h-5 w-5" />,
-      permission: role?.name=="superAdmin" ,
+      permission: role?.name == "superAdmin",
     },
     {
       href: "/Dashboard/specializations",

@@ -1,40 +1,70 @@
 "use client";
-import { patientsUrl } from "@/backend/backend";
-import ProfileReservation from "@/components/myProfile/ProfileReservation";
+import { patientsUrl, assistantsUrl, doctorUrl } from "@/backend/backend";
+import DoctorProfileReservation from "@/components/myProfile/DoctorProfile/DoctorProfileReservation ";
+import PatientProfileReservation from "@/components/myProfile/PatientProfile/PatientProfileReservation";
+
 import ProfileSetting from "@/components/myProfile/ProfileSetting";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import useUser from "@/customHooks/loginHooks/useUser";
-import { hasPermission } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function App() {
   const router = useRouter();
-
   const { user, role, isSuccess } = useUser();
-  if (isSuccess && !hasPermission(role, "profile", "read")) {
-    router.push("/unauthorized");
-  }
+  const [endpointUrl, setEndpointUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (role?.permissions?.profileType?.type) {
+      switch (role.permissions.profileType.type) {
+        case "doctor":
+          setEndpointUrl(doctorUrl);
+          break;
+        case "assistant":
+          setEndpointUrl(assistantsUrl);
+          break;
+        case "patient":
+          setEndpointUrl(patientsUrl);
+          break;
+        default:
+          setEndpointUrl(patientsUrl);
+      }
+    }
+  }, [role]);
+
   const { data, isLoading, error } = useGetData(
-    `${patientsUrl}/${user?.id}`,
-    "patient",
+    `${endpointUrl}/${user?.id}`,
+    "profile",
     [user?.id],
-    !!user?.id
+    !!user?.id && !!endpointUrl
   );
-  const patientData = data?.data.data;
+
+  const profileData = data?.data.data;
+  const reservationData = data?.data.reservations;
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <Tabs defaultValue="AccountSettings" className="w-full mx-auto">
-      <TabsList className="grid w-full grid-cols-3">
+      <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="AccountSettings">My account</TabsTrigger>
         <TabsTrigger value="reservation">Reservation</TabsTrigger>
-        <TabsTrigger value="Invoices">Invoices</TabsTrigger>
       </TabsList>
       <TabsContent value="AccountSettings">
-        <ProfileSetting patient={patientData} />
+        {profileData && (
+          <ProfileSetting profileData={profileData} role={role} />
+        )}
       </TabsContent>
       <TabsContent value="reservation">
-        <ProfileReservation reservations={patientData?.reservations} />
+        {role?.permissions?.profileType?.type === "patient" && (
+          <PatientProfileReservation reservations={profileData?.reservations} />
+        )}
+        {role?.permissions?.profileType?.type === "doctor" && (
+          <DoctorProfileReservation reservations={reservationData} />
+        )}
+ 
       </TabsContent>
     </Tabs>
   );

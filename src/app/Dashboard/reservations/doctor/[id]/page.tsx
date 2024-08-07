@@ -32,16 +32,16 @@ export default function DoctorAppointment({
   useMemo(() => {
     if (isSuccess) {
       const now = new Date();
-      const filteredAppointments = appointmentsData.filter(
+      const filteredAppointments = appointmentsData?.filter(
         (appointment: any) => {
           const appointmentEnd = new Date(appointment.time_end);
-          if (appointmentEnd < now) return false; // Exclude past appointments
+          if (appointmentEnd < now) return false; 
           if (filter === "available") return appointment.status;
           if (filter === "notAvailable") return !appointment.status;
           return true;
         }
       );
-      const appointments = filteredAppointments.map((appointment: any) => ({
+      const appointments = filteredAppointments?.map((appointment: any) => ({
         id: appointment.id,
         title: appointment.status ? `available` : "not available",
         start: appointment.time_start,

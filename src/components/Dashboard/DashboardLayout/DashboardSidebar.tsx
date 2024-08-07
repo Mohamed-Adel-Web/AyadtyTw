@@ -6,7 +6,7 @@ import {
   TooltipContent,
 } from "@/components/ui/tooltip";
 import Link from "next/link";
-import { SettingsIcon, MenuIcon, XIcon } from "lucide-react";
+import { MenuIcon, XIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { LinkItem } from "@/types/linkItem";

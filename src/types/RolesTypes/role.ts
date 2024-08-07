@@ -7,6 +7,7 @@ export interface Role {
       read: boolean;
       update: boolean;
       delete: boolean;
+      type?: string;
     };
   };
 }

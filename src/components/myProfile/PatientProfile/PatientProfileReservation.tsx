@@ -5,11 +5,11 @@ import {
   reservationDetails,
 } from "@/types/reservationTypes/reservation";
 import ReservationCard from "./ReservationCard";
-import DeleteDialog from "../generalDialog/DeleteDialog";
+import DeleteDialog from "../../generalDialog/DeleteDialog";
 import { reservationCancelUrl } from "@/backend/backend";
 import React from "react";
 
-export default function ProfileReservation({
+export default function PatientProfileReservation({
   reservations,
 }: {
   reservations: reservation[];
@@ -38,7 +38,7 @@ export default function ProfileReservation({
         item={selectedData}
         url={reservationCancelUrl}
         mutationKey="cancelReservation"
-        queryKey="patient"
+        queryKey="profile"
         itemName="reservation"
         method="put"
       />

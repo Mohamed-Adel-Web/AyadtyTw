@@ -1,3 +1,4 @@
+import { examination } from "./../examinationTypes/examinationTypes";
 import {
   appointment,
   appointmentDetails,
@@ -8,8 +9,9 @@ export interface reservation {
   patient_id: number;
   appointment_id: number;
   examination_id: number;
-  status:string
-  created_at:string
+  status: string;
+  created_at: string;
+  examination_type: examination;
 }
 export interface reservationDetails extends reservation {
   patient: patientDetails;

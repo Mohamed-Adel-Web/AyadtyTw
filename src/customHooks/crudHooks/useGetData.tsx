@@ -7,7 +7,7 @@ import { useAuth } from "../loginHooks/useAuth";
 const useGetData = (
   url: string ,
   queryKey: string,
-  dependencies: any[] = [],
+  dependencies: (string | number | null | undefined)[] = [],
   enabledCondition: boolean = true
 ) => {
   const { token, setToken } = useAuth();
@@ -17,7 +17,6 @@ const useGetData = (
   }
 
   const getDataRequest = () => {
- 
     return axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -28,7 +27,7 @@ const useGetData = (
   const { data, error, isLoading, isSuccess, isError } = useQuery({
     queryKey: [queryKey, ...dependencies],
     queryFn: getDataRequest,
-    enabled: enabledCondition,
+    enabled: enabledCondition ,
   });
 
   return { data, error, isLoading, isSuccess, isError };

@@ -19,10 +19,11 @@ export default function useUser() {
   }, [setUser]);
 
   const { data, isSuccess } = useGetData(
-    !!roleId ? `${rolesUrl}/${roleId}` : null,
+    `${rolesUrl}/${roleId}`,
     "role",
-    [roleId]
+    [roleId],
+    !!roleId
   );
 
-  return { user, role: data?.data.role,isSuccess };
+  return { user, role: data?.data.role, isSuccess };
 }

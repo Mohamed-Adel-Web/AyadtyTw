@@ -17,43 +17,72 @@ import { useForm } from "react-hook-form";
 import { patient } from "@/types/patientTypes/patient";
 import { useMemo } from "react";
 import useEditData from "@/customHooks/crudHooks/useEditData";
-import { patientsUrl } from "@/backend/backend";
-import useUser from "@/customHooks/loginHooks/useUser";
-export default function ProfileSetting({ patient }: { patient: patient }) {
+import { patientsUrl, assistantsUrl, doctorUrl } from "@/backend/backend";
+import { Doctor } from "@/types/doctorsTypes/doctors";
+import { assistant } from "@/types/assistantTypes/assistants";
+import { Role } from "@/types/RolesTypes/role";
+
+type ProfileType = patient | Doctor | assistant;
+
+export default function ProfileSetting({
+  profileData,
+  role,
+}: {
+  profileData: ProfileType;
+  role: Role;
+}) {
   const { register, formState, handleSubmit, control, reset } =
-    useForm<patient>();
+    useForm<ProfileType>();
+  let endpointUrl;
+  switch (role?.permissions?.profileType?.type) {
+    case "doctor":
+      endpointUrl = doctorUrl;
+      break;
+    case "assistant":
+      endpointUrl = assistantsUrl;
+      break;
+    case "patient":
+      endpointUrl = patientsUrl;
+      break;
+    default:
+      endpointUrl = patientsUrl;
+  }
   const { mutate } = useEditData(
-    patientsUrl,
-    patient?.id,
-    "editPatient",
-    "patient",
+    endpointUrl,
+    profileData?.id,
+    `edit${role?.permissions?.profileType?.type}`,
+    `all${role?.permissions?.profileType?.type}`,
     "post"
   );
-  const { role } = useUser();
+
   useMemo(() => {
-    if (patient) {
-      reset({
-        first_name: patient.first_name,
-        last_name: patient.last_name,
-        email: patient.email,
-        phone: patient.phone,
-      });
+    if (profileData) {
+      const { image, ...resetData } = profileData;
+
+      reset(resetData);
     }
-  }, [patient, reset]);
-  const onSubmit = (data: patient) => {
+  }, [profileData, reset]);
+
+  const onSubmit = (data: ProfileType) => {
     const formData = new FormData();
     formData.append("first_name", data.first_name);
     formData.append("last_name", data.last_name);
     formData.append("email", data.email);
     formData.append("password", data.password);
     formData.append("phone", data.phone);
-    formData.append("role_id", role.id);
-
-    if (data.image.length) {
+    formData.append("role_id", role?.id.toString());
+    if ("specialization_id" in profileData && profileData.specialization_id) {
+      formData.append(
+        "specialization_id",
+        profileData.specialization_id.toString()
+      );
+    }
+    if (data.image && data.image[0]) {
       formData.append("image", data.image[0]);
     }
     mutate(formData);
   };
+
   const { errors } = formState;
   return (
     <>
@@ -67,7 +96,7 @@ export default function ProfileSetting({ patient }: { patient: patient }) {
             <div className="grid gap-0.5">
               <div className="text-lg font-semibold"></div>
               <div className="text-sm text-muted-foreground">
-                {patient?.first_name + "" + patient?.last_name}
+                {profileData?.first_name + " " + profileData?.last_name}
               </div>
             </div>
           </div>
