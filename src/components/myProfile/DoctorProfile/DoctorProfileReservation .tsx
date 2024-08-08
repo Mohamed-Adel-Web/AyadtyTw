@@ -78,9 +78,11 @@ export default function DoctorProfileReservation({
                   <span
                     className={`${
                       reservation.status == "reserved"
-                        ? "text-green-700  bg-green-200  "
+                        ? "text-yellow-700  bg-yellow-200  "
+                        : reservation.status == "confirmed"
+                        ? "text-green-700 bg-green-200"
                         : "text-red-700 bg-red-200"
-                    } py-1 px-2 rounded inline-block font-extrabold`}
+                    } py-1 px-2 rounded-md inline-block font-extrabold`}
                   >
                     {" "}
                     {reservation.status}

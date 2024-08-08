@@ -7,4 +7,5 @@ export const sections = [
   "reservation",
   "examination Type",
   "profileType",
+  "visits"
 ];

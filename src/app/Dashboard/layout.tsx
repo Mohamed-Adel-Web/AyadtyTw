@@ -102,7 +102,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       href: "/Dashboard/visits",
       label: "Visits",
       icon: <MapPinIcon className="h-5 w-5" />,
-      permission: true,
+      permission: hasPermission(role, "visits", "read"),
     },
     {
       href: "/Dashboard/income",

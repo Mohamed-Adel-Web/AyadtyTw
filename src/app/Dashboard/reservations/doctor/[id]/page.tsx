@@ -10,6 +10,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { EventInput } from "@fullcalendar/core/index.js";
 import ReservationFilter from "@/components/Dashboard/reservations/reservationFilters/ReservationFilter";
 import { AddDialog } from "@/components/Dashboard/reservations/AddReservationDialog";
+import { appointment } from "@/types/appointmentTypes/appointments";
 
 export default function DoctorAppointment({
   params,
@@ -33,9 +34,9 @@ export default function DoctorAppointment({
     if (isSuccess) {
       const now = new Date();
       const filteredAppointments = appointmentsData?.filter(
-        (appointment: any) => {
+        (appointment: appointment) => {
           const appointmentEnd = new Date(appointment.time_end);
-          if (appointmentEnd < now) return false; 
+          if (appointmentEnd < now) return false;
           if (filter === "available") return appointment.status;
           if (filter === "notAvailable") return !appointment.status;
           return true;

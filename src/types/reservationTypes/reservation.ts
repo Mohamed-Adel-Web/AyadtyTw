@@ -4,6 +4,7 @@ import {
   appointmentDetails,
 } from "@/types/appointmentTypes/appointments";
 import { patient, patientDetails } from "./../patientTypes/patient";
+import { Doctor } from "../doctorsTypes/doctors";
 export interface reservation {
   id: number;
   patient_id: number;
@@ -16,4 +17,9 @@ export interface reservation {
 export interface reservationDetails extends reservation {
   patient: patientDetails;
   appointment: appointmentDetails;
+  doctor: Doctor;
+}
+export interface confirmData {
+  extra_amount: number;
+  comment: string;
 }
