@@ -1,8 +1,5 @@
 import ClinicNavBar from "@/components/clinicSite/clinicNavBar";
 
-
-
-
 export default function clinicLayout({
   children,
 }: Readonly<{

@@ -12,12 +12,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { Doctor, DoctorDetails } from "@/types/doctorsTypes/doctors";
+import { Doctor } from "@/types/doctorsTypes/doctors";
 import { doctorUrl, examinationTypeUrl, rolesUrl } from "@/backend/backend";
 import useEditData from "@/customHooks/crudHooks/useEditData";
 import { fields } from "./fields";
 import useGetData from "@/customHooks/crudHooks/useGetData";
-import { Role } from "@/types/RolesTypes/role";
 import {
   examination,
   examinationDetails,

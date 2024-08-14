@@ -11,7 +11,6 @@ import { Label } from "@/components/ui/label";
 import useAddData from "@/customHooks/crudHooks/useAddData";
 import {
   doctorExaminationTypeUrl,
-  examinationTypeUrl,
   patientsUrl,
   reservationUrl,
 } from "@/backend/backend";

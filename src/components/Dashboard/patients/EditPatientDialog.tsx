@@ -16,7 +16,6 @@ import { doctorUrl, patientsUrl, rolesUrl } from "@/backend/backend";
 import useEditData from "@/customHooks/crudHooks/useEditData";
 import { fields } from "./fields";
 import { patient, patientDetails } from "@/types/patientTypes/patient";
-import { Doctor } from "@/types/doctorsTypes/doctors";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { Role } from "@/types/RolesTypes/role";
 export function EditDialog({
