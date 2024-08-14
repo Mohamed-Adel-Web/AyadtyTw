@@ -36,13 +36,14 @@ export default function App() {
     setSelectedData(data);
     setOpenDelete(true);
   };
-  const { user,role,isSuccess } = useUser();
+  const { user, role, isSuccess } = useUser();
   const columns = createColumns<examinationDetails>(
     ["name", "amount", "color", "doctor.first_name", "doctor.last_name"],
-    handleOpenEditDialog,
-    handleOpenDeleteDialog,
+
     "examination Type",
-    role
+    role,
+    handleOpenEditDialog,
+    handleOpenDeleteDialog
   );
   if (isSuccess && !hasPermission(role, "examination Type", "read")) {
     router.push("/unauthorized");

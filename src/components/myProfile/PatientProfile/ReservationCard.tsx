@@ -15,7 +15,12 @@ import { Badge } from "@/components/ui/badge";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { appointmentUrl } from "@/backend/backend";
 import { formatDateTime, getBadgeClass } from "@/lib/utils";
-import { CalendarIcon, ClockIcon } from "lucide-react";
+import {
+  BadgeDollarSign,
+  CalendarIcon,
+  ClockIcon,
+  Contact,
+} from "lucide-react";
 
 export default function ReservationCard({
   reservation,
@@ -56,8 +61,19 @@ export default function ReservationCard({
           <CalendarIcon className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500 mr-2" />
           <span className="font-semibold">Reservation Time : </span>{" "}
           {formatDateTime(reservation.created_at)}
+        </div>{" "}
+        <div className="col-span-1 sm:col-span-2 flex items-center text-sm sm:text-base">
+          <BadgeDollarSign className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500 mr-2" />
+          <span className="font-semibold">Reservation Amount : </span>{" "}
+          {reservation.examination_type.amount}
+        </div>{" "}
+        <div className="col-span-1 sm:col-span-2 flex items-center text-sm sm:text-base">
+          <Contact className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500 mr-2" />
+          <span className="font-semibold">Doctor Name : </span>{" "}
+          {reservation.examination_type.doctor.first_name +
+            " " +
+            reservation.examination_type.doctor.last_name}
         </div>
-
         {isLoading && (
           <div className="col-span-1 sm:col-span-2 text-center text-sm sm:text-base text-gray-500">
             Loading appointment details...
@@ -71,8 +87,8 @@ export default function ReservationCard({
         {appointmentDetails && (
           <>
             <div className="flex items-center text-sm sm:text-base">
-              <ClockIcon className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500 mr-2" />
-              <span className="font-semibold">Start Time:</span>{" "}
+              <ClockIcon className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500 mr-2 te" />
+              <span className="font-semibold ">Start Time:</span>{" "}
               {formatDateTime(appointmentDetails.time_start)}
             </div>
             <div className="flex items-center text-sm sm:text-base">

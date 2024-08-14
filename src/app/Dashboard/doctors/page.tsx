@@ -37,18 +37,12 @@ export default function App() {
   const { user, role, isSuccess } = useUser();
 
   const columns = createColumns<DoctorDetails>(
-    [
-      "first_name",
-      "last_name",
-      "email",
-      "phone",
-      "specialization.name",
+    ["first_name", "last_name", "email", "phone", "specialization.name"],
 
-    ],
-    handleOpenEditDialog,
-    handleOpenDeleteDialog,
     "doctor",
-    role
+    role,
+    handleOpenEditDialog,
+    handleOpenDeleteDialog
   );
   if (isSuccess && !hasPermission(role, "doctor", "read")) {
     router.push("/unauthorized");
@@ -71,7 +65,6 @@ export default function App() {
             "email",
             "phone",
             "specialization.name",
-          
           ]}
           filterPlaceholder="Filter..."
         />

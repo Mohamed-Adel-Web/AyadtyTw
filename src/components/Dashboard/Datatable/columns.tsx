@@ -27,10 +27,11 @@ export function hasStatus(obj: any): obj is { status: boolean } {
 
 export function createColumns<T extends BaseData>(
   props: (keyof T | string)[],
-  handleOpenEditDialog: (row: T) => void,
-  handleOpenDeleteDialog: (row: T) => void,
   currentSection: string,
-  role: Role
+  role: Role,
+  handleOpenEditDialog?: (row: T) => void,
+  handleOpenDeleteDialog?: (row: T) => void,
+  handleShowTransactionsDialog?: (row: T) => void
 ): ColumnDef<T>[] {
   return [
     {
@@ -74,16 +75,25 @@ export function createColumns<T extends BaseData>(
         prop === "status" ? (
           <div
             className={` ${
-              hasStatus(row.original)
-                ? row.original.status
-                  ? "text-green-700 font-extrabold bg-green-200 inline-block py-1 px-2 rounded"
-                  : "text-red-700 font-extrabold bg-red-200 inline-block py-1 px-2 rounded"
+              row.original.status === "confirmed"
+                ? "text-green-700 font-extrabold bg-green-200 inline-block py-1 px-2 rounded"
+                : row.original.status === "pending"
+                ? "text-yellow-700 font-extrabold bg-yellow-200 inline-block py-1 px-2 rounded"
+                : row.original.status === "canceled"
+                ? "text-red-700 font-extrabold bg-red-200 inline-block py-1 px-2 rounded"
+                : row.original.status === "available"
+                ? "text-green-700 font-extrabold bg-green-200 inline-block py-1 px-2 rounded"
+                : row.original.status === "not-available"
+                ? "text-red-700 font-extrabold bg-red-200 inline-block py-1 px-2 rounded"
                 : ""
             }`}
           >
-            {row.original.status ? "Available" : "Not Available"}
+            {row.original.status.charAt(0).toUpperCase() +
+              row.original.status.slice(1)}
           </div>
-        ) : prop === "time_start" || prop === "time_end" ? (
+        ) : prop === "time_start" ||
+          prop === "time_end" ||
+          prop === "created_at" ? (
           <div className="border-r border-gray-200 px-3 py-2">
             {formatDateTime(getNestedValue(row.original, prop as string))}
           </div>
@@ -123,7 +133,8 @@ export function createColumns<T extends BaseData>(
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              {hasPermission(role, currentSection, "delete") ? (
+              {hasPermission(role, currentSection, "delete") &&
+              handleOpenDeleteDialog ? (
                 <Button
                   className="w-full bg-red-700 hover:bg-red-700"
                   onClick={() => handleOpenDeleteDialog(rowOriginal)}
@@ -134,12 +145,25 @@ export function createColumns<T extends BaseData>(
                 ""
               )}
               <DropdownMenuSeparator />
-              {hasPermission(role, currentSection, "update") ? (
+
+              {hasPermission(role, currentSection, "update") &&
+              handleOpenEditDialog ? (
                 <Button
                   className="w-full bg-blue-600 hover:bg-blue-600"
                   onClick={() => handleOpenEditDialog(rowOriginal)}
                 >
                   Edit
+                </Button>
+              ) : (
+                ""
+              )}
+
+              {handleShowTransactionsDialog ? (
+                <Button
+                  className="w-full bg-blue-600 hover:bg-blue-600"
+                  onClick={() => handleShowTransactionsDialog(rowOriginal)}
+                >
+                  Show Transaction Details
                 </Button>
               ) : (
                 ""
@@ -153,4 +177,3 @@ export function createColumns<T extends BaseData>(
     },
   ];
 }
-

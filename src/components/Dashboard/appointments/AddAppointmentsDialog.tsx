@@ -121,9 +121,9 @@ export function AddDialog({
               className="block w-full mt-3 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             >
               <option value="">Select status</option>
-              <option value={1}>Available</option>
+              <option value={"available"}>Available</option>
 
-              <option value={0}>Not Available</option>
+              <option value={"not-available"}>Not Available</option>
             </select>
             {errors.status && (
               <div className="text-red-500 w-full">

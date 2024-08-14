@@ -74,7 +74,7 @@ export function EditDialog({
         phone: doctor.phone,
         specialization_id: doctor.specialization.id,
 
-        role: doctor.role,
+        role_id: doctor.role_id,
       });
     }
   }, [doctor, reset]);
@@ -142,7 +142,7 @@ export function EditDialog({
             </Label>
             <select
               id="role"
-              {...register("role.id", {
+              {...register("role_id", {
                 required: "Role is required",
               })}
               className="block w-full mt-2 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"

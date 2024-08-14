@@ -10,6 +10,7 @@ import {
 import { Label } from "@/components/ui/label";
 import useAddData from "@/customHooks/crudHooks/useAddData";
 import {
+  doctorExaminationTypeUrl,
   examinationTypeUrl,
   patientsUrl,
   reservationUrl,
@@ -21,18 +22,20 @@ import { patient } from "@/types/patientTypes/patient";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { examinationDetails } from "@/types/examinationTypes/examinationTypes";
 import Select from "react-select";
-import { hasPermission } from "@/lib/utils";
 import useUser from "@/customHooks/loginHooks/useUser";
 export function AddDialog({
   open,
   onOpenChange,
   appointmentId,
+  doctorId,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  doctorId: string;
   appointmentId: number;
 }) {
-  const { formState, handleSubmit, reset, setValue } = useForm<reservation>();
+  const { formState, handleSubmit, reset, setValue, register } =
+    useForm<reservation>();
   const { user, role } = useUser();
   const [examinationPrice, setExaminationPrice] = useState<number>();
   const { mutate, isSuccess, isPending } = useAddData<reservation>(
@@ -42,8 +45,10 @@ export function AddDialog({
   );
   const { data: patientResponse } = useGetData(patientsUrl, "allPatient");
   const { data: examinationResponse } = useGetData(
-    examinationTypeUrl,
-    "allExaminationType"
+    `${doctorExaminationTypeUrl}/${doctorId}`,
+    "allExaminationType",
+    [doctorId],
+    !!doctorId
   );
   const patientsData = patientResponse?.data.data;
   const examinationTypeData = examinationResponse?.data.data;
@@ -115,7 +120,6 @@ export function AddDialog({
               )}
             </div>
           )}
-
           <div className="space-y-2 my-3">
             <Label htmlFor="examination" className="text-right">
               Examination Type
@@ -139,6 +143,31 @@ export function AddDialog({
                 }),
               }}
             />
+            {errors.examination_id && (
+              <div className="text-red-500 w-full">
+                {errors.examination_id?.message}
+              </div>
+            )}
+          </div>{" "}
+          <div className="space-y-2 my-3">
+            <Label htmlFor="paymentMethod" className="text-right">
+              payment Method
+            </Label>
+            <select
+              id="paymentMethod"
+              {...register("payment_method", {
+                required: "payment method required",
+              })}
+              className="block w-full mt-2 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            >
+              <option value="">Select payment method</option>
+              <option key={"cash"} value={"cash"} className="m5-2">
+                cash
+              </option>
+              <option key={"visa"} value={"visa"} className="m5-2">
+                visa
+              </option>
+            </select>
             {errors.examination_id && (
               <div className="text-red-500 w-full">
                 {errors.examination_id?.message}

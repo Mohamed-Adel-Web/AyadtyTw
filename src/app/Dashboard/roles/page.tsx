@@ -38,10 +38,11 @@ export default function App() {
   const { user, role, isSuccess } = useUser();
   const columns = createColumns<Role>(
     ["name"],
-    handleOpenEditDialog,
-    handleOpenDeleteDialog,
+
     "patient",
-    role
+    role,
+    handleOpenEditDialog,
+    handleOpenDeleteDialog
   );
   if (isSuccess && role?.name !== "superAdmin") {
     router.push("/unauthorized");

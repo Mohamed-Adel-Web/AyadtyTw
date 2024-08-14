@@ -39,7 +39,6 @@ export default function App() {
     [user?.id],
     !!user?.id && !!endpointUrl
   );
-
   const profileData = data?.data.data;
   const reservationData = data?.data.reservations;
 

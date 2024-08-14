@@ -37,13 +37,14 @@ export default function App() {
     setSelectedData(data);
     setOpenDelete(true);
   };
-  const { user,role,isSuccess } = useUser();
+  const { user, role, isSuccess } = useUser();
   const columns = createColumns<patientDetails>(
-    ["first_name", "last_name", "phone", "email",],
-    handleOpenEditDialog,
-    handleOpenDeleteDialog,
+    ["first_name", "last_name", "phone", "email"],
+
     "patient",
-    role
+    role,
+    handleOpenEditDialog,
+    handleOpenDeleteDialog
   );
   if (isSuccess && !hasPermission(role, "patient", "read")) {
     router.push("/unauthorized");
@@ -62,7 +63,7 @@ export default function App() {
         <DataTable
           columns={columns}
           data={patientsData}
-          filterKeys={["full_name", "phone", "email", ]}
+          filterKeys={["full_name", "phone", "email"]}
           filterPlaceholder="Filter..."
         />
       )}

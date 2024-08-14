@@ -37,23 +37,25 @@ export default function DoctorAppointment({
         (appointment: appointment) => {
           const appointmentEnd = new Date(appointment.time_end);
           if (appointmentEnd < now) return false;
-          if (filter === "available") return appointment.status;
-          if (filter === "notAvailable") return !appointment.status;
+          if (filter === "available") return appointment.status == "available";
+          if (filter === "notAvailable")
+            return appointment.status == "not-available";
           return true;
         }
       );
       const appointments = filteredAppointments?.map((appointment: any) => ({
         id: appointment.id,
-        title: appointment.status ? `available` : "not available",
+        title: appointment.status,
         start: appointment.time_start,
         end: appointment.time_end,
-        backgroundColor: appointment.status ? "green" : "red",
-        borderColor: appointment.status ? "green" : "red",
+        backgroundColor: appointment.status == "available" ? "green" : "red",
+        borderColor: appointment.status == "available" ? "green" : "red",
         textColor: "white",
         status: appointment.status,
-        className: appointment.status
-          ? "available-appointment cursor-pointer"
-          : "unavailable-appointment cursor-not-allowed",
+        className:
+          appointment.status == "available"
+            ? "available-appointment cursor-pointer"
+            : "unavailable-appointment cursor-not-allowed",
       }));
       setEvents(appointments);
     }
@@ -61,7 +63,9 @@ export default function DoctorAppointment({
 
   const handleEventClick = (info: any) => {
     setAppointmentId(info.event.id);
-    info.event.extendedProps.status ? setOpen(true) : setOpen(false);
+    info.event.extendedProps.status == "available"
+      ? setOpen(true)
+      : setOpen(false);
   };
 
   const handleFilterChange = (newFilter: string) => {
@@ -97,6 +101,7 @@ export default function DoctorAppointment({
       <AddDialog
         open={open}
         onOpenChange={setOpen}
+        doctorId={doctorId}
         appointmentId={appointmentId}
       />
     </div>

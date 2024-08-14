@@ -1,4 +1,4 @@
-import { examination } from "./../examinationTypes/examinationTypes";
+import { examinationDetails } from "./../examinationTypes/examinationTypes";
 import {
   appointment,
   appointmentDetails,
@@ -12,11 +12,17 @@ export interface reservation {
   examination_id: number;
   status: string;
   created_at: string;
-  examination_type: examination;
+  examination_type: examinationDetails;
+  payment_method: PaymentMethod;
+  
+}
+export enum PaymentMethod {
+  cash = "cash",
+  visa = "visa",
 }
 export interface reservationDetails extends reservation {
   patient: patientDetails;
-  appointment: appointmentDetails;
+  appointment: appointmentDetails ;
   doctor: Doctor;
 }
 export interface confirmData {

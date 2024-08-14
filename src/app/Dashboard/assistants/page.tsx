@@ -35,11 +35,19 @@ export default function App() {
     setOpenDelete(true);
   };
   const columns = createColumns<assistantDetails>(
-    ["full_name", "phone", "email", "doctor.full_name"],
-    handleOpenEditDialog,
-    handleOpenDeleteDialog,
+    [
+      "first_name",
+      "last_name",
+      "phone",
+      "email",
+      "doctor.first_name",
+      "doctor.last_name",
+    ],
+
     "assistant",
-    role
+    role,
+    handleOpenEditDialog,
+    handleOpenDeleteDialog
   );
   if (isSuccess && !hasPermission(role, "assistant", "read")) {
     router.push("/unauthorized");

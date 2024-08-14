@@ -10,3 +10,5 @@ export const appointmentUrl = `${baseUrl}/appointments`;
 export const reservationUrl = `${baseUrl}/reservations`;
 export const reservationCancelUrl = `${baseUrl}/reservations/cancel`;
 export const examinationTypeUrl = `${baseUrl}/examination-types`;
+export const doctorExaminationTypeUrl = `${baseUrl}/examination-types/doctor`;
+export const paymentUrl = `${baseUrl}/payments`;

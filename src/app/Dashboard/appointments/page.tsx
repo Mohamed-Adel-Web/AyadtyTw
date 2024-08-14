@@ -51,10 +51,11 @@ export default function App() {
       "doctor.first_name",
       "doctor.last_name",
     ],
-    handleOpenEditDialog,
-    handleOpenDeleteDialog,
+
     "appointment",
-    role
+    role,
+    handleOpenEditDialog,
+    handleOpenDeleteDialog
   );
   if (isSuccess && !hasPermission(role, "appointment", "read")) {
     router.push("/unauthorized");

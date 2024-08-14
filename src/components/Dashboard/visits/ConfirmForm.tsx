@@ -33,7 +33,7 @@ export default function ConfirmForm({
     if (isSuccess) {
      handleFormClose()
     }
-  }, [isSuccess]);
+  }, [isSuccess,handleFormClose]);
   const onSubmit = (data: confirmData) => {
     mutate(data);
   };
