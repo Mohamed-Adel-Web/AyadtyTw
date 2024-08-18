@@ -18,7 +18,7 @@ export const useRegisterPatient = () => {
     mutationKey: ["registerPatient"],
     mutationFn: registerPatientRequest,
     onSuccess: (data) => {
-      if (data.data.status === "success") {
+      if (data.data.status === 200) {
         toast({
           title: `${data.data.message}`,
         });
@@ -26,7 +26,7 @@ export const useRegisterPatient = () => {
         Cookies.set("user", JSON.stringify(data.data.data.user), { expires: 30 });
         setToken(data.data.token);
         setUser(data.data.data.user);
-        // window.location.href = "/Dashboard"; 
+        window.location.href = "/Dashboard"; 
       } else {
         toast({
           variant: "destructive",

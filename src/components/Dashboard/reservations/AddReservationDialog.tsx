@@ -36,6 +36,7 @@ export function AddDialog({
 }) {
   const { formState, handleSubmit, reset, setValue, register } =
     useForm<reservation>();
+  const paymentMethods = ["cash", "visa", "wallet", "fawry"];
   const { user, role } = useUser();
   const [examinationPrice, setExaminationPrice] = useState<number>();
   const { mutate, isSuccess, isPending } = useAddData<reservation>(
@@ -161,12 +162,17 @@ export function AddDialog({
               className="block w-full mt-2 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             >
               <option value="">Select payment method</option>
-              <option key={"cash"} value={"cash"} className="m5-2">
-                cash
-              </option>
-              <option key={"visa"} value={"visa"} className="m5-2">
-                visa
-              </option>
+              {paymentMethods.map((paymentMethod) => {
+                return (
+                  <option
+                    key={`${paymentMethod}`}
+                    value={`${paymentMethod}`}
+                    className="m5-2"
+                  >
+                    {paymentMethod}
+                  </option>
+                );
+              })}
             </select>
             {errors.examination_id && (
               <div className="text-red-500 w-full">

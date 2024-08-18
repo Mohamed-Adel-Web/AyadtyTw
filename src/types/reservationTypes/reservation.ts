@@ -28,4 +28,5 @@ export interface reservationDetails extends reservation {
 export interface confirmData {
   extra_amount: number;
   comment: string;
+  discount: number;
 }

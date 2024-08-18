@@ -31,9 +31,9 @@ export default function ConfirmForm({
   );
   useEffect(() => {
     if (isSuccess) {
-     handleFormClose()
+      handleFormClose();
     }
-  }, [isSuccess,handleFormClose]);
+  }, [isSuccess, handleFormClose]);
   const onSubmit = (data: confirmData) => {
     mutate(data);
   };
@@ -50,6 +50,17 @@ export default function ConfirmForm({
           className="mt-1 px-3 py-2 border border-gray-300 rounded-md"
         />
       </div>
+      <div className="flex flex-col">
+        <Label htmlFor="discount" className="font-bold text-gray-700">
+          discount
+        </Label>
+        <Input
+          type="number"
+          id="discount"
+          {...register("discount")}
+          className="mt-1 px-3 py-2 border border-gray-300 rounded-md"
+        />
+      </div>{" "}
       <div className="flex flex-col">
         <Label htmlFor="comment" className="font-bold text-gray-700">
           Comment

@@ -8,5 +8,5 @@ export const sections = [
   "examination Type",
   "profileType",
   "visits",
-  "income",
+  "vital history",
 ];

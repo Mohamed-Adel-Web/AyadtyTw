@@ -22,6 +22,7 @@ import {
   ClipboardIcon,
   MapPinIcon,
   DollarSignIcon,
+  BriefcaseMedicalIcon,
 } from "lucide-react";
 import Sidebar from "@/components/Dashboard/DashboardLayout/DashboardSidebar";
 import Header from "@/components/Dashboard/DashboardLayout/DashboardHeader";
@@ -78,6 +79,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       href: "/Dashboard/patients",
       label: "Patients",
       icon: <UserIcon className="h-5 w-5" />,
+      permission: hasPermission(role, "patient", "read"),
+    },
+    {
+      href: "/Dashboard/vital-history",
+      label: "Vital History",
+      icon: <BriefcaseMedicalIcon className="h-5 w-5" />,
       permission: hasPermission(role, "patient", "read"),
     },
     {

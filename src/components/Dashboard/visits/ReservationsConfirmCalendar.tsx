@@ -46,35 +46,36 @@ export default function ReservationsCalendar({
     if (isSuccess && reserVationData) {
       const transformedEvents = reserVationData.map(
         (reservation: reservationDetails) => {
-          let backgroundColor;
-          switch (reservation.status) {
-            case "confirmed":
-              backgroundColor = "green";
-              break;
-            case "reserved":
-              backgroundColor = "yellow";
-              break;
-            case "canceled":
-              backgroundColor = "red";
-              break;
-            default:
-              backgroundColor = "gray";
-              break;
+          if (reservation.status !== "canceled") {
+            let backgroundColor;
+            switch (reservation.status) {
+              case "confirmed":
+                backgroundColor = "green";
+                break;
+              case "reserved":
+                backgroundColor = "yellow";
+                break;
+              default:
+                backgroundColor = "gray";
+                break;
+            }
+            return {
+              id: reservation.id,
+              cursor: "pointer  ",
+              title: `${reservation.status}`,
+              start: reservation.appointment.time_start,
+              end: reservation.appointment.time_end,
+              backgroundColor,
+              patient: reservation.patient,
+              examination_type: reservation.examination_type,
+              appointment: reservation.appointment,
+              doctor: reservation.doctor,
+              status: reservation.status,
+              created_at: reservation.created_at,
+            };
+          } else {
+            return {};
           }
-          return {
-            id: reservation.id,
-            cursor: "pointer  ",
-            title: `Reservation ${reservation.status}`,
-            start: reservation.appointment.time_start,
-            end: reservation.appointment.time_end,
-            backgroundColor,
-            patient: reservation.patient,
-            examination_type: reservation.examination_type,
-            appointment: reservation.appointment,
-            doctor: reservation.doctor,
-            status: reservation.status,
-            created_at: reservation.created_at,
-          };
         }
       );
       setEvents(transformedEvents);

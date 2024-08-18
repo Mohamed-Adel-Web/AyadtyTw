@@ -31,6 +31,10 @@ const useAddData = <T,>(
     mutationFn: addDataRequest,
     onSuccess: (data) => {
       if (data.data.status === 200) {
+        if (data.data.payment_url) {
+          window.open(data.data.payment_url, "_blank");
+        }
+
         toast({
           title: `${data.data.message}`,
         });

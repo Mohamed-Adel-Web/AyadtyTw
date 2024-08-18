@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
 import Link from "next/link";
-import { PanelLeftIcon, SearchIcon } from "lucide-react";
+import { PanelLeftIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { LinkItem } from "@/types/linkItem";
 

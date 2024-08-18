@@ -47,9 +47,10 @@ export default function App() {
 
   return (
     <Tabs defaultValue="AccountSettings" className="w-full mx-auto">
-      <TabsList className="grid w-full grid-cols-2">
+      <TabsList className="grid w-full grid-cols-3">
         <TabsTrigger value="AccountSettings">My account</TabsTrigger>
         <TabsTrigger value="reservation">Reservation</TabsTrigger>
+        <TabsTrigger value="vitalHistory">Vital History</TabsTrigger>
       </TabsList>
       <TabsContent value="AccountSettings">
         {profileData && (
@@ -63,8 +64,8 @@ export default function App() {
         {role?.permissions?.profileType?.type === "doctor" && (
           <DoctorProfileReservation reservations={reservationData} />
         )}
- 
       </TabsContent>
+      <TabsContent value="vitalHistory"></TabsContent>
     </Tabs>
   );
 }

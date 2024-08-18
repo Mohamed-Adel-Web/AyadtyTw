@@ -22,7 +22,14 @@ export default function PatientProfileReservation({
     setSelectedData(data);
     setOpenDelete(true);
   };
-
+  if (reservations.length === 0) {
+    return (
+      <>
+        <h2 className="text-3xl font-bold text-gray-800 mb-8">Reservations</h2>{" "}
+        <p className="text-gray-500">No reservations for today.</p>
+      </>
+    );
+  }
   return (
     <div className="mx-auto w-full max-w-3xl p-4 space-y-4">
       {reservations?.map((reservation) => (

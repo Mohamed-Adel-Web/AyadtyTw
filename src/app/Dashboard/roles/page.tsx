@@ -5,7 +5,7 @@ import { DataTable } from "../../../components/Dashboard/Datatable/DataTable";
 import { Button } from "@/components/ui/button";
 import Heading from "@/components/Dashboard/DashboardLayout/Heading";
 import useGetData from "@/customHooks/crudHooks/useGetData";
-import { doctorUrl, rolesUrl } from "@/backend/backend";
+import { rolesUrl } from "@/backend/backend";
 import DeleteDialog from "@/components/generalDialog/DeleteDialog";
 import { Role } from "@/types/RolesTypes/role";
 import { AddDialog } from "@/components/Dashboard/roles/AddRoleDialog";
