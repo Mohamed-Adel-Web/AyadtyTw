@@ -41,7 +41,7 @@ export function AddDialog({
   }, [isSuccess, onOpenChange, reset]);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[780px] overflow-auto">
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
             <DialogTitle>Add New Specialization</DialogTitle>

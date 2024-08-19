@@ -1,6 +1,5 @@
-"use client";
-import React, { useMemo } from "react";
-import { useForm } from "react-hook-form";
+import React, { useMemo, useCallback } from "react";
+import { useForm, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,13 +11,16 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import AsyncSelect from "react-select/async";
 import useAddData from "@/customHooks/crudHooks/useAddData";
-import useGetData from "@/customHooks/crudHooks/useGetData";
 import { appointmentUrl, doctorUrl } from "@/backend/backend";
 import { fields } from "./fields";
-import { Doctor } from "@/types/doctorsTypes/doctors";
 import { appointment } from "@/types/appointmentTypes/appointments";
 import useMinDateTime from "@/customHooks/appointmentHook/useMinDateTime";
+import { Doctor } from "@/types/doctorsTypes/doctors";
+import { IAsyncSelectOption } from "@/types/AsyncSelectOption";
+import { AsyncSelectComponent } from "@/components/Common/AsyncSelect";
+
 export function AddDialog({
   open,
   onOpenChange,
@@ -26,18 +28,21 @@ export function AddDialog({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
-  const { register, formState, handleSubmit, reset } = useForm<appointment>();
+  const { control, register, formState, handleSubmit, reset } =
+    useForm<appointment>();
   const { mutate, isSuccess, isPending } = useAddData<appointment>(
     appointmentUrl,
     "addAppointment",
     "allAppointment"
   );
   const { errors } = formState;
+
   const onSubmit = (data: appointment) => {
     mutate(data);
   };
-  const { data } = useGetData(doctorUrl, "allDoctor");
-  const doctorsData = data?.data.data;
+
+
+
   const minDateTime = useMinDateTime();
 
   useMemo(() => {
@@ -52,12 +57,13 @@ export function AddDialog({
       <DialogContent className="sm:max-w-[480px]">
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
-            <DialogTitle>Add New appointment</DialogTitle>
+            <DialogTitle>Add New Appointment</DialogTitle>
             <DialogDescription>
               Enter the details of the new appointment. Click save when
               you&apos;re done.
             </DialogDescription>
           </DialogHeader>
+
           {fields
             .filter((field) => field.showInAdd)
             .map((field) => (
@@ -84,29 +90,16 @@ export function AddDialog({
                 )}
               </div>
             ))}
+
           <div className="space-y-2 my-3">
-            <Label htmlFor="doctor" className="text-right">
-              Doctor Name
-            </Label>
-            <select
-              id="doctor"
-              {...register("doctor_id", {
-                required: "Doctor name is required",
-              })}
-              className="block w-full mt-3 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            >
-              <option value="">Select doctor</option>
-              {doctorsData?.map((spec: Doctor) => (
-                <option key={spec.id} value={spec.id} className="m5-2">
-                  {spec.first_name + " " + spec.last_name}
-                </option>
-              ))}
-            </select>
-            {errors.doctor_id && (
-              <div className="text-red-500 w-full">
-                {errors.doctor_id?.message}
-              </div>
-            )}
+            <AsyncSelectComponent
+              control={control}
+              name="doctor_id"
+              label="Doctor Name"
+              url={doctorUrl}
+              placeholder="Select doctor..."
+              isRequired={true}
+            />
           </div>
 
           <div className="space-y-2 my-3">
@@ -122,7 +115,6 @@ export function AddDialog({
             >
               <option value="">Select status</option>
               <option value={"available"}>Available</option>
-
               <option value={"not-available"}>Not Available</option>
             </select>
             {errors.status && (

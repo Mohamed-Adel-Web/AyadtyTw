@@ -35,8 +35,7 @@ export function EditDialog({
     "allPatient",
     "post"
   );
-  const { data } = useGetData(doctorUrl, "allDoctor");
-  const doctorsData = data?.data.data;
+
   const { data: resData } = useGetData(rolesUrl, "allRoles");
   const rolesData = resData?.data;
   const { errors } = formState;
@@ -50,7 +49,7 @@ export function EditDialog({
     if (data.image.length) {
       formData.append("image", data.image[0]);
     }
-    formData.append("role_id", data.role.id.toString());
+    formData.append("role_id", data.role_id.toString());
     mutate(formData);
   };
   useMemo(() => {
@@ -60,13 +59,8 @@ export function EditDialog({
   }, [isSuccess, onOpenChange]);
   React.useMemo(() => {
     if (patient) {
-      reset({
-        first_name: patient.first_name,
-        last_name: patient.last_name,
-        email: patient.email,
-        phone: patient.phone,
-        role: patient.role,
-      });
+      const { image, ...restData } = patient;
+      reset(restData);
     }
   }, [patient, reset]);
 
@@ -103,11 +97,11 @@ export function EditDialog({
                 )}
               </div>
             ))}
-  
+
           <h3 className="text-xl font-bold"> Role</h3>
           <select
             id="role"
-            {...register("role.id", {
+            {...register("role_id", {
               required: "role is required",
             })}
             className="block w-full mt-3 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
@@ -119,8 +113,8 @@ export function EditDialog({
               </option>
             ))}
           </select>
-          {errors.role?.id && (
-            <div className="text-red-500 w-full">{errors.role?.id.message}</div>
+          {errors.role_id && (
+            <div className="text-red-500 w-full">{errors.role_id.message}</div>
           )}
 
           <DialogFooter className="mt-3">

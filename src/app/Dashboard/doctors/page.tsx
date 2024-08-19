@@ -22,7 +22,7 @@ export default function App() {
     null
   );
   const { data } = useGetData(doctorUrl, "allDoctor");
-  const doctorsData: DoctorDetails[] = data?.data.data;
+  const doctorsData: DoctorDetails[] = data?.data.data || [];
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
   };

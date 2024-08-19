@@ -22,7 +22,7 @@ export default function App() {
   const [selectedData, setSelectedData] =
     React.useState<assistantDetails | null>(null);
   const { data } = useGetData(assistantsUrl, "allAssistant");
-  const assistantsData = data?.data.data;
+  const assistantsData = data?.data.data ||[];
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
   };

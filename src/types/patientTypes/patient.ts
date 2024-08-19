@@ -8,7 +8,7 @@ export interface patient {
   password: string;
   phone: string;
   image: File[];
-  role: Role;
+  role_id:number
 }
 export interface patientDetails extends Omit<patient, " doctor_id"> {
   doctor: {
@@ -16,4 +16,5 @@ export interface patientDetails extends Omit<patient, " doctor_id"> {
     first_name: string;
     last_name: string;
   };
+  role: Role;
 }

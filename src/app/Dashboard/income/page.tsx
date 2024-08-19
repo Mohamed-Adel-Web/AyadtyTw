@@ -18,7 +18,7 @@ export default function App() {
   const [openDelete, setOpenDelete] = React.useState(false);
   const [selectedData, setSelectedData] = React.useState<IPayment | null>(null);
   const { data } = useGetData(paymentUrl, "allPayments");
-  const paymentsData = data?.data.data;
+  const paymentsData = data?.data.data || [];
 
   const handleShowTransactionsDialog = (data: IPayment) => {
     setSelectedData(data);

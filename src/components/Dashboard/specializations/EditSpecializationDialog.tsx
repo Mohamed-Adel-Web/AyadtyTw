@@ -42,9 +42,7 @@ const EditDialog: React.FC<EditDialogProps> = ({
   };
   React.useMemo(() => {
     if (specialization) {
-      reset({
-        name: specialization.name,
-      });
+      reset(specialization);
     }
   }, [specialization, reset]);
 
@@ -55,7 +53,7 @@ const EditDialog: React.FC<EditDialogProps> = ({
   }, [isSuccess, onOpenChange]);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="sm:max-w-[780px] overflow-auto">
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
             <DialogTitle>Edit Specialization</DialogTitle>

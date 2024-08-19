@@ -12,17 +12,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
-import {
-  assistantsUrl,
-  doctorUrl,
-  rolesUrl,
-} from "@/backend/backend";
+import { assistantsUrl, doctorUrl, rolesUrl } from "@/backend/backend";
 import useAddData from "@/customHooks/crudHooks/useAddData";
 import { fields } from "./fields";
 import { assistant } from "@/types/assistantTypes/assistants";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { Doctor } from "@/types/doctorsTypes/doctors";
 import { Role } from "@/types/RolesTypes/role";
+import { AsyncSelectComponent } from "@/components/Common/AsyncSelect";
 
 export function AddDialog({
   open,
@@ -31,7 +28,7 @@ export function AddDialog({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
-  const { register, formState, handleSubmit, reset } = useForm<assistant>();
+  const { register, formState, handleSubmit, reset,control } = useForm<assistant>();
   const { mutate, isSuccess, isPending } = useAddData<FormData>(
     assistantsUrl,
     "addAssistant",
@@ -97,26 +94,16 @@ export function AddDialog({
               </div>
             ))}
 
-          <h3 className="text-xl font-bold"> Doctor Name</h3>
-          <select
-            id="doctor"
-            {...register("doctor_id", {
-              required: "doctor name is required",
-            })}
-            className="block w-full mt-3 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-          >
-            <option value="">Select doctor</option>
-            {doctorsData?.map((spec: Doctor) => (
-              <option key={spec.id} value={spec.id} className="m5-2">
-                {spec.first_name + " " + spec.last_name}
-              </option>
-            ))}
-          </select>
-          {errors.doctor_id && (
-            <div className="text-red-500 w-full">
-              {errors.doctor_id?.message}
-            </div>
-          )}
+          <div className="space-y-2 my-3">
+            <AsyncSelectComponent
+              control={control}
+              name="doctor_id"
+              label="Doctor Name"
+              url={doctorUrl}
+              placeholder="Select doctor..."
+              isRequired={true}
+            />
+          </div>
           <h3 className="text-xl font-bold"> Role</h3>
           <select
             id="role"

@@ -31,7 +31,8 @@ export function createColumns<T extends BaseData>(
   role: Role,
   handleOpenEditDialog?: (row: T) => void,
   handleOpenDeleteDialog?: (row: T) => void,
-  handleShowTransactionsDialog?: (row: T) => void
+  handleShowTransactionsDialog?: (row: T) => void,
+  handleShowReportDialog?: (row: T) => void
 ): ColumnDef<T>[] {
   return [
     {
@@ -145,7 +146,6 @@ export function createColumns<T extends BaseData>(
                 ""
               )}
               <DropdownMenuSeparator />
-
               {hasPermission(role, currentSection, "update") &&
               handleOpenEditDialog ? (
                 <Button
@@ -157,13 +157,22 @@ export function createColumns<T extends BaseData>(
               ) : (
                 ""
               )}
-
               {handleShowTransactionsDialog ? (
                 <Button
                   className="w-full bg-blue-600 hover:bg-blue-600"
                   onClick={() => handleShowTransactionsDialog(rowOriginal)}
                 >
                   Show Transaction Details
+                </Button>
+              ) : (
+                ""
+              )}{" "}
+              {handleShowReportDialog ? (
+                <Button
+                  className="w-full bg-green-600 hover:bg-green-600 my-2"
+                  onClick={() => handleShowReportDialog(rowOriginal)}
+                >
+                  Show Report
                 </Button>
               ) : (
                 ""

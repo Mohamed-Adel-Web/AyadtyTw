@@ -12,12 +12,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { doctorUrl, examinationTypeUrl } from "@/backend/backend";
-import useGetData from "@/customHooks/crudHooks/useGetData";
+import { doctorUrl, patientsUrl, vitalHistoryUrl } from "@/backend/backend";
 import useAddData from "@/customHooks/crudHooks/useAddData";
-import { examination } from "@/types/examinationTypes/examinationTypes";
 import { fields } from "./fields";
-import { Doctor } from "@/types/doctorsTypes/doctors";
+import { patient } from "@/types/patientTypes/patient";
+import useGetData from "@/customHooks/crudHooks/useGetData";
+import { IVitalHistory } from "@/types/vitalHistoryTypes/vitalHistory";
+import { Textarea } from "@/components/ui/textarea";
 import { AsyncSelectComponent } from "@/components/Common/AsyncSelect";
 export function AddDialog({
   open,
@@ -26,15 +27,15 @@ export function AddDialog({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
-  const { register, formState, handleSubmit, reset, control } =
-    useForm<examination>();
-  const { mutate, isSuccess, isPending } = useAddData<examination>(
-    examinationTypeUrl,
-    "addExaminationType",
-    "allExaminationType"
+  const { register, formState, handleSubmit, control, reset } =
+    useForm<IVitalHistory>();
+  const { mutate, isSuccess, isPending } = useAddData<IVitalHistory>(
+    vitalHistoryUrl,
+    "addVitalHistory",
+    "allVitalHistory"
   );
   const { errors } = formState;
-  const onSubmit = (data: examination) => {
+  const onSubmit = (data: IVitalHistory) => {
     mutate(data);
   };
   useMemo(() => {
@@ -43,15 +44,16 @@ export function AddDialog({
       reset();
     }
   }, [isSuccess, onOpenChange, reset]);
-
+  const { data } = useGetData(patientsUrl, "allPatient");
+  const patientsData: patient[] = data?.data.data;
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[480px]">
-        <form noValidate onSubmit={handleSubmit(onSubmit)}>
+      <DialogContent className="sm:max-w-[780px] overflow-auto">
+        <form noValidate onSubmit={handleSubmit(onSubmit)} className="w-full">
           <DialogHeader>
-            <DialogTitle>Add New Examination Type</DialogTitle>
+            <DialogTitle>Add New Vital History</DialogTitle>
             <DialogDescription>
-              Enter the details of the new Examination. Click save when
+              Enter the details of the new Vital History. Click save when
               you&apos;re done.
             </DialogDescription>
           </DialogHeader>
@@ -77,7 +79,32 @@ export function AddDialog({
                   </div>
                 )}
               </div>
-            ))}{" "}
+            ))}
+          <div className="space-y-2 my-3">
+            <Label htmlFor={"Report"} className="text-right">
+              Report
+            </Label>
+            <Textarea
+              id={"report"}
+              className="col-span-3"
+              {...register("report")}
+            />
+            {errors.report && (
+              <div className="text-red-500 w-full">
+                {errors.report?.message}
+              </div>
+            )}
+          </div>
+          <div className="space-y-2 my-3">
+            <AsyncSelectComponent
+              control={control}
+              name="patient_id"
+              label="Patient Name"
+              url={patientsUrl}
+              placeholder="Select patient..."
+              isRequired={true}
+            />
+          </div>{" "}
           <div className="space-y-2 my-3">
             <AsyncSelectComponent
               control={control}

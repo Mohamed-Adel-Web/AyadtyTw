@@ -24,7 +24,7 @@ export default function App() {
     null
   );
   const { data } = useGetData(specializationUrl, "allSpecialization");
-  const specializationsData = data?.data.data;
+  const specializationsData = data?.data.data ||[];
 
   const handleOpenAddDialog = () => {
     setOpenAdd(true);

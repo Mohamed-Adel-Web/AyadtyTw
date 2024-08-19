@@ -21,6 +21,7 @@ import {
   examination,
   examinationDetails,
 } from "@/types/examinationTypes/examinationTypes";
+import { AsyncSelectComponent } from "@/components/Common/AsyncSelect";
 
 export function EditDialog({
   open,
@@ -31,7 +32,8 @@ export function EditDialog({
   onOpenChange: (open: boolean) => void;
   examinationType: examinationDetails | null;
 }) {
-  const { register, formState, handleSubmit, reset } = useForm<examination>();
+  const { register, formState, handleSubmit, reset, control } =
+    useForm<examination>();
   const { mutate, isSuccess, isPending } = useEditData<examination>(
     examinationTypeUrl,
     examinationType?.id,
@@ -53,12 +55,7 @@ export function EditDialog({
   }, [isSuccess, onOpenChange]);
   React.useMemo(() => {
     if (examinationType) {
-      reset({
-        name: examinationType.name,
-        amount: examinationType.amount,
-        color: examinationType.color,
-        doctor_id: examinationType.doctor.id,
-      });
+      reset(examinationType);
     }
   }, [examinationType, reset]);
 
@@ -69,8 +66,8 @@ export function EditDialog({
           <DialogHeader>
             <DialogTitle>Edit Examination Type</DialogTitle>
             <DialogDescription>
-              Enter the details of the Examination Type. Click save when you&apos;re
-              done.
+              Enter the details of the Examination Type. Click save when
+              you&apos;re done.
             </DialogDescription>
           </DialogHeader>
           {fields
@@ -97,28 +94,22 @@ export function EditDialog({
               </div>
             ))}
           <div className="space-y-2 my-3">
-            <Label htmlFor="doctor" className="text-right">
-              Doctor Name
-            </Label>
-            <select
-              id="doctor"
-              {...register("doctor_id", {
-                required: "Doctor name is required",
-              })}
-              className="block w-full mt-3 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            >
-              <option value="">Select doctor</option>
-              {doctorsData?.map((spec: Doctor) => (
-                <option key={spec.id} value={spec.id} className="m5-2">
-                  {spec.first_name + " " + spec.last_name}
-                </option>
-              ))}
-            </select>
-            {errors.doctor_id && (
-              <div className="text-red-500 w-full">
-                {errors.doctor_id?.message}
-              </div>
-            )}
+            <AsyncSelectComponent
+              control={control}
+              name="doctor_id"
+              label="Doctor Name"
+              url={doctorUrl}
+              placeholder="Select doctor..."
+              isRequired={true}
+              defaultValue={{
+                label:
+                  examinationType?.doctor.first_name +
+                  " " +
+                  examinationType?.doctor.last_name,
+
+                value: examinationType?.doctor.id ?? 0,
+              }}
+            />
           </div>
           <DialogFooter className="mt-3">
             <Button type="submit" disabled={isPending}>
