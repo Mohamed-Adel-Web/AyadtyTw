@@ -17,7 +17,6 @@ import useAddData from "@/customHooks/crudHooks/useAddData";
 import { fields } from "./fields";
 import { patient } from "@/types/patientTypes/patient";
 import useGetData from "@/customHooks/crudHooks/useGetData";
-import { Doctor } from "@/types/doctorsTypes/doctors";
 import { Role } from "@/types/RolesTypes/role";
 export function AddDialog({
   open,

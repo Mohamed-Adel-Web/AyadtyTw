@@ -16,7 +16,6 @@ import {
   assistantsUrl,
   doctorUrl,
   rolesUrl,
-  specializationUrl,
 } from "@/backend/backend";
 import useAddData from "@/customHooks/crudHooks/useAddData";
 import { fields } from "./fields";

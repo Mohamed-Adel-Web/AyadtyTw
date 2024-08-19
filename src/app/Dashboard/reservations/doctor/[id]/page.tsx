@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
-import { doctorUrl, reservationUrl } from "@/backend/backend";
+import React, { useState, useMemo } from "react";
+import { doctorUrl } from "@/backend/backend";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
