@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import useEditData from "@/customHooks/crudHooks/useEditData";
 import { specializationUrl } from "@/backend/backend";
 import { Label } from "@radix-ui/react-label";
+import DialogLayout from "@/components/generalDialog/DialogLayout";
 
 interface EditDialogProps {
   open: boolean;
@@ -52,36 +53,34 @@ const EditDialog: React.FC<EditDialogProps> = ({
     }
   }, [isSuccess, onOpenChange]);
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[780px] overflow-auto">
-        <form noValidate onSubmit={handleSubmit(onSubmit)}>
-          <DialogHeader>
-            <DialogTitle>Edit Specialization</DialogTitle>
-            <DialogClose />
-          </DialogHeader>
-          <div className="space-y-2">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input
-              id="name"
-              defaultValue=""
-              className="col-span-3"
-              {...register("name", {
-                required: "specialization name is required",
-              })}
-            />
-            {errors.name && (
-              <div className="text-red-500 w-full">{errors.name.message}</div>
-            )}
-          </div>
+    <DialogLayout open={open} onOpenChange={onOpenChange}>
+      <form noValidate onSubmit={handleSubmit(onSubmit)}>
+        <DialogHeader>
+          <DialogTitle>Edit Specialization</DialogTitle>
+          <DialogClose />
+        </DialogHeader>
+        <div className="space-y-2">
+          <Label htmlFor="name" className="text-right">
+            Name
+          </Label>
+          <Input
+            id="name"
+            defaultValue=""
+            className="col-span-3"
+            {...register("name", {
+              required: "specialization name is required",
+            })}
+          />
+          {errors.name && (
+            <div className="text-red-500 w-full">{errors.name.message}</div>
+          )}
+        </div>
 
-          <DialogFooter className="mt-3">
-            <Button disabled={isPending}>Save</Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+        <DialogFooter className="mt-3">
+          <Button disabled={isPending}>Save</Button>
+        </DialogFooter>
+      </form>
+    </DialogLayout>
   );
 };
 

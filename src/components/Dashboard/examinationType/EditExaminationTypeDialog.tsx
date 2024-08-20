@@ -22,6 +22,7 @@ import {
   examinationDetails,
 } from "@/types/examinationTypes/examinationTypes";
 import { AsyncSelectComponent } from "@/components/Common/AsyncSelect";
+import DialogLayout from "@/components/generalDialog/DialogLayout";
 
 export function EditDialog({
   open,
@@ -60,64 +61,62 @@ export function EditDialog({
   }, [examinationType, reset]);
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
-        <form noValidate onSubmit={handleSubmit(onSubmit)}>
-          <DialogHeader>
-            <DialogTitle>Edit Examination Type</DialogTitle>
-            <DialogDescription>
-              Enter the details of the Examination Type. Click save when
-              you&apos;re done.
-            </DialogDescription>
-          </DialogHeader>
-          {fields
-            .filter((field) => field.showInEdit)
-            .map((field) => (
-              <div className="space-y-2 my-3" key={field.name}>
-                <Label htmlFor={field.name} className="text-right">
-                  {field.label}
-                </Label>
-                <Input
-                  id={field.name}
-                  type={field.type}
-                  className="col-span-3"
-                  {...register(
-                    field.name,
-                    field.validate ? { required: field.required } : {}
-                  )}
-                />
-                {errors[field.name] && (
-                  <div className="text-red-500 w-full">
-                    {errors[field.name]?.message}
-                  </div>
+    <DialogLayout open={open} onOpenChange={onOpenChange}>
+      <form noValidate onSubmit={handleSubmit(onSubmit)}>
+        <DialogHeader>
+          <DialogTitle>Edit Examination Type</DialogTitle>
+          <DialogDescription>
+            Enter the details of the Examination Type. Click save when
+            you&apos;re done.
+          </DialogDescription>
+        </DialogHeader>
+        {fields
+          .filter((field) => field.showInEdit)
+          .map((field) => (
+            <div className="space-y-2 my-3" key={field.name}>
+              <Label htmlFor={field.name} className="text-right">
+                {field.label}
+              </Label>
+              <Input
+                id={field.name}
+                type={field.type}
+                className="col-span-3"
+                {...register(
+                  field.name,
+                  field.validate ? { required: field.required } : {}
                 )}
-              </div>
-            ))}
-          <div className="space-y-2 my-3">
-            <AsyncSelectComponent
-              control={control}
-              name="doctor_id"
-              label="Doctor Name"
-              url={doctorUrl}
-              placeholder="Select doctor..."
-              isRequired={true}
-              defaultValue={{
-                label:
-                  examinationType?.doctor.first_name +
-                  " " +
-                  examinationType?.doctor.last_name,
+              />
+              {errors[field.name] && (
+                <div className="text-red-500 w-full">
+                  {errors[field.name]?.message}
+                </div>
+              )}
+            </div>
+          ))}
+        <div className="space-y-2 my-3">
+          <AsyncSelectComponent
+            control={control}
+            name="doctor_id"
+            label="Doctor Name"
+            url={doctorUrl}
+            placeholder="Select doctor..."
+            isRequired={true}
+            defaultValue={{
+              label:
+                examinationType?.doctor.first_name +
+                " " +
+                examinationType?.doctor.last_name,
 
-                value: examinationType?.doctor.id ?? 0,
-              }}
-            />
-          </div>
-          <DialogFooter className="mt-3">
-            <Button type="submit" disabled={isPending}>
-              Save changes
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+              value: examinationType?.doctor.id ?? 0,
+            }}
+          />
+        </div>
+        <DialogFooter className="mt-3">
+          <Button type="submit" disabled={isPending}>
+            Save changes
+          </Button>
+        </DialogFooter>
+      </form>
+    </DialogLayout>
   );
 }

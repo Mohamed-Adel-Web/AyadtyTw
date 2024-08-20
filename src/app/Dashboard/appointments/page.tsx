@@ -25,7 +25,7 @@ export default function App() {
   let { data } = useGetData(`${appointmentUrl}${doctorId}`, "allAppointment", [
     doctorId,
   ]);
-  const appointmentsData = data?.data.data;
+  const appointmentsData = data?.data.data || [];
   const handleAppointment = (doctorId: string) => {
     setDoctorId(doctorId);
   };

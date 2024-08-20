@@ -1,8 +1,9 @@
 "use client";
 import { patientsUrl, assistantsUrl, doctorUrl } from "@/backend/backend";
 import DoctorProfileReservation from "@/components/myProfile/DoctorProfile/DoctorProfileReservation ";
+import DoctorProfileSetting from "@/components/myProfile/DoctorProfile/DoctorProfileSetting";
 import PatientProfileReservation from "@/components/myProfile/PatientProfile/PatientProfileReservation";
-
+import PatientProfileVitalHistory from "@/components/myProfile/PatientProfile/PatientProfileVitalHistory";
 import ProfileSetting from "@/components/myProfile/ProfileSetting";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useGetData from "@/customHooks/crudHooks/useGetData";
@@ -41,7 +42,6 @@ export default function App() {
   );
   const profileData = data?.data.data;
   const reservationData = data?.data.reservations;
-
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
@@ -50,7 +50,12 @@ export default function App() {
       <TabsList className="grid w-full grid-cols-3">
         <TabsTrigger value="AccountSettings">My account</TabsTrigger>
         <TabsTrigger value="reservation">Reservation</TabsTrigger>
-        <TabsTrigger value="vitalHistory">Vital History</TabsTrigger>
+        {role?.permissions?.profileType?.type === "doctor" && (
+          <TabsTrigger value="settings">setting</TabsTrigger>
+        )}
+        {role?.permissions?.profileType?.type === "patient" && (
+          <TabsTrigger value="vitalHistory">Vital History</TabsTrigger>
+        )}
       </TabsList>
       <TabsContent value="AccountSettings">
         {profileData && (
@@ -65,7 +70,16 @@ export default function App() {
           <DoctorProfileReservation reservations={reservationData} />
         )}
       </TabsContent>
-      <TabsContent value="vitalHistory"></TabsContent>
+      {role?.permissions?.profileType?.type === "patient" && (
+        <TabsContent value="vitalHistory">
+          <PatientProfileVitalHistory patient={profileData} />
+        </TabsContent>
+      )}{" "}
+      {role?.permissions?.profileType?.type === "doctor" && (
+        <TabsContent value="settings">
+          <DoctorProfileSetting doctor={profileData} />
+        </TabsContent>
+      )}
     </Tabs>
   );
 }

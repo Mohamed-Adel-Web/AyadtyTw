@@ -13,3 +13,5 @@ export const examinationTypeUrl = `${baseUrl}/examination-types`;
 export const doctorExaminationTypeUrl = `${baseUrl}/examination-types/doctor`;
 export const paymentUrl = `${baseUrl}/payments`;
 export const vitalHistoryUrl = `${baseUrl}/vital-histories`;
+export const profileVitalHistoryUrl = `${baseUrl}/vital-history/patient`;
+export const doctorSettingUrl = `${baseUrl}/settings`;

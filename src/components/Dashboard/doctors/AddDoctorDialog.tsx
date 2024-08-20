@@ -19,6 +19,7 @@ import { Specialization } from "@/types/specializationsTypes/specialization";
 import useAddData from "@/customHooks/crudHooks/useAddData";
 import { fields } from "./fields";
 import { Role } from "@/types/RolesTypes/role";
+import DialogLayout from "@/components/generalDialog/DialogLayout";
 
 export function AddDialog({
   open,
@@ -61,94 +62,90 @@ export function AddDialog({
   }, [isSuccess, onOpenChange, reset]);
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange} >
-      <DialogContent className="sm:max-w-[480px]">
-        <form noValidate onSubmit={handleSubmit(onSubmit)}>
-          <DialogHeader>
-            <DialogTitle>Add New Doctor</DialogTitle>
-            <DialogDescription>
-              Enter the details of the new doctor. Click save when you&apos;re
-              done.
-            </DialogDescription>
-          </DialogHeader>
-          {fields
-            .filter((field) => field.showInAdd)
-            .map((field) => (
-              <div className="space-y-2 my-3" key={field.name}>
-                <Label htmlFor={field.name} className="text-right">
-                  {field.label}
-                </Label>
-                <Input
-                  id={field.name}
-                  type={field.type}
-                  className="col-span-3"
-                  {...register(
-                    field.name,
-                    field.validate ? { required: field.required } : {}
-                  )}
-                />
-                {errors[field.name] && (
-                  <div className="text-red-500 w-full">
-                    {errors[field.name]?.message}
-                  </div>
+    <DialogLayout open={open} onOpenChange={onOpenChange}>
+      <form noValidate onSubmit={handleSubmit(onSubmit)}>
+        <DialogHeader>
+          <DialogTitle>Add New Doctor</DialogTitle>
+          <DialogDescription>
+            Enter the details of the new doctor. Click save when you&apos;re
+            done.
+          </DialogDescription>
+        </DialogHeader>
+        {fields
+          .filter((field) => field.showInAdd)
+          .map((field) => (
+            <div className="space-y-2 my-3" key={field.name}>
+              <Label htmlFor={field.name} className="text-right">
+                {field.label}
+              </Label>
+              <Input
+                id={field.name}
+                type={field.type}
+                className="col-span-3"
+                {...register(
+                  field.name,
+                  field.validate ? { required: field.required } : {}
                 )}
-              </div>
+              />
+              {errors[field.name] && (
+                <div className="text-red-500 w-full">
+                  {errors[field.name]?.message}
+                </div>
+              )}
+            </div>
+          ))}
+        <div>
+          <Label htmlFor="specialization" className="text-right">
+            Specialization
+          </Label>
+          <select
+            id="specialization"
+            {...register("specialization_id", {
+              required: "Specialization is required",
+            })}
+            className="block w-full mt-2 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          >
+            <option value="">Select specialization</option>
+            {specializationsData?.map((spec: Specialization) => (
+              <option key={spec.id} value={spec.id} className="m5-2">
+                {spec.name}
+              </option>
             ))}
-          <div>
-            <Label htmlFor="specialization" className="text-right">
-              Specialization
-            </Label>
-            <select
-              id="specialization"
-              {...register("specialization_id", {
-                required: "Specialization is required",
-              })}
-              className="block w-full mt-2 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            >
-              <option value="">Select specialization</option>
-              {specializationsData?.map((spec: Specialization) => (
-                <option key={spec.id} value={spec.id} className="m5-2">
-                  {spec.name}
-                </option>
-              ))}
-            </select>
-            {errors.specialization_id && (
-              <div className="text-red-500 w-full">
-                {errors.specialization_id?.message}
-              </div>
-            )}
-          </div>
-          <div>
-            <Label htmlFor="role" className="text-right">
-              Role
-            </Label>
-            <select
-              id="role"
-              {...register("role.id", {
-                required: "Role is required",
-              })}
-              className="block w-full mt-2 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            >
-              <option value="">Select role</option>
-              {rolesData?.map((spec: Role) => (
-                <option key={spec.id} value={spec.id} className="m5-2">
-                  {spec.name}
-                </option>
-              ))}
-            </select>
-            {errors.role?.id && (
-              <div className="text-red-500 w-full">
-                {errors.role?.id.message}
-              </div>
-            )}
-          </div>
-          <DialogFooter className="mt-3">
-            <Button type="submit" disabled={isPending}>
-              Save changes
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+          </select>
+          {errors.specialization_id && (
+            <div className="text-red-500 w-full">
+              {errors.specialization_id?.message}
+            </div>
+          )}
+        </div>
+        <div>
+          <Label htmlFor="role" className="text-right">
+            Role
+          </Label>
+          <select
+            id="role"
+            {...register("role.id", {
+              required: "Role is required",
+            })}
+            className="block w-full mt-2 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          >
+            <option value="">Select role</option>
+            {rolesData?.map((spec: Role) => (
+              <option key={spec.id} value={spec.id} className="m5-2">
+                {spec.name}
+              </option>
+            ))}
+          </select>
+          {errors.role?.id && (
+            <div className="text-red-500 w-full">{errors.role?.id.message}</div>
+          )}
+        </div>
+        <DialogFooter className="mt-3">
+          <Button type="submit" disabled={isPending}>
+            Save changes
+          </Button>
+        </DialogFooter>
+      </form>
+    </DialogLayout>
   );
 }

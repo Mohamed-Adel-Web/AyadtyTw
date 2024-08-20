@@ -21,6 +21,7 @@
     appointment,
     appointmentDetails,
   } from "@/types/appointmentTypes/appointments";
+import DialogLayout from "@/components/generalDialog/DialogLayout";
 
   export function EditDialog({
     open,
@@ -63,8 +64,7 @@
     }, [appointment, reset]);
 
     return (
-      <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="sm:max-w-[425px]">
+      <DialogLayout open={open} onOpenChange={onOpenChange}>
           <form noValidate onSubmit={handleSubmit(onSubmit)}>
             <DialogHeader>
               <DialogTitle>Edit appointment</DialogTitle>
@@ -150,7 +150,6 @@
               </Button>
             </DialogFooter>
           </form>
-        </DialogContent>
-      </Dialog>
+      </DialogLayout>
     );
   }

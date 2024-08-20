@@ -16,3 +16,8 @@ export interface Doctor {
 export interface DoctorDetails extends Omit<Doctor, " specialization_id"> {
   specialization: Specialization;
 }
+export interface IDoctorSetting {
+  id:number;
+  doctor_id: number;
+  api_key_myfatoorah: string;
+}

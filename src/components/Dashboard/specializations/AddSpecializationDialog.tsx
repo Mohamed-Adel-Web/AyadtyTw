@@ -15,6 +15,7 @@ import { Specialization } from "@/types/specializationsTypes/specialization";
 import { specializationUrl } from "@/backend/backend";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
+import DialogLayout from "@/components/generalDialog/DialogLayout";
 export function AddDialog({
   open,
   onOpenChange,
@@ -40,8 +41,7 @@ export function AddDialog({
     }
   }, [isSuccess, onOpenChange, reset]);
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[780px] overflow-auto">
+    <DialogLayout open={open} onOpenChange={onOpenChange}>
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
             <DialogTitle>Add New Specialization</DialogTitle>
@@ -73,7 +73,6 @@ export function AddDialog({
             </Button>
           </DialogFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+    </DialogLayout>
   );
 }

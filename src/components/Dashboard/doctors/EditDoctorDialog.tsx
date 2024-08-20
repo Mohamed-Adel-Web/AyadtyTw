@@ -19,6 +19,7 @@ import { Specialization } from "@/types/specializationsTypes/specialization";
 import useEditData from "@/customHooks/crudHooks/useEditData";
 import { fields } from "./fields";
 import { Role } from "@/types/RolesTypes/role";
+import DialogLayout from "@/components/generalDialog/DialogLayout";
 
 export function EditDialog({
   open,
@@ -80,8 +81,7 @@ export function EditDialog({
   }, [doctor, reset]);
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+    <DialogLayout open={open} onOpenChange={onOpenChange}>
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
             <DialogTitle>Edit Doctor</DialogTitle>
@@ -166,7 +166,6 @@ export function EditDialog({
             </Button>
           </DialogFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+    </DialogLayout>
   );
 }

@@ -1,9 +1,9 @@
 import { assistant } from "@/types/assistantTypes/assistants";
-import { Doctor } from "@/types/doctorsTypes/doctors";
-import { patient } from "@/types/patientTypes/patient";
+import { Doctor, DoctorDetails } from "@/types/doctorsTypes/doctors";
+import { patient, patientDetails } from "@/types/patientTypes/patient";
 
 export const fields: {
-  name: keyof patient;
+  name: keyof  DoctorDetails ;
   type: string;
   label: string;
   required?: string;

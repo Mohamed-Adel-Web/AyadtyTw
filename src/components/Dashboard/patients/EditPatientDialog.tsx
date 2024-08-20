@@ -18,6 +18,7 @@ import { fields } from "./fields";
 import { patient, patientDetails } from "@/types/patientTypes/patient";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { Role } from "@/types/RolesTypes/role";
+import DialogLayout from "@/components/generalDialog/DialogLayout";
 export function EditDialog({
   open,
   onOpenChange,
@@ -65,65 +66,63 @@ export function EditDialog({
   }, [patient, reset]);
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
-        <form noValidate onSubmit={handleSubmit(onSubmit)}>
-          <DialogHeader>
-            <DialogTitle>Edit Doctor</DialogTitle>
-            <DialogDescription>
-              Enter the details of the doctor. Click save when you&apos;re done.
-            </DialogDescription>
-          </DialogHeader>
-          {fields
-            .filter((field) => field.showInEdit)
-            .map((field) => (
-              <div className="space-y-2 my-2" key={field.name}>
-                <Label htmlFor={field.name} className="text-right">
-                  {field.label}
-                </Label>
-                <Input
-                  id={field.name}
-                  type={field.type}
-                  className="col-span-3"
-                  {...register(
-                    field.name,
-                    field.validate ? { required: field.required } : {}
-                  )}
-                />
-                {errors[field.name] && (
-                  <div className="text-red-500 w-full">
-                    {errors[field.name]?.message}
-                  </div>
+    <DialogLayout open={open} onOpenChange={onOpenChange}>
+      <form noValidate onSubmit={handleSubmit(onSubmit)}>
+        <DialogHeader>
+          <DialogTitle>Edit Doctor</DialogTitle>
+          <DialogDescription>
+            Enter the details of the doctor. Click save when you&apos;re done.
+          </DialogDescription>
+        </DialogHeader>
+        {fields
+          .filter((field) => field.showInEdit)
+          .map((field) => (
+            <div className="space-y-2 my-2" key={field.name}>
+              <Label htmlFor={field.name} className="text-right">
+                {field.label}
+              </Label>
+              <Input
+                id={field.name}
+                type={field.type}
+                className="col-span-3"
+                {...register(
+                  field.name,
+                  field.validate ? { required: field.required } : {}
                 )}
-              </div>
-            ))}
+              />
+              {errors[field.name] && (
+                <div className="text-red-500 w-full">
+                  {errors[field.name]?.message}
+                </div>
+              )}
+            </div>
+          ))}
 
-          <h3 className="text-xl font-bold"> Role</h3>
-          <select
-            id="role"
-            {...register("role_id", {
-              required: "role is required",
-            })}
-            className="block w-full mt-3 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-          >
-            <option value="">Select role</option>
-            {rolesData?.map((spec: Role) => (
-              <option key={spec.id} value={spec.id} className="m5-2">
-                {spec.name}
-              </option>
-            ))}
-          </select>
-          {errors.role_id && (
-            <div className="text-red-500 w-full">{errors.role_id.message}</div>
-          )}
+        <h3 className="text-xl font-bold"> Role</h3>
+        <select
+          id="role"
+          {...register("role_id", {
+            required: "role is required",
+          })}
+          className="block w-full mt-3 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+        >
+          <option value="">Select role</option>
+          {rolesData?.map((spec: Role) => (
+            <option key={spec.id} value={spec.id} className="m5-2">
+              {spec.name}
+            </option>
+          ))}
+        </select>
+        {errors.role_id && (
+          <div className="text-red-500 w-full">{errors.role_id.message}</div>
+        )}
 
-          <DialogFooter className="mt-3">
-            <Button type="submit" disabled={isPending}>
-              Save changes
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+        <DialogFooter className="mt-3">
+          <Button type="submit" disabled={isPending}>
+            Save changes
+          </Button>
+        </DialogFooter>
+      </form>
+    </DialogLayout>
   );
 }

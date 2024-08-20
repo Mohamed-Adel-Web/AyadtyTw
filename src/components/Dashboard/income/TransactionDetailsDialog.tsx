@@ -16,7 +16,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IPayment } from "@/types/paymentTypes/payment";
 import { patient } from "@/types/patientTypes/patient";
 import { Doctor } from "@/types/doctorsTypes/doctors";
-import { Loader } from "lucide-react";
 import LoadingSpinner from "@/components/Common/LoadingSpinner";
 
 interface EditDialogProps {
@@ -61,21 +60,16 @@ const TransactionDetailsDialog: React.FC<EditDialogProps> = ({
           <DialogTitle>Transaction Details</DialogTitle>
           <DialogClose />
         </DialogHeader>
-
-        {/* Show loading indicator while data is being fetched */}
         {isLoadingReservation || isLoadingPatient || isLoadingDoctor ? (
           <div className="flex justify-center items-center h-64">
             <LoadingSpinner />
-            {/* Replace with your spinner component */}
           </div>
         ) : (
           patient &&
           reservation &&
           doctor && (
             <div className="space-y-4">
-              {/* Two-column layout for patient and doctor details */}
               <div className="grid grid-cols-2 gap-4">
-                {/* Patient Details */}
                 <Card className="border-b pb-4">
                   <CardHeader>
                     <CardTitle>Patient Details</CardTitle>
@@ -94,7 +88,6 @@ const TransactionDetailsDialog: React.FC<EditDialogProps> = ({
                   </CardContent>
                 </Card>
 
-                {/* Doctor Details */}
                 <Card className="border-b pb-4">
                   <CardHeader>
                     <CardTitle>Doctor Details</CardTitle>
@@ -115,7 +108,6 @@ const TransactionDetailsDialog: React.FC<EditDialogProps> = ({
                 </Card>
               </div>
 
-              {/* Appointment Details */}
               <Card className="border-b pb-4">
                 <CardHeader>
                   <CardTitle>Appointment Details</CardTitle>
@@ -136,7 +128,6 @@ const TransactionDetailsDialog: React.FC<EditDialogProps> = ({
                 </CardContent>
               </Card>
 
-              {/* Reservation Details */}
               <Card className="border-b pb-4">
                 <CardHeader>
                   <CardTitle>Reservation Details</CardTitle>

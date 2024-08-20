@@ -7,9 +7,10 @@ import momentPlugin from "@fullcalendar/moment";
 import { useState, useEffect } from "react";
 import ReservationDetailsModal from "./ReservationDetailsModal";
 import {
-  reservation,
   reservationDetails,
 } from "@/types/reservationTypes/reservation";
+import listPlugin from "@fullcalendar/list";
+
 import { EventInput } from "@fullcalendar/core/index.js";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { reservationUrl } from "@/backend/backend";
@@ -94,6 +95,7 @@ export default function ReservationsCalendar({
           timeGridPlugin,
           interactionPlugin,
           momentPlugin,
+          listPlugin,
         ]}
         initialView="dayGridMonth"
         events={events}
@@ -101,7 +103,7 @@ export default function ReservationsCalendar({
         headerToolbar={{
           left: "prev,next today",
           center: "title",
-          right: "dayGridMonth,timeGridWeek,timeGridDay",
+          right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
         }}
         eventTimeFormat={{
           hour: "2-digit",

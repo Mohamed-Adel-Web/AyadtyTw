@@ -20,6 +20,7 @@ import useMinDateTime from "@/customHooks/appointmentHook/useMinDateTime";
 import { Doctor } from "@/types/doctorsTypes/doctors";
 import { IAsyncSelectOption } from "@/types/AsyncSelectOption";
 import { AsyncSelectComponent } from "@/components/Common/AsyncSelect";
+import DialogLayout from "@/components/generalDialog/DialogLayout";
 
 export function AddDialog({
   open,
@@ -41,8 +42,6 @@ export function AddDialog({
     mutate(data);
   };
 
-
-
   const minDateTime = useMinDateTime();
 
   useMemo(() => {
@@ -53,84 +52,78 @@ export function AddDialog({
   }, [isSuccess, onOpenChange, reset]);
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[480px]">
-        <form noValidate onSubmit={handleSubmit(onSubmit)}>
-          <DialogHeader>
-            <DialogTitle>Add New Appointment</DialogTitle>
-            <DialogDescription>
-              Enter the details of the new appointment. Click save when
-              you&apos;re done.
-            </DialogDescription>
-          </DialogHeader>
+    <DialogLayout open={open} onOpenChange={onOpenChange}>
+      <form noValidate onSubmit={handleSubmit(onSubmit)}>
+        <DialogHeader>
+          <DialogTitle>Add New Appointment</DialogTitle>
+          <DialogDescription>
+            Enter the details of the new appointment. Click save when
+            you&apos;re done.
+          </DialogDescription>
+        </DialogHeader>
 
-          {fields
-            .filter((field) => field.showInAdd)
-            .map((field) => (
-              <div className="space-y-2 my-3" key={field.name}>
-                <Label htmlFor={field.name} className="text-right">
-                  {field.label}
-                </Label>
-                <Input
-                  id={field.name}
-                  type={field.type}
-                  min={
-                    field.type === "datetime-local" ? minDateTime : undefined
-                  }
-                  className="col-span-3"
-                  {...register(
-                    field.name,
-                    field.validate ? { required: field.required } : {}
-                  )}
-                />
-                {errors[field.name] && (
-                  <div className="text-red-500 w-full">
-                    {errors[field.name]?.message}
-                  </div>
+        {fields
+          .filter((field) => field.showInAdd)
+          .map((field) => (
+            <div className="space-y-2 my-3" key={field.name}>
+              <Label htmlFor={field.name} className="text-right">
+                {field.label}
+              </Label>
+              <Input
+                id={field.name}
+                type={field.type}
+                min={field.type === "datetime-local" ? minDateTime : undefined}
+                className="col-span-3"
+                {...register(
+                  field.name,
+                  field.validate ? { required: field.required } : {}
                 )}
-              </div>
-            ))}
+              />
+              {errors[field.name] && (
+                <div className="text-red-500 w-full">
+                  {errors[field.name]?.message}
+                </div>
+              )}
+            </div>
+          ))}
 
-          <div className="space-y-2 my-3">
-            <AsyncSelectComponent
-              control={control}
-              name="doctor_id"
-              label="Doctor Name"
-              url={doctorUrl}
-              placeholder="Select doctor..."
-              isRequired={true}
-            />
-          </div>
+        <div className="space-y-2 my-3">
+          <AsyncSelectComponent
+            control={control}
+            name="doctor_id"
+            label="Doctor Name"
+            url={doctorUrl}
+            placeholder="Select doctor..."
+            isRequired={true}
+          />
+        </div>
 
-          <div className="space-y-2 my-3">
-            <Label htmlFor="status" className="text-right">
-              Status
-            </Label>
-            <select
-              id="status"
-              {...register("status", {
-                required: "Status is required",
-              })}
-              className="block w-full mt-3 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            >
-              <option value="">Select status</option>
-              <option value={"available"}>Available</option>
-              <option value={"not-available"}>Not Available</option>
-            </select>
-            {errors.status && (
-              <div className="text-red-500 w-full">
-                {errors.status?.message}
-              </div>
-            )}
-          </div>
+        <div className="space-y-2 my-3">
+          <Label htmlFor="status" className="text-right">
+            Status
+          </Label>
+          <select
+            id="status"
+            {...register("status", {
+              required: "Status is required",
+            })}
+            className="block w-full mt-3 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          >
+            <option value="">Select status</option>
+            <option value={"available"}>Available</option>
+            <option value={"not-available"}>Not Available</option>
+          </select>
+          {errors.status && (
+            <div className="text-red-500 w-full">{errors.status?.message}</div>
+          )}
+        </div>
 
-          <DialogFooter className="mt-3">
-            <Button type="submit" disabled={isPending}>
-              Save changes
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+        <DialogFooter className="mt-3">
+          <Button type="submit" disabled={isPending}>
+            Save changes
+          </Button>
+        </DialogFooter>
+      </form>
+    </DialogLayout>
   );
 }

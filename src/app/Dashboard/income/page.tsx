@@ -32,13 +32,14 @@ export default function App() {
   const columns = createColumns<IPayment>(
     [
       "id",
-      "reservation_id",
       "amount",
       "extra_amount",
+      "discount",
       "total",
       "status",
       "created_at",
       "payment_method",
+      
     ],
 
     "income",

@@ -19,6 +19,7 @@ import { examination } from "@/types/examinationTypes/examinationTypes";
 import { fields } from "./fields";
 import { Doctor } from "@/types/doctorsTypes/doctors";
 import { AsyncSelectComponent } from "@/components/Common/AsyncSelect";
+import DialogLayout from "@/components/generalDialog/DialogLayout";
 export function AddDialog({
   open,
   onOpenChange,
@@ -45,56 +46,54 @@ export function AddDialog({
   }, [isSuccess, onOpenChange, reset]);
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[480px]">
-        <form noValidate onSubmit={handleSubmit(onSubmit)}>
-          <DialogHeader>
-            <DialogTitle>Add New Examination Type</DialogTitle>
-            <DialogDescription>
-              Enter the details of the new Examination. Click save when
-              you&apos;re done.
-            </DialogDescription>
-          </DialogHeader>
-          {fields
-            .filter((field) => field.showInAdd)
-            .map((field) => (
-              <div className="space-y-2 my-3" key={field.name}>
-                <Label htmlFor={field.name} className="text-right">
-                  {field.label}
-                </Label>
-                <Input
-                  id={field.name}
-                  type={field.type}
-                  className="col-span-3"
-                  {...register(
-                    field.name,
-                    field.validate ? { required: field.required } : {}
-                  )}
-                />
-                {errors[field.name] && (
-                  <div className="text-red-500 w-full">
-                    {errors[field.name]?.message}
-                  </div>
+    <DialogLayout open={open} onOpenChange={onOpenChange}>
+      <form noValidate onSubmit={handleSubmit(onSubmit)}>
+        <DialogHeader>
+          <DialogTitle>Add New Examination Type</DialogTitle>
+          <DialogDescription>
+            Enter the details of the new Examination. Click save when
+            you&apos;re done.
+          </DialogDescription>
+        </DialogHeader>
+        {fields
+          .filter((field) => field.showInAdd)
+          .map((field) => (
+            <div className="space-y-2 my-3" key={field.name}>
+              <Label htmlFor={field.name} className="text-right">
+                {field.label}
+              </Label>
+              <Input
+                id={field.name}
+                type={field.type}
+                className="col-span-3"
+                {...register(
+                  field.name,
+                  field.validate ? { required: field.required } : {}
                 )}
-              </div>
-            ))}{" "}
-          <div className="space-y-2 my-3">
-            <AsyncSelectComponent
-              control={control}
-              name="doctor_id"
-              label="Doctor Name"
-              url={doctorUrl}
-              placeholder="Select doctor..."
-              isRequired={true}
-            />
-          </div>
-          <DialogFooter className="mt-3">
-            <Button type="submit" disabled={isPending}>
-              Save changes
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+              />
+              {errors[field.name] && (
+                <div className="text-red-500 w-full">
+                  {errors[field.name]?.message}
+                </div>
+              )}
+            </div>
+          ))}{" "}
+        <div className="space-y-2 my-3">
+          <AsyncSelectComponent
+            control={control}
+            name="doctor_id"
+            label="Doctor Name"
+            url={doctorUrl}
+            placeholder="Select doctor..."
+            isRequired={true}
+          />
+        </div>
+        <DialogFooter className="mt-3">
+          <Button type="submit" disabled={isPending}>
+            Save changes
+          </Button>
+        </DialogFooter>
+      </form>
+    </DialogLayout>
   );
 }

@@ -21,6 +21,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { rolesUrl } from "@/backend/backend";
+import DialogLayout from "@/components/generalDialog/DialogLayout";
 
 export default function EditDialog({
   open,
@@ -61,8 +62,7 @@ export default function EditDialog({
   }, [role, reset]);
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+    <DialogLayout open={open} onOpenChange={onOpenChange}>
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
             <DialogTitle>Edit Role</DialogTitle>
@@ -208,7 +208,6 @@ export default function EditDialog({
             </Button>
           </DialogFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+    </DialogLayout>
   );
 }

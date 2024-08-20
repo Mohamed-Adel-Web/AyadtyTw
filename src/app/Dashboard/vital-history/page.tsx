@@ -25,7 +25,7 @@ export default function App() {
     null
   );
   const { data } = useGetData(vitalHistoryUrl, "allVitalHistory");
-  const assistantsData = data?.data.data || [];
+  const vitalHistoryData = data?.data.data || [];
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
   };
@@ -39,10 +39,10 @@ export default function App() {
   };
   const handleShowReportDialog = (data: IVitalHistory) => {
     setSelectedData(data);
-    setOpenSheet(true)
+    setOpenSheet(true);
   };
   const columns = createColumns<IVitalHistory>(
-    ["patient_id", "pressure", "weight", "blood_sugar"],
+    ["patient_id", "pressure", "weight", "blood_sugar", "doctor_id"],
     "vital history",
     role,
     handleOpenEditDialog,
@@ -61,10 +61,10 @@ export default function App() {
           <Button onClick={handleOpenAddDialog}>Add New</Button>
         )}
       </div>
-      {assistantsData && (
+      {vitalHistoryData && (
         <DataTable
           columns={columns}
-          data={assistantsData}
+          data={vitalHistoryData}
           filterKeys={["name"]}
           filterPlaceholder="Filter name..."
         />
@@ -85,7 +85,11 @@ export default function App() {
         queryKey="allVitalHistory"
         itemName="vital history"
       />
-      <ReportSheetComponent openSheet={openSheet} setOpenSheet={setOpenSheet}  />
+      <ReportSheetComponent
+        openSheet={openSheet}
+        setOpenSheet={setOpenSheet}
+        vitalHistory={selectedData}
+      />
     </>
   );
 }

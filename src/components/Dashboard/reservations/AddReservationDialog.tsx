@@ -22,6 +22,7 @@ import useGetData from "@/customHooks/crudHooks/useGetData";
 import { examinationDetails } from "@/types/examinationTypes/examinationTypes";
 import Select from "react-select";
 import useUser from "@/customHooks/loginHooks/useUser";
+import DialogLayout from "@/components/generalDialog/DialogLayout";
 export function AddDialog({
   open,
   onOpenChange,
@@ -87,8 +88,7 @@ export function AddDialog({
     setExaminationPrice(selectedOption.amount);
   };
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+    <DialogLayout open={open} onOpenChange={onOpenChange}>
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
             <DialogTitle>Book Appointment</DialogTitle>
@@ -195,7 +195,6 @@ export function AddDialog({
             </Button>
           </DialogFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+    </DialogLayout>
   );
 }

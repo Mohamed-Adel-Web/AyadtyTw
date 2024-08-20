@@ -14,15 +14,15 @@ import { Input } from "@/components/ui/input";
 import { PencilIcon } from "lucide-react";
 import { fields } from "./fields";
 import { useForm } from "react-hook-form";
-import { patient } from "@/types/patientTypes/patient";
+import { patient, patientDetails } from "@/types/patientTypes/patient";
 import { useMemo } from "react";
 import useEditData from "@/customHooks/crudHooks/useEditData";
 import { patientsUrl, assistantsUrl, doctorUrl } from "@/backend/backend";
-import { Doctor } from "@/types/doctorsTypes/doctors";
+import { Doctor, DoctorDetails } from "@/types/doctorsTypes/doctors";
 import { assistant } from "@/types/assistantTypes/assistants";
 import { Role } from "@/types/RolesTypes/role";
 
-type ProfileType = patient | Doctor | assistant;
+type ProfileType = DoctorDetails;
 
 export default function ProfileSetting({
   profileData,

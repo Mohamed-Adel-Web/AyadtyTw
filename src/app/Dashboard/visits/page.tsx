@@ -20,7 +20,7 @@ export default function App() {
 
   return (
     <>
-      <div className="flex justify-between align-items-center">
+      <div className="flex justify-between align-items-center flex-wrap">
         <Heading title="Reservations Confirm    " />
 
         {hasPermission(role, "visits", "create") && (
