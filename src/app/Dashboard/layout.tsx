@@ -115,14 +115,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       href: "/Dashboard/income",
       label: "Income",
       icon: <DollarSignIcon className="h-5 w-5" />,
-      permission: true,
+      permission: hasPermission(role, "income", "read"),
     },
-    {
-      href: "/Dashboard/expenses",
-      label: "Expenses",
-      icon: <DollarSignIcon className="h-5 w-5" />,
-      permission: true,
-    },
+
   ];
   const filteredLinks = links.filter((link) => link.permission);
 

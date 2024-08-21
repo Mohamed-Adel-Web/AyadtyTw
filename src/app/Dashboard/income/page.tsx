@@ -48,9 +48,9 @@ export default function App() {
     handleOpenDeleteDialog,
     handleShowTransactionsDialog
   );
-  //   if (isSuccess && !hasPermission(role, "income", "read")) {
-  //     router.push("/unauthorized");
-  //   }
+    if (isSuccess && !hasPermission(role, "income", "read")) {
+      router.push("/unauthorized");
+    }
   return (
     <>
       <div className="flex justify-between align-items-center">

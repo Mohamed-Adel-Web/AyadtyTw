@@ -15,6 +15,8 @@ import useAddData from "@/customHooks/crudHooks/useAddData";
 import { doctorSettingUrl } from "@/backend/backend";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { useMemo } from "react";
+import useEditData from "@/customHooks/crudHooks/useEditData";
+
 export default function DoctorProfileSetting({ doctor }: { doctor: Doctor }) {
   const { data } = useGetData(
     `${doctorSettingUrl}/doctor/${doctor.id}`,
@@ -24,19 +26,37 @@ export default function DoctorProfileSetting({ doctor }: { doctor: Doctor }) {
   );
   const doctorSetting = data?.data.data;
   const { register, handleSubmit, reset } = useForm<IDoctorSetting>();
-  const { mutate } = useAddData(
+  const { mutate: addMutate, isPending: addLoading } = useAddData(
     doctorSettingUrl,
     "addDoctorSetting",
     "AllDoctorSettings"
   );
-  const onSubmit = (data: IDoctorSetting) => {
-    mutate({ ...data, doctor_id: doctor.id });
+  const {
+    mutate: mutateEdit,
+    isSuccess,
+    isPending: updateLoading,
+  } = useEditData<IDoctorSetting>(
+    doctorSettingUrl,
+    doctorSetting?.id,
+    "editDoctorSetting",
+    "AllDoctorSettings",
+    "put"
+  );
+
+  const onSubmit = (submitData: IDoctorSetting) => {
+    if (doctorSetting?.api_key_myfatoorah) {
+      mutateEdit(submitData);
+    } else {
+      addMutate({ ...submitData, doctor_id: doctor.id });
+    }
   };
+
   useMemo(() => {
     if (doctorSetting) {
       reset(doctorSetting);
     }
   }, [doctorSetting, reset]);
+
   return (
     <div className="container mx-auto max-w-3xl px-4 py-12 md:px-6 md:py-16">
       <div className="space-y-4">
@@ -56,6 +76,7 @@ export default function DoctorProfileSetting({ doctor }: { doctor: Doctor }) {
           <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
             <div className="grid gap-2">
               <Label htmlFor="apiKey">API Key</Label>
+
               <Input
                 id="apiKey"
                 type="text"
@@ -63,7 +84,11 @@ export default function DoctorProfileSetting({ doctor }: { doctor: Doctor }) {
                 {...register("api_key_myfatoorah")}
               />
             </div>
-            <Button>Save Changes</Button>
+            <Button type="submit" disabled={addLoading || updateLoading}>
+              {doctorSetting?.api_key_myfatoorah
+                ? "Update API Key"
+                : "Add API Key"}
+            </Button>
           </form>
         </CardContent>
       </Card>

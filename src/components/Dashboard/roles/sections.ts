@@ -9,4 +9,6 @@ export const sections = [
   "profileType",
   "visits",
   "vital history",
+  "income",
+    
 ];

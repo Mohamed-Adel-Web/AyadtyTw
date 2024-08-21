@@ -57,7 +57,7 @@ export default function App() {
     <>
       <div className="flex justify-between align-items-center">
         <Heading title="Vital History" />
-        {hasPermission(role, "assistant", "create") && (
+        {hasPermission(role, "vital history", "create") && (
           <Button onClick={handleOpenAddDialog}>Add New</Button>
         )}
       </div>
