@@ -5,10 +5,12 @@ import Cookies from "js-cookie";
 import { useAuth } from "../loginHooks/useAuth";
 
 const useGetData = (
-  url: string ,
+  url: string,
   queryKey: string,
   dependencies: (string | number | null | undefined)[] = [],
-  enabledCondition: boolean = true
+  enabledCondition: boolean = true,
+  page: number = 1,
+  pageSize: number = 10
 ) => {
   const { token, setToken } = useAuth();
   const cookieToken = Cookies.get("token");
@@ -21,16 +23,21 @@ const useGetData = (
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      params: {
+        page,
+        pageSize,
+      },
     });
   };
 
   const { data, error, isLoading, isSuccess, isError } = useQuery({
-    queryKey: [queryKey, ...dependencies],
+    queryKey: [queryKey, page, pageSize, ...dependencies],
     queryFn: getDataRequest,
-    enabled: enabledCondition ,
+    enabled: enabledCondition,
   });
 
   return { data, error, isLoading, isSuccess, isError };
 };
 
 export default useGetData;
+

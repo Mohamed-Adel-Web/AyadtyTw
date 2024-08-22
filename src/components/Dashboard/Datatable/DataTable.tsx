@@ -29,13 +29,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { hasStatus } from "./columns";
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData, any>[];
   data: TData[];
   filterPlaceholder?: string;
   filterKeys?: Array<keyof TData | string>;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  totalRecords: number;
+  onPageChange: (newPage: number) => void;
+  onPageSizeChange: (newPageSize: number) => void;
 }
 
 function getNestedValue(obj: any, path: string): any {
@@ -47,17 +52,24 @@ export function DataTable<TData>({
   data,
   filterPlaceholder = "Filter...",
   filterKeys = [],
+  page,
+  pageSize,
+  totalPages,
+  totalRecords,
+  onPageChange,
+  onPageSizeChange,
 }: DataTableProps<TData>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<
     { id: string; value: string }[]
   >([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>(
-    () => columns.reduce((acc, col) => {
-      acc[col.id as string] = true;
-      return acc;
-    }, {} as VisibilityState)
-  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>(() =>
+      columns.reduce((acc, col) => {
+        acc[col.id as string] = true;
+        return acc;
+      }, {} as VisibilityState)
+    );
   const [rowSelection, setRowSelection] = React.useState({});
   const [selectedFilterKey, setSelectedFilterKey] = React.useState<
     string | null
@@ -82,7 +94,7 @@ export function DataTable<TData>({
     getSortedRowModel: getSortedRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
-    initialState: { pagination: { pageSize: 10 } },
+    initialState: { pagination: { pageSize } },
     state: {
       sorting,
       columnFilters,
@@ -98,6 +110,24 @@ export function DataTable<TData>({
 
   const handleFilterValueChange = (value: string) => {
     setFilterValue(value);
+  };
+
+  const handlePreviousPage = () => {
+    if (page > 1) {
+      onPageChange(page - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (page < totalPages) {
+      onPageChange(page + 1);
+    }
+  };
+
+  const handlePageSizeChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    onPageSizeChange(Number(event.target.value));
   };
 
   return (
@@ -217,26 +247,38 @@ export function DataTable<TData>({
       </div>
       <div className="flex items-center justify-end space-x-2 py-4 px-6 bg-gray-50 rounded-b-lg">
         <div className="flex-1 text-sm text-gray-500">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          Showing {page * pageSize - pageSize + 1} to{" "}
+          {Math.min(page * pageSize, totalRecords)} of {totalRecords} results.
         </div>
         <div className="space-x-2">
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            onClick={handlePreviousPage}
+            disabled={page <= 1}
           >
             Previous
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            onClick={handleNextPage}
+            disabled={page >= totalPages}
           >
             Next
           </Button>
+        </div>
+        <div>
+          <select
+            value={pageSize}
+            onChange={handlePageSizeChange}
+            className="ml-2 border rounded-md p-2"
+          >
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+            <option value={50}>50</option>
+            <option value={100}>100</option>
+          </select>
         </div>
       </div>
     </div>

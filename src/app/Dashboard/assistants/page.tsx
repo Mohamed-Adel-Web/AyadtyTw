@@ -21,8 +21,20 @@ export default function App() {
   const [openDelete, setOpenDelete] = React.useState(false);
   const [selectedData, setSelectedData] =
     React.useState<assistantDetails | null>(null);
-  const { data } = useGetData(assistantsUrl, "allAssistant");
-  const assistantsData = data?.data.data ||[];
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(10);
+  const { data } = useGetData(
+    assistantsUrl,
+    "allAssistant",
+    [],
+    true,
+    page,
+    pageSize
+  );
+  const assistantsData = data?.data.data || [];
+  const totalPages = data?.data.last_page || 1;
+  const totalRecords = data?.data.total || 0;
+
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
   };
@@ -66,6 +78,12 @@ export default function App() {
           data={assistantsData}
           filterKeys={["name"]}
           filterPlaceholder="Filter name..."
+          page={page}
+          pageSize={pageSize}
+          totalPages={totalPages}
+          totalRecords={totalRecords}
+          onPageChange={setPage}
+          onPageSizeChange={setPageSize}
         />
       )}
 

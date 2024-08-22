@@ -1,4 +1,4 @@
-const baseUrl = `http://192.168.1.19/api`;
+const baseUrl = `https://ayadty.com/el3yada-old/api`;
 export const loginUrl = `${baseUrl}/login`;
 export const registerPatientUrl = `${baseUrl}/register_patient`;
 export const specializationUrl = `${baseUrl}/specializations`;

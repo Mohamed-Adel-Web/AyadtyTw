@@ -22,7 +22,7 @@ const Sidebar: React.FC<SidebarProps> = ({ links }) => {
   return (
     <>
       <aside
-        className={`fixed inset-y-0 left-0 z-20 flex flex-col border-r bg-background transition-all duration-300 ${
+        className={`fixed inset-y-0 left-0 z-20 flex flex-col border-r bg-background overflow-auto transition-all duration-300 ${
           isOpen ? "w-64" : "w-15"
         } ${isOpen ? "block" : "hidden"} sm:block`}
       >
