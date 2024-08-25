@@ -23,13 +23,17 @@ export default function App() {
     React.useState<assistantDetails | null>(null);
   const [page, setPage] = React.useState(1);
   const [pageSize, setPageSize] = React.useState(10);
+  const [selectedFilterKey, setSelectedFilterKey] = React.useState<string>();
+  const [filterValue, setFilterValue] = React.useState<string>("");
   const { data } = useGetData(
     assistantsUrl,
     "allAssistant",
     [],
     true,
     page,
-    pageSize
+    pageSize,
+    selectedFilterKey,
+    filterValue
   );
   const assistantsData = data?.data.data || [];
   const totalPages = data?.data.last_page || 1;
@@ -48,6 +52,7 @@ export default function App() {
   };
   const columns = createColumns<assistantDetails>(
     [
+      "id",
       "first_name",
       "last_name",
       "phone",
@@ -64,6 +69,10 @@ export default function App() {
   if (isSuccess && !hasPermission(role, "assistant", "read")) {
     router.push("/unauthorized");
   }
+  const handleFilterChange = (key: string, value: string) => {
+    setSelectedFilterKey(key);
+    setFilterValue(value);
+  };
   return (
     <>
       <div className="flex justify-between align-items-center">
@@ -76,7 +85,7 @@ export default function App() {
         <DataTable
           columns={columns}
           data={assistantsData}
-          filterKeys={["name"]}
+          filterKeys={["id", "first_name", "last_name", "email", "phone"]}
           filterPlaceholder="Filter name..."
           page={page}
           pageSize={pageSize}
@@ -84,6 +93,7 @@ export default function App() {
           totalRecords={totalRecords}
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
+          onFilterChange={handleFilterChange}
         />
       )}
 

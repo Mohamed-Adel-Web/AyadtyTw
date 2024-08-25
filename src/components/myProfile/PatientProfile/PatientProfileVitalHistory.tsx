@@ -31,8 +31,8 @@ export default function PatientProfileVitalHistory({
   if (isError) return <div className="text-red-500">Error loading data</div>;
   const vitalHistories = data?.data?.data.vital_histories || [];
   const handleShowReport = (history: IVitalHistory) => {
-    setSelectedData({...history,patient: patient});
-    setOpenSheet(true)
+    setSelectedData({ ...history, patient: patient });
+    setOpenSheet(true);
   };
   return (
     <div className="p-4">
@@ -44,8 +44,11 @@ export default function PatientProfileVitalHistory({
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                {tableHeadData.map((data) => (
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                {tableHeadData.map((data, index) => (
+                  <th
+                    key={index}
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
                     {data}
                   </th>
                 ))}
@@ -63,7 +66,6 @@ export default function PatientProfileVitalHistory({
           </table>
         </div>
       )}
-
       <ReportSheetComponent
         openSheet={openSheet}
         setOpenSheet={setOpenSheet}

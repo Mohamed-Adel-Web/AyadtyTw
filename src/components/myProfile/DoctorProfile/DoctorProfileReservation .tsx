@@ -54,11 +54,11 @@ export default function DoctorProfileReservation({
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
       <h2 className="text-3xl font-bold text-gray-800 mb-8">Reservations</h2>
-      {reservations.length === 0 ? (
+      {reservations?.length === 0 ? (
         <p className="text-gray-500">No reservations for today.</p>
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {reservations.map((reservation: reservation) => (
+          {reservations?.map((reservation: reservation) => (
             <Card
               key={reservation.id}
               className="shadow-lg rounded-lg transition transform hover:scale-105"

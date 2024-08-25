@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import {
   ColumnDef,
@@ -29,6 +27,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useDebounce } from "@/customHooks/useDebounce";
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData, any>[];
@@ -41,6 +40,7 @@ interface DataTableProps<TData> {
   totalRecords: number;
   onPageChange: (newPage: number) => void;
   onPageSizeChange: (newPageSize: number) => void;
+  onFilterChange?: (key: string, value: string) => void;
 }
 
 function getNestedValue(obj: any, path: string): any {
@@ -58,6 +58,7 @@ export function DataTable<TData>({
   totalRecords,
   onPageChange,
   onPageSizeChange,
+  onFilterChange,
 }: DataTableProps<TData>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<
@@ -75,6 +76,17 @@ export function DataTable<TData>({
     string | null
   >(null);
   const [filterValue, setFilterValue] = React.useState("");
+
+  // Debounce the filter value
+  const debouncedFilterValue = useDebounce(filterValue, 500);
+
+  React.useEffect(() => {
+    if (selectedFilterKey) {
+      if (onFilterChange) {
+        onFilterChange(selectedFilterKey, debouncedFilterValue);
+      }
+    }
+  }, [debouncedFilterValue, selectedFilterKey, onFilterChange]);
 
   const filteredData = React.useMemo(() => {
     if (!selectedFilterKey || !filterValue) return data;

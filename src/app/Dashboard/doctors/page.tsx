@@ -13,6 +13,7 @@ import { EditDialog } from "@/components/Dashboard/doctors/EditDoctorDialog";
 import useUser from "@/customHooks/loginHooks/useUser";
 import { hasPermission } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+
 export default function App() {
   const router = useRouter();
   const [openAdd, setOpenAdd] = React.useState(false);
@@ -21,32 +22,58 @@ export default function App() {
   const [selectedData, setSelectedData] = React.useState<DoctorDetails | null>(
     null
   );
-  const { data } = useGetData(doctorUrl, "allDoctor");
-  const doctorsData: DoctorDetails[] = data?.data.data || [];
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(10);
+  const [selectedFilterKey, setSelectedFilterKey] = React.useState<string>();
+  const [filterValue, setFilterValue] = React.useState<string>("");
+
+  const { data } = useGetData(
+    doctorUrl,
+    "allDoctor",
+    [],
+    true,
+    page,
+    pageSize,
+    selectedFilterKey,
+    filterValue
+  );
+
+  const doctorsData = data?.data.data || [];
+  const totalPages = data?.data.last_page || 1;
+  const totalRecords = data?.data.total || 0;
+
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
   };
+
   const handleOpenEditDialog = (data: DoctorDetails) => {
     setSelectedData(data);
     setOpenEdit(true);
   };
+
   const handleOpenDeleteDialog = (data: DoctorDetails) => {
     setSelectedData(data);
     setOpenDelete(true);
   };
+
   const { user, role, isSuccess } = useUser();
-
   const columns = createColumns<DoctorDetails>(
-    ["first_name", "last_name", "email", "phone", "specialization.name"],
-
+    ["id", "first_name", "last_name", "email", "phone", "specialization.name"],
     "doctor",
     role,
     handleOpenEditDialog,
     handleOpenDeleteDialog
   );
+
   if (isSuccess && !hasPermission(role, "doctor", "read")) {
     router.push("/unauthorized");
   }
+
+  const handleFilterChange = (key: string, value: string) => {
+    setSelectedFilterKey(key);
+    setFilterValue(value);
+  };
+
   return (
     <>
       <div className="flex justify-between align-items-center">
@@ -64,9 +91,16 @@ export default function App() {
             "last_name",
             "email",
             "phone",
-            "specialization.name",
+            "specialization_ name",
           ]}
           filterPlaceholder="Filter..."
+          page={page}
+          pageSize={pageSize}
+          totalPages={totalPages}
+          totalRecords={totalRecords}
+          onPageChange={setPage}
+          onPageSizeChange={setPageSize}
+          onFilterChange={handleFilterChange}
         />
       )}
       <AddDialog open={openAdd} onOpenChange={setOpenAdd} />

@@ -20,12 +20,26 @@ export default function App() {
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(10);
   const [selectedData, setSelectedData] = React.useState<Specialization | null>(
     null
   );
-  const { data } = useGetData(specializationUrl, "allSpecialization");
-  const specializationsData = data?.data.data ||[];
-
+  const [selectedFilterKey, setSelectedFilterKey] = React.useState<string>();
+  const [filterValue, setFilterValue] = React.useState<string>("");
+  const { data } = useGetData(
+    specializationUrl,
+    "allSpecialization",
+    [],
+    true,
+    page,
+    pageSize,
+    selectedFilterKey,
+    filterValue
+  );
+  const specializationsData = data?.data.data || [];
+  const totalPages = data?.data.last_page || 1;
+  const totalRecords = data?.data.total || 0;
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
   };
@@ -40,7 +54,10 @@ export default function App() {
     setOpenDelete(true);
   };
   const { user, role, isSuccess } = useUser();
-
+  const handleFilterChange = (key: string, value: string) => {
+    setSelectedFilterKey(key);
+    setFilterValue(value);
+  };
   const columns = createColumns<Specialization>(
     ["name"],
 
@@ -69,6 +86,13 @@ export default function App() {
           data={specializationsData}
           filterKeys={["name"]}
           filterPlaceholder="Filter name..."
+          page={page}
+          pageSize={pageSize}
+          totalPages={totalPages}
+          totalRecords={totalRecords}
+          onPageChange={setPage}
+          onPageSizeChange={setPageSize}
+          onFilterChange={handleFilterChange}
         />
       )}
 

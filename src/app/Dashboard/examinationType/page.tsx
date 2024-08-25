@@ -18,9 +18,24 @@ export default function App() {
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(10);
   const [selectedData, setSelectedData] =
     React.useState<examinationDetails | null>(null);
-  const { data } = useGetData(examinationTypeUrl, "allExaminationType");
+  const [selectedFilterKey, setSelectedFilterKey] = React.useState<string>();
+  const [filterValue, setFilterValue] = React.useState<string>("");
+  const { data } = useGetData(
+    examinationTypeUrl,
+    "allExaminationType",
+    [],
+    true,
+    page,
+    pageSize,
+    selectedFilterKey,
+    filterValue
+  );
+  const totalPages = data?.data.last_page || 1;
+  const totalRecords = data?.data.total || 0;
   const examinationData = data?.data.data;
 
   const handleOpenAddDialog = () => {
@@ -38,7 +53,7 @@ export default function App() {
   };
   const { user, role, isSuccess } = useUser();
   const columns = createColumns<examinationDetails>(
-    ["name", "amount", "color", "doctor.first_name", "doctor.last_name"],
+    ["id", "name", "amount", "color", "doctor.first_name", "doctor.last_name"],
 
     "examination Type",
     role,
@@ -48,6 +63,10 @@ export default function App() {
   if (isSuccess && !hasPermission(role, "examination Type", "read")) {
     router.push("/unauthorized");
   }
+  const handleFilterChange = (key: string, value: string) => {
+    setSelectedFilterKey(key);
+    setFilterValue(value);
+  };
   return (
     <>
       <div className="flex justify-between align-items-center">
@@ -62,14 +81,15 @@ export default function App() {
         <DataTable
           columns={columns}
           data={examinationData}
-          filterKeys={[
-            "name",
-            "amount",
-            "color",
-            "doctor.firstName",
-            "doctor.lastName",
-          ]}
+          filterKeys={["name", "amount", "doctor_firstName", "doctor_lastName"]}
           filterPlaceholder="Filter..."
+          page={page}
+          pageSize={pageSize}
+          totalPages={totalPages}
+          totalRecords={totalRecords}
+          onPageChange={setPage}
+          onPageSizeChange={setPageSize}
+          onFilterChange={handleFilterChange}
         />
       )}
 

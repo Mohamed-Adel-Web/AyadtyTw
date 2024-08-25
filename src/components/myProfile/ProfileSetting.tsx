@@ -47,7 +47,7 @@ export default function ProfileSetting({
     default:
       endpointUrl = patientsUrl;
   }
-  const { mutate } = useEditData(
+  const { mutate ,isPending} = useEditData(
     endpointUrl,
     profileData?.id,
     `edit${role?.permissions?.profileType?.type}`,
@@ -142,7 +142,7 @@ export default function ProfileSetting({
                   ))}
                 </CardContent>
                 <CardFooter className="flex justify-end">
-                  <Button>Save Changes</Button>
+                  <Button disabled={isPending}>Save Changes</Button>
                 </CardFooter>
               </Card>
             </form>

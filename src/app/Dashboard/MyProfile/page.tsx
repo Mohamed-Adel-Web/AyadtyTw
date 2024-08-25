@@ -41,7 +41,7 @@ export default function App() {
     !!user?.id && !!endpointUrl
   );
   const profileData = data?.data.data;
-  const reservationData = data?.data.reservations;
+  const reservationData = data?.data.reservations||[];
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 

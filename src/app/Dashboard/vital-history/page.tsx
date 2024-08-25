@@ -24,8 +24,23 @@ export default function App() {
   const [selectedData, setSelectedData] = React.useState<IVitalHistory | null>(
     null
   );
-  const { data } = useGetData(vitalHistoryUrl, "allVitalHistory");
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(10);
+  const [selectedFilterKey, setSelectedFilterKey] = React.useState<string>();
+  const [filterValue, setFilterValue] = React.useState<string>("");
+  const { data } = useGetData(
+    vitalHistoryUrl,
+    "allVitalHistory",
+    [],
+    true,
+    page,
+    pageSize,
+    selectedFilterKey,
+    filterValue
+  );
   const vitalHistoryData = data?.data.data || [];
+  const totalPages = data?.data.last_page || 1;
+  const totalRecords = data?.data.total || 0;
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
   };
@@ -53,6 +68,11 @@ export default function App() {
   if (isSuccess && !hasPermission(role, "vital history", "read")) {
     router.push("/unauthorized");
   }
+
+  const handleFilterChange = (key: string, value: string) => {
+    setSelectedFilterKey(key);
+    setFilterValue(value);
+  };
   return (
     <>
       <div className="flex justify-between align-items-center">
@@ -65,8 +85,21 @@ export default function App() {
         <DataTable
           columns={columns}
           data={vitalHistoryData}
-          filterKeys={["name"]}
+          filterKeys={[
+            "patient_id",
+            "pressure",
+            "weight",
+            "blood_sugar",
+            "doctor_id",
+          ]}
           filterPlaceholder="Filter name..."
+          page={page}
+          pageSize={pageSize}
+          totalPages={totalPages}
+          totalRecords={totalRecords}
+          onPageChange={setPage}
+          onPageSizeChange={setPageSize}
+          onFilterChange={handleFilterChange}
         />
       )}
 

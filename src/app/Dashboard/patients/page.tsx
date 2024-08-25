@@ -21,8 +21,23 @@ export default function App() {
   const [selectedData, setSelectedData] = React.useState<patientDetails | null>(
     null
   );
-  const { data } = useGetData(patientsUrl, "allPatient");
-  const patientsData = data?.data.data ||[];
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(10);
+  const [selectedFilterKey, setSelectedFilterKey] = React.useState<string>();
+  const [filterValue, setFilterValue] = React.useState<string>("");
+  const { data } = useGetData(
+    patientsUrl,
+    "allPatient",
+    [],
+    true,
+    page,
+    pageSize,
+    selectedFilterKey,
+    filterValue
+  );
+  const totalPages = data?.data.last_page || 1;
+  const totalRecords = data?.data.total || 0;
+  const patientsData = data?.data.data || [];
 
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
@@ -39,7 +54,7 @@ export default function App() {
   };
   const { user, role, isSuccess } = useUser();
   const columns = createColumns<patientDetails>(
-    ["first_name", "last_name", "phone", "email"],
+    ["id", "first_name", "last_name", "phone", "email"],
 
     "patient",
     role,
@@ -49,6 +64,10 @@ export default function App() {
   if (isSuccess && !hasPermission(role, "patient", "read")) {
     router.push("/unauthorized");
   }
+  const handleFilterChange = (key: string, value: string) => {
+    setSelectedFilterKey(key);
+    setFilterValue(value);
+  };
   return (
     <>
       <div className="flex justify-between align-items-center">
@@ -63,8 +82,15 @@ export default function App() {
         <DataTable
           columns={columns}
           data={patientsData}
-          filterKeys={["full_name", "phone", "email"]}
+          filterKeys={["id", "first_name", "last_name", "phone", "email"]}
           filterPlaceholder="Filter..."
+          page={page}
+          pageSize={pageSize}
+          totalPages={totalPages}
+          totalRecords={totalRecords}
+          onPageChange={setPage}
+          onPageSizeChange={setPageSize}
+          onFilterChange={handleFilterChange}
         />
       )}
 

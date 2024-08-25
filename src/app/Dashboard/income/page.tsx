@@ -17,8 +17,24 @@ export default function App() {
   const [openTransaction, setOpenTransaction] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
   const [selectedData, setSelectedData] = React.useState<IPayment | null>(null);
-  const { data } = useGetData(paymentUrl, "allPayments");
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(10);
+  const [selectedFilterKey, setSelectedFilterKey] = React.useState<string>();
+  const [filterValue, setFilterValue] = React.useState<string>("");
+  const { data } = useGetData(
+    paymentUrl,
+    "allPayments",
+    [],
+    true,
+    page,
+    pageSize,
+    selectedFilterKey,
+    filterValue
+  );
+
   const paymentsData = data?.data.data || [];
+  const totalPages = data?.data.last_page || 1;
+  const totalRecords = data?.data.total || 0;
 
   const handleShowTransactionsDialog = (data: IPayment) => {
     setSelectedData(data);
@@ -39,7 +55,6 @@ export default function App() {
       "status",
       "created_at",
       "payment_method",
-      
     ],
 
     "income",
@@ -48,9 +63,13 @@ export default function App() {
     handleOpenDeleteDialog,
     handleShowTransactionsDialog
   );
-    if (isSuccess && !hasPermission(role, "income", "read")) {
-      router.push("/unauthorized");
-    }
+  if (isSuccess && !hasPermission(role, "income", "read")) {
+    router.push("/unauthorized");
+  }
+  const handleFilterChange = (key: string, value: string) => {
+    setSelectedFilterKey(key);
+    setFilterValue(value);
+  };
   return (
     <>
       <div className="flex justify-between align-items-center">
@@ -61,12 +80,20 @@ export default function App() {
           columns={columns}
           data={paymentsData}
           filterKeys={[
-            "status,amount",
+            "status",
+            "amount",
             "extra_amount",
             "created_at",
             "payment_method",
           ]}
           filterPlaceholder="Filter ..."
+          page={page}
+          pageSize={pageSize}
+          totalPages={totalPages}
+          totalRecords={totalRecords}
+          onPageChange={setPage}
+          onPageSizeChange={setPageSize}
+          onFilterChange={handleFilterChange}
         />
       )}
 

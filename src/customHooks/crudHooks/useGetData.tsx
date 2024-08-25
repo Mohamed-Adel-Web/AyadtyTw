@@ -1,4 +1,3 @@
-"use client";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -10,7 +9,9 @@ const useGetData = (
   dependencies: (string | number | null | undefined)[] = [],
   enabledCondition: boolean = true,
   page: number = 1,
-  pageSize: number = 10
+  per_page: number = 10,
+  filterKey?: string,
+  filterValue?: string
 ) => {
   const { token, setToken } = useAuth();
   const cookieToken = Cookies.get("token");
@@ -25,13 +26,14 @@ const useGetData = (
       },
       params: {
         page,
-        pageSize,
+        per_page,
+        ...(filterKey && filterValue ? { [filterKey]: filterValue } : {}),
       },
     });
   };
 
   const { data, error, isLoading, isSuccess, isError } = useQuery({
-    queryKey: [queryKey, page, pageSize, ...dependencies],
+    queryKey: [queryKey, page, per_page, filterKey, filterValue, ...dependencies],
     queryFn: getDataRequest,
     enabled: enabledCondition,
   });
@@ -40,4 +42,3 @@ const useGetData = (
 };
 
 export default useGetData;
-

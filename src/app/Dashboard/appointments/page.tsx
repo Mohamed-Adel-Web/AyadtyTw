@@ -5,7 +5,7 @@ import { DataTable } from "../../../components/Dashboard/Datatable/DataTable";
 import { Button } from "@/components/ui/button";
 import Heading from "@/components/Dashboard/DashboardLayout/Heading";
 import useGetData from "@/customHooks/crudHooks/useGetData";
-import { appointmentUrl } from "@/backend/backend";
+import { appointmentUrl, deleteAllAppointmentsUrl } from "@/backend/backend";
 import DeleteDialog from "@/components/generalDialog/DeleteDialog";
 import { hasPermission } from "@/lib/utils";
 import useUser from "@/customHooks/loginHooks/useUser";
@@ -14,18 +14,29 @@ import { appointmentDetails } from "@/types/appointmentTypes/appointments";
 import { AddDialog } from "@/components/Dashboard/appointments/AddAppointmentsDialog";
 import { EditDialog } from "@/components/Dashboard/appointments/EditAppointmentsDialog";
 import SelectDoctorAppointment from "@/components/Dashboard/appointments/SelectDoctorAppointment";
+import DeleteAllDialog from "@/components/generalDialog/DeleteAllDialog";
 export default function App() {
   const router = useRouter();
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
+  const [openDeleteAll, setOpenDeleteAll] = React.useState(false);
   const [doctorId, setDoctorId] = React.useState("");
   const [selectedData, setSelectedData] =
     React.useState<appointmentDetails | null>(null);
-  let { data } = useGetData(`${appointmentUrl}${doctorId}`, "allAppointment", [
-    doctorId,
-  ]);
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(10);
+  let { data } = useGetData(
+    `${appointmentUrl}${doctorId}`,
+    "allAppointment",
+    [doctorId],
+    true,
+    page,
+    pageSize
+  );
   const appointmentsData = data?.data.data || [];
+  const totalPages = data?.data.last_page || 1;
+  const totalRecords = data?.data.total || 0;
   const handleAppointment = (doctorId: string) => {
     setDoctorId(doctorId);
   };
@@ -42,9 +53,13 @@ export default function App() {
     setSelectedData(data);
     setOpenDelete(true);
   };
+  const handleOpenDeleteAllDialog = () => {
+    setOpenDeleteAll(true);
+  };
   const { user, role, isSuccess } = useUser();
   const columns = createColumns<appointmentDetails>(
     [
+      "id",
       "time_start",
       "time_end",
       "status",
@@ -62,7 +77,7 @@ export default function App() {
   }
   return (
     <>
-      <div className="flex justify-between align-items-center">
+      <div className="flex justify-between align-items-center flex-wrap">
         <Heading title="appointments" />
 
         {hasPermission(role, "appointment", "create") && (
@@ -74,12 +89,31 @@ export default function App() {
         )}
       </div>
       {appointmentsData && (
-        <DataTable
-          columns={columns}
-          data={appointmentsData}
-          filterKeys={["time_start", "time_end", "status", "doctor.full_name"]}
-          filterPlaceholder="Filter name..."
-        />
+        <>
+          <DataTable
+            columns={columns}
+            data={appointmentsData}
+            filterKeys={["id"]}
+            filterPlaceholder="Filter name..."
+            page={page}
+            pageSize={pageSize}
+            totalPages={totalPages}
+            totalRecords={totalRecords}
+            onPageChange={setPage}
+            onPageSizeChange={setPageSize}
+          />
+          <div className="flex justify-end">
+            {appointmentsData.length > 0 && (
+              <Button
+                className="inline"
+                variant={"destructive"}
+                onClick={handleOpenDeleteAllDialog}
+              >
+                Delete All Appointment
+              </Button>
+            )}
+          </div>
+        </>
       )}
 
       <AddDialog open={openAdd} onOpenChange={setOpenAdd} />
@@ -94,6 +128,14 @@ export default function App() {
         item={selectedData}
         url={appointmentUrl}
         mutationKey="deleteAppointment"
+        queryKey="allAppointment"
+        itemName="appointment"
+      />
+      <DeleteAllDialog
+        open={openDeleteAll}
+        onOpenChange={setOpenDeleteAll}
+        url={deleteAllAppointmentsUrl}
+        mutationKey="deleteAllAppointment"
         queryKey="allAppointment"
         itemName="appointment"
       />

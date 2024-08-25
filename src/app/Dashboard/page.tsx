@@ -1,3 +1,3 @@
-export default function DashboardPage() {
-  return <>weclome to dashboard</>;
-}
+  export default function DashboardPage() {
+    return <>weclome to dashboard</>;
+  }

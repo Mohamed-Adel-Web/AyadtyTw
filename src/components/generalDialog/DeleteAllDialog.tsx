@@ -10,11 +10,11 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import useDeleteData from "@/customHooks/crudHooks/useDeleteData";
+import useDeleteAllData from "@/customHooks/crudHooks/useDeleteAllData";
 
-interface DeleteDialogProps<T> {
+interface DeleteDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  item: T | null;
   url: string;
   mutationKey: string;
   queryKey: string;
@@ -22,23 +22,19 @@ interface DeleteDialogProps<T> {
   method?: "put" | "delete";
 }
 
-const DeleteDialog = <T extends { id: number | undefined }>({
+const DeleteAllDialog = ({
   open,
   onOpenChange,
-  item,
   url,
   mutationKey,
   queryKey,
   itemName = "item",
   method = "delete",
-  
-}: DeleteDialogProps<T>) => {
-  const { mutate, isSuccess, isPending } = useDeleteData(
+}: DeleteDialogProps) => {
+  const { mutate, isSuccess, isPending } = useDeleteAllData(
     url,
-    item?.id,
     mutationKey,
-    queryKey,
-    method
+    queryKey
   );
 
   const handleDelete = () => {
@@ -59,8 +55,8 @@ const DeleteDialog = <T extends { id: number | undefined }>({
         </DialogHeader>
         <DialogDescription>
           {method == "put"
-            ? `Are you sure you want to cancel this ${itemName}`
-            : `Are you sure you want to delete this ${itemName}`}
+            ? `Are you sure you want to cancel all ${itemName}`
+            : `Are you sure you want to delete all  ${itemName}`}
         </DialogDescription>
         <DialogFooter>
           <Button variant="ghost" onClick={() => onOpenChange(false)}>
@@ -79,4 +75,4 @@ const DeleteDialog = <T extends { id: number | undefined }>({
   );
 };
 
-export default DeleteDialog;
+export default DeleteAllDialog;

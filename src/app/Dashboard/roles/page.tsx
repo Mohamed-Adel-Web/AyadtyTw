@@ -5,7 +5,7 @@ import { DataTable } from "../../../components/Dashboard/Datatable/DataTable";
 import { Button } from "@/components/ui/button";
 import Heading from "@/components/Dashboard/DashboardLayout/Heading";
 import useGetData from "@/customHooks/crudHooks/useGetData";
-import {  rolesUrl } from "@/backend/backend";
+import { rolesUrl } from "@/backend/backend";
 import DeleteDialog from "@/components/generalDialog/DeleteDialog";
 import { Role } from "@/types/RolesTypes/role";
 import { AddDialog } from "@/components/Dashboard/roles/AddRoleDialog";
@@ -19,7 +19,22 @@ export default function App() {
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
   const [selectedData, setSelectedData] = React.useState<Role | null>(null);
-  const { data } = useGetData(rolesUrl, "allRole");
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(10);
+  const [selectedFilterKey, setSelectedFilterKey] = React.useState<string>();
+  const [filterValue, setFilterValue] = React.useState<string>("");
+  const { data } = useGetData(
+    rolesUrl,
+    "allRole",
+    [],
+    true,
+    page,
+    pageSize,
+    selectedFilterKey,
+    filterValue
+  );
+  const totalPages = data?.data.last_page || 1;
+  const totalRecords = data?.data.total || 0;
   const roleData: Role[] = data?.data;
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
@@ -34,11 +49,14 @@ export default function App() {
     setSelectedData(data);
     setOpenDelete(true);
   };
+  const handleFilterChange = (key: string, value: string) => {
+    setSelectedFilterKey(key);
+    setFilterValue(value);
+  };
   const { user, role, isSuccess } = useUser();
   const columns = createColumns<Role>(
     ["name"],
-
-    "patient",
+    "doctor",
     role,
     handleOpenEditDialog,
     handleOpenDeleteDialog
@@ -58,6 +76,13 @@ export default function App() {
           data={roleData}
           filterKeys={["name"]}
           filterPlaceholder="Filter..."
+          page={page}
+          pageSize={pageSize}
+          totalPages={totalPages}
+          totalRecords={totalRecords}
+          onPageChange={setPage}
+          onPageSizeChange={setPageSize}
+          onFilterChange={handleFilterChange}
         />
       )}
 

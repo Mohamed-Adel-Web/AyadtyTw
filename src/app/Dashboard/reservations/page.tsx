@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import DoctorReservationCard from "@/components/Dashboard/reservations/DoctorReservationCard";
 import NoDataMessage from "@/components/Common/NoDataMessage";
 import LoadingSpinner from "@/components/Common/LoadingSpinner";
+import { useDebounce } from "@/customHooks/useDebounce";
 
 const App: React.FC = () => {
   const router = useRouter();
@@ -22,6 +23,8 @@ const App: React.FC = () => {
     useGetData(specializationUrl, "allSpecialization");
   const { user, role, isSuccess: roleSuccess } = useUser();
   const specializationList = specializationsData?.data.data;
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
   const {
     data: doctorsResData,
     isLoading: doctorsLoading,
@@ -29,8 +32,8 @@ const App: React.FC = () => {
   } = useGetData(
     `${doctorUrl}?name=${searchTerm}&spec=${selectedSpecialty?.id || ""}`,
     "doctorBySearchOrSpecialization",
-    [searchTerm, selectedSpecialty?.id],
-    !!searchTerm || selectedSpecialty !== null
+    [debouncedSearchTerm, selectedSpecialty?.id],
+    !!debouncedSearchTerm || selectedSpecialty !== null
   );
   const doctorsData = doctorsResData?.data.data;
 
@@ -72,7 +75,7 @@ const App: React.FC = () => {
           <NoDataMessage message="No doctors found." />
         )}
         {doctorsData?.map((doctor: Doctor) => (
-            <DoctorReservationCard doctor={doctor} key={doctor.id} />
+          <DoctorReservationCard doctor={doctor} key={doctor.id} />
         ))}
       </div>
     </>

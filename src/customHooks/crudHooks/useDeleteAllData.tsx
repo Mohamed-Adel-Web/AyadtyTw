@@ -5,12 +5,11 @@ import Cookies from "js-cookie";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "../loginHooks/useAuth";
 
-const useDeleteData = (
+const useDeleteAllData = (
   url: string,
-  id: number | undefined,
   mutationKey: string,
   invalidateQueryKey: string,
-  method: "put" | "delete" = "delete"
+  method: "delete" = "delete"
 ) => {
   const { token, setToken } = useAuth();
   const cookieToken = Cookies.get("token");
@@ -21,7 +20,7 @@ const useDeleteData = (
   }
 
   const deleteDataRequest = () => {
-    return axios[method](`${url}/${id}`, {
+    return axios[method](`${url}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -30,7 +29,7 @@ const useDeleteData = (
 
   const queryClient = useQueryClient();
   const { mutate, data, error, isPending, isSuccess, isError } = useMutation({
-    mutationKey: [mutationKey, id],
+    mutationKey: [mutationKey],
     mutationFn: deleteDataRequest,
     onSuccess: (data) => {
       if (data.data.status === 200) {
@@ -56,4 +55,4 @@ const useDeleteData = (
   return { mutate, data, error, isPending, isSuccess, isError };
 };
 
-export default useDeleteData;
+export default useDeleteAllData;

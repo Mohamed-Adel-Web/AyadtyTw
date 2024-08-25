@@ -1,7 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  env: {
-    SECRET_KEY: process.env.SECRET_KEY,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "192.168.1.19",
+        port: "",
+        pathname: "/storage/images/**", 
+      },
+    ],
   },
 };
 
