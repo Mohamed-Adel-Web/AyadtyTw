@@ -16,3 +16,5 @@ export const paymentUrl = `${baseUrl}/payments`;
 export const vitalHistoryUrl = `${baseUrl}/vital-histories`;
 export const profileVitalHistoryUrl = `${baseUrl}/vital-history/patient`;
 export const doctorSettingUrl = `${baseUrl}/settings`;
+export const statisticsUrl = `${baseUrl}/statistics`;
+export const yearlyTransactionUrl = `${baseUrl}/payment/totals`;

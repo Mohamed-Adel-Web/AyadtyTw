@@ -49,3 +49,10 @@ export const getBadgeClass = (status: string) => {
       return "bg-gray-300 text-black";
   }
 };
+export const generateYears = (startYear: number, endYear: number) => {
+  const years = [];
+  for (let year = endYear; year >= startYear; year--) {
+    years.push(year.toString());
+  }
+  return years;
+};
