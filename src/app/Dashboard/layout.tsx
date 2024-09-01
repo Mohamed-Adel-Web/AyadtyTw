@@ -117,7 +117,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       icon: <DollarSignIcon className="h-5 w-5" />,
       permission: hasPermission(role, "income", "read"),
     },
-
   ];
   const filteredLinks = links.filter((link) => link.permission);
 
@@ -127,7 +126,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
         <Header links={filteredLinks} />
         <main className="grid flex-1 items-start gap-4 p-8 sm:px-6 sm:py-0 md:gap-8">
-          {children}
+          <div className="container shadow-2xl p-5">{children}</div>
         </main>
       </div>
     </div>

@@ -14,6 +14,8 @@ import { IVitalHistory } from "@/types/vitalHistoryTypes/vitalHistory";
 import { AddDialog } from "@/components/Dashboard/vitalHistory/AddVitalDialog";
 import { EditDialog } from "@/components/Dashboard/vitalHistory/EditVitalDialog";
 import ReportSheetComponent from "@/components/Dashboard/vitalHistory/ReportDialog";
+import AddButton from "@/components/Common/AddButton";
+import TableHeadLayout from "@/components/Common/TableHeadingLayout";
 export default function App() {
   const { user, role, isSuccess } = useUser();
   const router = useRouter();
@@ -75,12 +77,12 @@ export default function App() {
   };
   return (
     <>
-      <div className="flex justify-between align-items-center">
+      <TableHeadLayout>
         <Heading title="Vital History" />
         {hasPermission(role, "vital history", "create") && (
-          <Button onClick={handleOpenAddDialog}>Add New</Button>
+          <AddButton handleAddDialog={handleOpenAddDialog} />
         )}
-      </div>
+      </TableHeadLayout>
       {vitalHistoryData && (
         <DataTable
           columns={columns}

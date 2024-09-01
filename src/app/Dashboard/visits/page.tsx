@@ -1,4 +1,5 @@
 "use client";
+import TableHeadLayout from "@/components/Common/TableHeadingLayout";
 import Heading from "@/components/Dashboard/DashboardLayout/Heading";
 import ReservationsCalendar from "@/components/Dashboard/visits/ReservationsConfirmCalendar";
 import SelectDoctorReservation from "@/components/Dashboard/visits/SelectDoctorReservations";
@@ -20,7 +21,7 @@ export default function App() {
 
   return (
     <>
-      <div className="flex justify-between align-items-center flex-wrap">
+      <TableHeadLayout>
         <Heading title="Reservations Confirm    " />
 
         {hasPermission(role, "visits", "create") && (
@@ -28,7 +29,7 @@ export default function App() {
             <SelectDoctorReservation handleReservations={handleReservations} />
           </>
         )}
-      </div>
+      </TableHeadLayout>
       <ReservationsCalendar doctorId={doctorId} />
     </>
   );

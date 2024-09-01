@@ -38,15 +38,15 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
   };
 
   return (
-    <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+    <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-white px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 shadow-md">
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
         <SheetTrigger asChild>
           <Button size="icon" variant="outline" className="sm:hidden">
-            <PanelLeftIcon className="h-5 w-5" />
+            <PanelLeftIcon className="h-5 w-5 text-[#5A5FE0]" />
             <span className="sr-only">Toggle Menu</span>
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="sm:max-w-xs">
+        <SheetContent side="left" className="sm:max-w-xs bg-white shadow-lg">
           <nav className="grid gap-6 text-lg font-medium my-5">
             {links.map((link) => (
               <Link
@@ -54,8 +54,8 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
                 href={link.href}
                 className={`flex items-center gap-4 px-2.5 ${
                   currentPath === link.href
-                    ? "text-white bg-black"
-                    : "text-muted-foreground hover:text-foreground"
+                    ? "text-white bg-[#5A5FE0]"
+                    : "text-[#5A5FE0] hover:bg-gray-100"
                 }`}
                 onClick={handleLinkClick}
               >
@@ -66,7 +66,7 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
           </nav>
         </SheetContent>
       </Sheet>
-      <Breadcrumb className="hidden md:flex">
+      <Breadcrumb className="hidden md:flex text-[#5A5FE0]">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
@@ -89,7 +89,7 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
             <Button
               variant="outline"
               size="icon"
-              className="overflow-hidden rounded-full"
+              className="overflow-hidden rounded-full border-[#5A5FE0]"
             >
               <Image
                 src="/next.svg"
@@ -100,13 +100,13 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
               />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuContent align="end" className="bg-white shadow-lg">
+            <DropdownMenuLabel className="text-[#5A5FE0]">My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>Support</DropdownMenuItem>
+            <DropdownMenuItem className="hover:bg-gray-100">Settings</DropdownMenuItem>
+            <DropdownMenuItem className="hover:bg-gray-100">Support</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Logout</DropdownMenuItem>
+            <DropdownMenuItem className="hover:bg-gray-100">Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

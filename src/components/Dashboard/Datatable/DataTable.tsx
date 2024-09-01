@@ -1,11 +1,10 @@
-import * as React from "react";
+import Link from "next/link";
 import {
   ColumnDef,
   SortingState,
   VisibilityState,
   flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
@@ -28,6 +27,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useDebounce } from "@/customHooks/useDebounce";
+import { useRouter } from "next/navigation";
+import React from "react";
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData, any>[];
@@ -41,8 +42,8 @@ interface DataTableProps<TData> {
   onPageChange: (newPage: number) => void;
   onPageSizeChange: (newPageSize: number) => void;
   onFilterChange?: (key: string, value: string) => void;
+  clickable?: boolean;
 }
-
 function getNestedValue(obj: any, path: string): any {
   return path.split(".").reduce((o, p) => (o ? o[p] : ""), obj);
 }
@@ -59,6 +60,7 @@ export function DataTable<TData>({
   onPageChange,
   onPageSizeChange,
   onFilterChange,
+  clickable = false,
 }: DataTableProps<TData>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<
@@ -77,7 +79,6 @@ export function DataTable<TData>({
   >(null);
   const [filterValue, setFilterValue] = React.useState("");
 
-  // Debounce the filter value
   const debouncedFilterValue = useDebounce(filterValue, 500);
 
   React.useEffect(() => {
@@ -143,23 +144,26 @@ export function DataTable<TData>({
   };
 
   return (
-    <div className="w-full shadow-2xl rounded-lg border border-gray-200">
-      <div className="flex items-center py-4 px-6 space-x-4 bg-gray-50 rounded-t-lg">
+    <div className="w-full shadow-lg rounded-lg border border-gray-300">
+      <div className="flex items-center py-4 px-6 space-x-4 bg-[#787EFF] text-white rounded-t-lg">
         {filterKeys.length > 0 && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto">
+              <Button
+                variant="outline"
+                className="ml-auto bg-white text-[#787EFF] hover:bg-gray-100"
+              >
                 {selectedFilterKey || "Select Filter"}{" "}
                 <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align="end" className="bg-white text-gray-700">
               {filterKeys.map((key: any) => (
                 <DropdownMenuCheckboxItem
                   key={key as string}
                   checked={selectedFilterKey === key}
                   onCheckedChange={() => handleFilterKeyChange(key as string)}
-                  className="capitalize"
+                  className="capitalize hover:bg-gray-100"
                 >
                   {key}
                 </DropdownMenuCheckboxItem>
@@ -172,16 +176,19 @@ export function DataTable<TData>({
             placeholder={filterPlaceholder}
             value={filterValue}
             onChange={(event) => handleFilterValueChange(event.target.value)}
-            className="max-w-sm"
+            className="max-w-sm border-gray-300 shadow-sm text-black"
           />
         )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-2">
+            <Button
+              variant="outline"
+              className="ml-2 bg-white text-[#787EFF] hover:bg-gray-100"
+            >
               Columns <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end" className="bg-white text-gray-700">
             {columns.map((column) => (
               <DropdownMenuCheckboxItem
                 key={column.id as string}
@@ -192,7 +199,7 @@ export function DataTable<TData>({
                     [column.id as string]: !prev[column.id as string],
                   }))
                 }
-                className="capitalize"
+                className="capitalize hover:bg-gray-100"
               >
                 {String(column.id)}
               </DropdownMenuCheckboxItem>
@@ -200,16 +207,16 @@ export function DataTable<TData>({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="overflow-x-auto rounded-b-lg border-t border-gray-200">
+      <div className="overflow-x-auto rounded-b-lg border-t border-gray-300">
         <Table className="min-w-full divide-y divide-gray-200">
-          <TableHeader className="bg-gray-100">
+          <TableHeader className="bg-gray-100 text-gray-700">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
                       key={header.id}
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-semibold tracking-wider hover:bg-gray-200 cursor-pointer"
                     >
                       {header.isPlaceholder
                         ? null
@@ -229,16 +236,30 @@ export function DataTable<TData>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className={`font-medium text-lg `}
+                  className={`font-medium text-lg hover:bg-gray-100 cursor-${
+                    clickable ? "pointer" : "default"
+                  }`}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
                       className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
                     >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
+                      {clickable ? (
+                        <Link
+                        className="d-block w-100 h-100"
+                          href={`patients/${(row.original as any).id}`}
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </Link>
+                      ) : (
+                        flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )
                       )}
                     </TableCell>
                   ))}
@@ -257,17 +278,18 @@ export function DataTable<TData>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4 px-6 bg-gray-50 rounded-b-lg">
-        <div className="flex-1 text-sm text-gray-500">
+      <div className="flex items-center justify-between space-x-2 py-4 px-6 bg-gray-50 rounded-b-lg">
+        <div className="text-sm text-gray-500">
           Showing {page * pageSize - pageSize + 1} to{" "}
           {Math.min(page * pageSize, totalRecords)} of {totalRecords} results.
         </div>
-        <div className="space-x-2">
+        <div className="flex space-x-2">
           <Button
             variant="outline"
             size="sm"
             onClick={handlePreviousPage}
             disabled={page <= 1}
+            className="bg-white text-[#787EFF] hover:bg-gray-100"
           >
             Previous
           </Button>
@@ -276,6 +298,7 @@ export function DataTable<TData>({
             size="sm"
             onClick={handleNextPage}
             disabled={page >= totalPages}
+            className="bg-white text-[#787EFF] hover:bg-gray-100"
           >
             Next
           </Button>
@@ -284,7 +307,7 @@ export function DataTable<TData>({
           <select
             value={pageSize}
             onChange={handlePageSizeChange}
-            className="ml-2 border rounded-md p-2"
+            className="ml-2 border-gray-300 rounded-md p-2 bg-white shadow-sm"
           >
             <option value={10}>10</option>
             <option value={20}>20</option>

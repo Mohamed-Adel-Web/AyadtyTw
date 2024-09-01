@@ -13,6 +13,8 @@ import { AddDialog } from "@/components/Dashboard/assistants/AddAssistantsDialog
 import { hasPermission } from "@/lib/utils";
 import useUser from "@/customHooks/loginHooks/useUser";
 import { useRouter } from "next/navigation";
+import AddButton from "@/components/Common/AddButton";
+import TableHeadLayout from "@/components/Common/TableHeadingLayout";
 export default function App() {
   const { user, role, isSuccess } = useUser();
   const router = useRouter();
@@ -75,12 +77,13 @@ export default function App() {
   };
   return (
     <>
-      <div className="flex justify-between align-items-center">
+      <TableHeadLayout>
         <Heading title="assistants" />
         {hasPermission(role, "assistant", "create") && (
-          <Button onClick={handleOpenAddDialog}>Add New</Button>
+          <AddButton handleAddDialog={handleOpenAddDialog} />
         )}
-      </div>
+      </TableHeadLayout>
+
       {assistantsData && (
         <DataTable
           columns={columns}

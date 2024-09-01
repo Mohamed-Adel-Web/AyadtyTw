@@ -15,6 +15,8 @@ import { AddDialog } from "@/components/Dashboard/appointments/AddAppointmentsDi
 import { EditDialog } from "@/components/Dashboard/appointments/EditAppointmentsDialog";
 import SelectDoctorAppointment from "@/components/Dashboard/appointments/SelectDoctorAppointment";
 import DeleteAllDialog from "@/components/generalDialog/DeleteAllDialog";
+import AddButton from "@/components/Common/AddButton";
+import TableHeadLayout from "@/components/Common/TableHeadingLayout";
 export default function App() {
   const router = useRouter();
   const [openAdd, setOpenAdd] = React.useState(false);
@@ -77,17 +79,17 @@ export default function App() {
   }
   return (
     <>
-      <div className="flex justify-between align-items-center flex-wrap">
+      <TableHeadLayout>
         <Heading title="appointments" />
 
         {hasPermission(role, "appointment", "create") && (
           <>
             <SelectDoctorAppointment handleAppointment={handleAppointment} />
 
-            <Button onClick={handleOpenAddDialog}>Add New</Button>
+            <AddButton handleAddDialog={handleOpenAddDialog} />
           </>
         )}
-      </div>
+      </TableHeadLayout>{" "}
       {appointmentsData && (
         <>
           <DataTable
@@ -102,7 +104,7 @@ export default function App() {
             onPageChange={setPage}
             onPageSizeChange={setPageSize}
           />
-          <div className="flex justify-end">
+          <div className="flex justify-end my-2">
             {appointmentsData.length > 0 && (
               <Button
                 className="inline"
@@ -115,7 +117,6 @@ export default function App() {
           </div>
         </>
       )}
-
       <AddDialog open={openAdd} onOpenChange={setOpenAdd} />
       <EditDialog
         open={openEdit}

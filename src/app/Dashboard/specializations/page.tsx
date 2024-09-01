@@ -13,6 +13,8 @@ import DeleteDialog from "@/components/generalDialog/DeleteDialog";
 import useUser from "@/customHooks/loginHooks/useUser";
 import { useRouter } from "next/navigation";
 import { hasPermission } from "@/lib/utils";
+import AddButton from "@/components/Common/AddButton";
+import TableHeadLayout from "@/components/Common/TableHeadingLayout";
 
 export default function App() {
   const router = useRouter();
@@ -72,14 +74,14 @@ export default function App() {
 
   return (
     <>
-      <div className="flex justify-between align-items-center">
+      <TableHeadLayout>
         <Heading title="Specializations" />
         {hasPermission(role, "specialization", "create") ? (
-          <Button onClick={handleOpenAddDialog}>Add New</Button>
+          <AddButton handleAddDialog={handleOpenAddDialog} />
         ) : (
           ""
         )}
-      </div>
+      </TableHeadLayout>
       {specializationsData && (
         <DataTable
           columns={columns}
@@ -95,7 +97,6 @@ export default function App() {
           onFilterChange={handleFilterChange}
         />
       )}
-
       <AddDialog open={openAdd} onOpenChange={setOpenAdd} />
       <EditDialog
         open={openEdit}

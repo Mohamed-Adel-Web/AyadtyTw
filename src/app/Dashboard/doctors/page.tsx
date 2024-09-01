@@ -13,6 +13,8 @@ import { EditDialog } from "@/components/Dashboard/doctors/EditDoctorDialog";
 import useUser from "@/customHooks/loginHooks/useUser";
 import { hasPermission } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import AddButton from "@/components/Common/AddButton";
+import TableHeadLayout from "@/components/Common/TableHeadingLayout";
 
 export default function App() {
   const router = useRouter();
@@ -76,12 +78,12 @@ export default function App() {
 
   return (
     <>
-      <div className="flex justify-between align-items-center">
+      <TableHeadLayout>
         <Heading title="Doctors" />
         {hasPermission(role, "doctor", "create") && (
-          <Button onClick={handleOpenAddDialog}>Add New</Button>
+          <AddButton handleAddDialog={handleOpenAddDialog} />
         )}
-      </div>
+      </TableHeadLayout>
       {doctorsData && (
         <DataTable
           columns={columns}

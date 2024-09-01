@@ -13,6 +13,8 @@ import { patient, patientDetails } from "@/types/patientTypes/patient";
 import { useRouter } from "next/navigation";
 import useUser from "@/customHooks/loginHooks/useUser";
 import { hasPermission } from "@/lib/utils";
+import AddButton from "@/components/Common/AddButton";
+import TableHeadLayout from "@/components/Common/TableHeadingLayout";
 export default function App() {
   const router = useRouter();
   const [openAdd, setOpenAdd] = React.useState(false);
@@ -70,14 +72,14 @@ export default function App() {
   };
   return (
     <>
-      <div className="flex justify-between align-items-center">
-        <Heading title="Patients        " />
+      <TableHeadLayout>
+      <Heading title="Patients" />
         {hasPermission(role, "patient", "create") ? (
-          <Button onClick={handleOpenAddDialog}>Add New</Button>
-        ) : (
+            <AddButton handleAddDialog={handleOpenAddDialog} />
+          ) : (
           ""
         )}
-      </div>
+      </TableHeadLayout>
       {patientsData && (
         <DataTable
           columns={columns}
@@ -91,6 +93,7 @@ export default function App() {
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
           onFilterChange={handleFilterChange}
+          clickable={true}
         />
       )}
 

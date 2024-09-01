@@ -13,6 +13,8 @@ import { hasPermission } from "@/lib/utils";
 import { examinationDetails } from "@/types/examinationTypes/examinationTypes";
 import { AddDialog } from "@/components/Dashboard/examinationType/AddExaminationTypeDialog";
 import { EditDialog } from "@/components/Dashboard/examinationType/EditExaminationTypeDialog";
+import AddButton from "@/components/Common/AddButton";
+import TableHeadLayout from "@/components/Common/TableHeadingLayout";
 export default function App() {
   const router = useRouter();
   const [openAdd, setOpenAdd] = React.useState(false);
@@ -69,14 +71,14 @@ export default function App() {
   };
   return (
     <>
-      <div className="flex justify-between align-items-center">
-        <Heading title="Examination Type" />
+      <TableHeadLayout>
+      <Heading title="Examination Type" />
         {hasPermission(role, "examination Type", "create") ? (
-          <Button onClick={handleOpenAddDialog}>Add New</Button>
-        ) : (
+            <AddButton handleAddDialog={handleOpenAddDialog} />
+          ) : (
           ""
         )}
-      </div>
+      </TableHeadLayout>
       {examinationData && (
         <DataTable
           columns={columns}

@@ -11,6 +11,7 @@ import useUser from "@/customHooks/loginHooks/useUser";
 import { useRouter } from "next/navigation";
 import { IPayment } from "@/types/paymentTypes/payment";
 import TransactionDetailsDialog from "@/components/Dashboard/income/TransactionDetailsDialog";
+import TableHeadLayout from "@/components/Common/TableHeadingLayout";
 export default function App() {
   const { user, role, isSuccess } = useUser();
   const router = useRouter();
@@ -72,9 +73,9 @@ export default function App() {
   };
   return (
     <>
-      <div className="flex justify-between align-items-center">
-        <Heading title="Transactions" />
-      </div>
+      <TableHeadLayout>
+      <Heading title="Transactions" />
+      </TableHeadLayout>
       {paymentsData && (
         <DataTable
           columns={columns}

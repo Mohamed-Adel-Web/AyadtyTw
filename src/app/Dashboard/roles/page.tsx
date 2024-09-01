@@ -12,6 +12,8 @@ import { AddDialog } from "@/components/Dashboard/roles/AddRoleDialog";
 import EditDialog from "@/components/Dashboard/roles/EditRoleDialog";
 import useUser from "@/customHooks/loginHooks/useUser";
 import { useRouter } from "next/navigation";
+import AddButton from "@/components/Common/AddButton";
+import TableHeadLayout from "@/components/Common/TableHeadingLayout";
 
 export default function App() {
   const router = useRouter();
@@ -66,10 +68,10 @@ export default function App() {
   }
   return (
     <>
-      <div className="flex justify-between align-items-center">
+      <TableHeadLayout>
         <Heading title="Roles" />
-        <Button onClick={handleOpenAddDialog}>Add New</Button>
-      </div>
+        <AddButton handleAddDialog={handleOpenAddDialog} />
+      </TableHeadLayout>
       {roleData && (
         <DataTable
           columns={columns}
