@@ -36,7 +36,7 @@ export function AddDialog({
   const { mutate, isSuccess, isPending } = useAddData<IVitalHistory>(
     vitalHistoryUrl,
     "addVitalHistory",
-    ["allVitalHistory", "patientVitalHistory"]
+    "allVitalHistory",
   );
   const { errors } = formState;
 

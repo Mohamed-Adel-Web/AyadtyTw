@@ -36,7 +36,7 @@ export default function PatientVitalHistory({
   const [filterValue, setFilterValue] = React.useState<string>("");
   const { data } = useGetData(
     `${patientVitalHistoryUrl}/${patientId}`,
-    "patientVitalHistory",
+    "allVitalHistory",
     [patientId],
     true,
     page,
