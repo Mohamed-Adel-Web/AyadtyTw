@@ -13,8 +13,8 @@ import DeleteDialog from "@/components/generalDialog/DeleteDialog";
 import useUser from "@/customHooks/loginHooks/useUser";
 import { useRouter } from "next/navigation";
 import { hasPermission } from "@/lib/utils";
-import AddButton from "@/components/Common/AddButton";
-import TableHeadLayout from "@/components/Common/TableHeadingLayout";
+import AddButton from "@/components/Dashboard/DashboardLayout/AddButton";
+import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeadingLayout";
 
 export default function App() {
   const router = useRouter();
@@ -61,7 +61,7 @@ export default function App() {
     setFilterValue(value);
   };
   const columns = createColumns<Specialization>(
-    ["name"],
+  [{key:"name",label:"Name"}],
 
     "specialization",
     role,

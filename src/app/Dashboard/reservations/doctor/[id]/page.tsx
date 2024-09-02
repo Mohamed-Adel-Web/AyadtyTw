@@ -74,7 +74,7 @@ export default function DoctorAppointment({
   };
 
   return (
-    <div className="p-4">
+    <div className="p-7 bg-white shadow-2xl rounded-lg  ">
       <h1 className="text-2xl mb-4">{`${doctorData?.first_name} ${doctorData?.last_name}'s Appointments`}</h1>
       <ReservationFilter
         handleFilterChange={handleFilterChange}

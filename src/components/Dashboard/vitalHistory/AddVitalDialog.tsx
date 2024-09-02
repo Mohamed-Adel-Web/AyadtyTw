@@ -21,9 +21,11 @@ import { fields } from "./fields";
 export function AddDialog({
   open,
   onOpenChange,
+  patientId,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  patientId?: string;
 }) {
   const { register, formState, handleSubmit, control, reset } =
     useForm<IVitalHistory>({
@@ -34,12 +36,16 @@ export function AddDialog({
   const { mutate, isSuccess, isPending } = useAddData<IVitalHistory>(
     vitalHistoryUrl,
     "addVitalHistory",
-    "allVitalHistory"
+    ["allVitalHistory", "patientVitalHistory"]
   );
   const { errors } = formState;
 
   const onSubmit = (data: IVitalHistory) => {
-    mutate(data);
+    if (patientId) {
+      mutate({ ...data, patient_id: Number(patientId) });
+    } else {
+      mutate(data);
+    }
   };
 
   useMemo(() => {
@@ -95,16 +101,21 @@ export function AddDialog({
             <div className="text-red-500 w-full">{errors.report?.message}</div>
           )}
         </div>
-        <div className="space-y-2 my-3">
-          <AsyncSelectComponent
-            control={control}
-            name="patient_id"
-            label="Patient Name"
-            url={patientsUrl}
-            placeholder="Select patient..."
-            isRequired={true}
-          />
-        </div>{" "}
+        {patientId ? (
+          ""
+        ) : (
+          <div className="space-y-2 my-3">
+            <AsyncSelectComponent
+              control={control}
+              name="patient_id"
+              label="Patient Name"
+              url={patientsUrl}
+              placeholder="Select patient..."
+              isRequired={true}
+            />
+          </div>
+        )}
+
         <div className="flex items-center  space-x-1">
           <div className="inline-flex items-center">
             <label
@@ -153,7 +164,6 @@ export function AddDialog({
           />
         </div>
         {/* Checkbox for showing in patient profile */}
-
         <DialogFooter className="mt-3">
           <Button type="submit" disabled={isPending}>
             Save changes

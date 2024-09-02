@@ -13,8 +13,8 @@ import { AddDialog } from "@/components/Dashboard/assistants/AddAssistantsDialog
 import { hasPermission } from "@/lib/utils";
 import useUser from "@/customHooks/loginHooks/useUser";
 import { useRouter } from "next/navigation";
-import AddButton from "@/components/Common/AddButton";
-import TableHeadLayout from "@/components/Common/TableHeadingLayout";
+import AddButton from "@/components/Dashboard/DashboardLayout/AddButton";
+import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeadingLayout";
 export default function App() {
   const { user, role, isSuccess } = useUser();
   const router = useRouter();
@@ -53,14 +53,13 @@ export default function App() {
     setOpenDelete(true);
   };
   const columns = createColumns<assistantDetails>(
-    [
-      "id",
-      "first_name",
-      "last_name",
-      "phone",
-      "email",
-      "doctor.first_name",
-      "doctor.last_name",
+    [ { key: "id", label: "ID" },
+      { key: "first_name", label: "First Name" },
+      { key: "last_name", label: "Last Name" },
+      { key: "phone", label: "Phone Number" },
+      { key: "email", label: "Email Address" },
+      { key: "doctor.first_name", label: "Doctor's First Name" },
+      { key: "doctor.last_name", label: "Doctor's Last Name" },
     ],
 
     "assistant",

@@ -5,76 +5,79 @@ import { DataTable } from "../../../components/Dashboard/Datatable/DataTable";
 import { Button } from "@/components/ui/button";
 import Heading from "@/components/Dashboard/DashboardLayout/Heading";
 import useGetData from "@/customHooks/crudHooks/useGetData";
-import { doctorUrl } from "@/backend/backend";
-import { Doctor, DoctorDetails } from "@/types/doctorsTypes/doctors";
-import { AddDialog } from "@/components/Dashboard/doctors/AddDoctorDialog";
+import { patientVitalHistoryUrl, vitalHistoryUrl } from "@/backend/backend";
 import DeleteDialog from "@/components/generalDialog/DeleteDialog";
-import { EditDialog } from "@/components/Dashboard/doctors/EditDoctorDialog";
-import useUser from "@/customHooks/loginHooks/useUser";
 import { hasPermission } from "@/lib/utils";
+import useUser from "@/customHooks/loginHooks/useUser";
 import { useRouter } from "next/navigation";
+import { IVitalHistory } from "@/types/vitalHistoryTypes/vitalHistory";
+import { AddDialog } from "@/components/Dashboard/vitalHistory/AddVitalDialog";
+import { EditDialog } from "@/components/Dashboard/vitalHistory/EditVitalDialog";
+import ReportSheetComponent from "@/components/Dashboard/vitalHistory/ReportDialog";
 import AddButton from "@/components/Dashboard/DashboardLayout/AddButton";
 import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeadingLayout";
-
-export default function App() {
+export default function PatientVitalHistory({
+  patientId,
+}: {
+  patientId: string;
+}) {
+  const { user, role, isSuccess } = useUser();
   const router = useRouter();
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
-  const [selectedData, setSelectedData] = React.useState<DoctorDetails | null>(
+  const [openSheet, setOpenSheet] = React.useState(false);
+  const [selectedData, setSelectedData] = React.useState<IVitalHistory | null>(
     null
   );
   const [page, setPage] = React.useState(1);
   const [pageSize, setPageSize] = React.useState(10);
   const [selectedFilterKey, setSelectedFilterKey] = React.useState<string>();
   const [filterValue, setFilterValue] = React.useState<string>("");
-
   const { data } = useGetData(
-    doctorUrl,
-    "allDoctor",
-    [],
+    `${patientVitalHistoryUrl}/${patientId}`,
+    "patientVitalHistory",
+    [patientId],
     true,
     page,
     pageSize,
     selectedFilterKey,
     filterValue
   );
-
-  const doctorsData = data?.data.data || [];
+  const vitalHistoryData = data?.data.data || [];
   const totalPages = data?.data.last_page || 1;
   const totalRecords = data?.data.total || 0;
-
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
   };
-
-  const handleOpenEditDialog = (data: DoctorDetails) => {
+  const handleOpenEditDialog = (data: IVitalHistory) => {
     setSelectedData(data);
     setOpenEdit(true);
   };
-
-  const handleOpenDeleteDialog = (data: DoctorDetails) => {
+  const handleOpenDeleteDialog = (data: IVitalHistory) => {
     setSelectedData(data);
     setOpenDelete(true);
   };
-
-  const { user, role, isSuccess } = useUser();
-  const columns = createColumns<DoctorDetails>(
+  const handleShowReportDialog = (data: IVitalHistory) => {
+    setSelectedData(data);
+    setOpenSheet(true);
+  };
+  const columns = createColumns<IVitalHistory>(
     [
-      { key: "id", label: "ID" },
-      { key: "first_name", label: "First Name" },
-      { key: "last_name", label: "Last Name" },
-      { key: "email", label: "Email Address" },
-      { key: "phone", label: "Phone Number" },
-      { key: "specialization.name", label: "Specialization" },
+      { key: "patient_id", label: "patient id" },
+      { key: "pressure", label: "Pressure" },
+      { key: "weight", label: "Weight" },
+      { key: "blood_sugar", label: "Blood Sugar" },
+      { key: "doctor_id", label: "Doctor id" },
     ],
-    "doctor",
+    "vital history",
     role,
     handleOpenEditDialog,
-    handleOpenDeleteDialog
+    handleOpenDeleteDialog,
+    undefined,
+    handleShowReportDialog
   );
-
-  if (isSuccess && !hasPermission(role, "doctor", "read")) {
+  if (isSuccess && !hasPermission(role, "vital history", "read")) {
     router.push("/unauthorized");
   }
 
@@ -82,27 +85,26 @@ export default function App() {
     setSelectedFilterKey(key);
     setFilterValue(value);
   };
-
   return (
     <>
       <TableHeadLayout>
-        <Heading title="Doctors" />
-        {hasPermission(role, "doctor", "create") && (
+        <Heading title="Vital History" />
+        {hasPermission(role, "vital history", "create") && (
           <AddButton handleAddDialog={handleOpenAddDialog} />
         )}
       </TableHeadLayout>
-      {doctorsData && (
+      {vitalHistoryData && (
         <DataTable
           columns={columns}
-          data={doctorsData}
+          data={vitalHistoryData}
           filterKeys={[
-            "first_name",
-            "last_name",
-            "email",
-            "phone",
-            "specialization_ name",
+            "patient_id",
+            "pressure",
+            "weight",
+            "blood_sugar",
+            "doctor_id",
           ]}
-          filterPlaceholder="Filter..."
+          filterPlaceholder="Filter name..."
           page={page}
           pageSize={pageSize}
           totalPages={totalPages}
@@ -112,20 +114,30 @@ export default function App() {
           onFilterChange={handleFilterChange}
         />
       )}
-      <AddDialog open={openAdd} onOpenChange={setOpenAdd} />
+
+      <AddDialog
+        open={openAdd}
+        onOpenChange={setOpenAdd}
+        patientId={patientId}
+      />
       <EditDialog
         open={openEdit}
         onOpenChange={setOpenEdit}
-        doctor={selectedData}
+        vitalHistory={selectedData}
       />
-      <DeleteDialog<Doctor>
+      <DeleteDialog<IVitalHistory>
         open={openDelete}
         onOpenChange={setOpenDelete}
         item={selectedData}
-        url={doctorUrl}
-        mutationKey="deleteDoctor"
-        queryKey="allDoctor"
-        itemName="doctor"
+        url={vitalHistoryUrl}
+        mutationKey="deleteVitalHistory"
+        queryKey="allVitalHistory"
+        itemName="vital history"
+      />
+      <ReportSheetComponent
+        openSheet={openSheet}
+        setOpenSheet={setOpenSheet}
+        vitalHistory={selectedData}
       />
     </>
   );

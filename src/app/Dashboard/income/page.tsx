@@ -11,7 +11,7 @@ import useUser from "@/customHooks/loginHooks/useUser";
 import { useRouter } from "next/navigation";
 import { IPayment } from "@/types/paymentTypes/payment";
 import TransactionDetailsDialog from "@/components/Dashboard/income/TransactionDetailsDialog";
-import TableHeadLayout from "@/components/Common/TableHeadingLayout";
+import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeadingLayout";
 export default function App() {
   const { user, role, isSuccess } = useUser();
   const router = useRouter();
@@ -48,14 +48,14 @@ export default function App() {
   };
   const columns = createColumns<IPayment>(
     [
-      "id",
-      "amount",
-      "extra_amount",
-      "discount",
-      "total",
-      "status",
-      "created_at",
-      "payment_method",
+      { key: "id", label: "ID" },
+      { key: "amount", label: "Amount" },
+      { key: "extra_amount", label: "Extra Amount" },
+      { key: "discount", label: "Discount" },
+      { key: "total", label: "Total" },
+      { key: "status", label: "Status" },
+      { key: "created_at", label: "Created At" },
+      { key: "payment_method", label: "Payment Method" },
     ],
 
     "income",
@@ -74,7 +74,7 @@ export default function App() {
   return (
     <>
       <TableHeadLayout>
-      <Heading title="Transactions" />
+        <Heading title="Transactions" />
       </TableHeadLayout>
       {paymentsData && (
         <DataTable

@@ -15,8 +15,8 @@ import { AddDialog } from "@/components/Dashboard/appointments/AddAppointmentsDi
 import { EditDialog } from "@/components/Dashboard/appointments/EditAppointmentsDialog";
 import SelectDoctorAppointment from "@/components/Dashboard/appointments/SelectDoctorAppointment";
 import DeleteAllDialog from "@/components/generalDialog/DeleteAllDialog";
-import AddButton from "@/components/Common/AddButton";
-import TableHeadLayout from "@/components/Common/TableHeadingLayout";
+import AddButton from "@/components/Dashboard/DashboardLayout/AddButton";
+import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeadingLayout";
 export default function App() {
   const router = useRouter();
   const [openAdd, setOpenAdd] = React.useState(false);
@@ -61,12 +61,12 @@ export default function App() {
   const { user, role, isSuccess } = useUser();
   const columns = createColumns<appointmentDetails>(
     [
-      "id",
-      "time_start",
-      "time_end",
-      "status",
-      "doctor.first_name",
-      "doctor.last_name",
+      { key: "id", label: "id" },
+      { key: "time_start", label: "Start time" },
+      { key: "time_end", label: "End time" },
+      { key: "status", label: "Status" },
+      { key: "doctor.first_name", label: "Doctor first name" },
+      { key: "doctor.last_name", label: "Doctor last name" },
     ],
 
     "appointment",

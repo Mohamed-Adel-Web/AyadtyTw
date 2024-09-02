@@ -18,3 +18,5 @@ export const profileVitalHistoryUrl = `${baseUrl}/vital-history/patient`;
 export const doctorSettingUrl = `${baseUrl}/settings`;
 export const statisticsUrl = `${baseUrl}/statistics`;
 export const yearlyTransactionUrl = `${baseUrl}/payment/totals`;
+export const patientReservationUrl = `${baseUrl}/reservations/patients`;
+export const patientVitalHistoryUrl = `${baseUrl}/vital-histories-patients`;

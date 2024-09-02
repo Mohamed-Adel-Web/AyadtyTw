@@ -13,8 +13,8 @@ import { hasPermission } from "@/lib/utils";
 import { examinationDetails } from "@/types/examinationTypes/examinationTypes";
 import { AddDialog } from "@/components/Dashboard/examinationType/AddExaminationTypeDialog";
 import { EditDialog } from "@/components/Dashboard/examinationType/EditExaminationTypeDialog";
-import AddButton from "@/components/Common/AddButton";
-import TableHeadLayout from "@/components/Common/TableHeadingLayout";
+import AddButton from "@/components/Dashboard/DashboardLayout/AddButton";
+import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeadingLayout";
 export default function App() {
   const router = useRouter();
   const [openAdd, setOpenAdd] = React.useState(false);
@@ -55,7 +55,14 @@ export default function App() {
   };
   const { user, role, isSuccess } = useUser();
   const columns = createColumns<examinationDetails>(
-    ["id", "name", "amount", "color", "doctor.first_name", "doctor.last_name"],
+    [
+      { key: "id", label: "ID" },
+      { key: "name", label: "Name" },
+      { key: "amount", label: "Amount" },
+      { key: "color", label: "Color" },
+      { key: "doctor.first_name", label: "Doctor's First Name" },
+      { key: "doctor.last_name", label: "Doctor's Last Name" },
+    ],
 
     "examination Type",
     role,
@@ -72,10 +79,10 @@ export default function App() {
   return (
     <>
       <TableHeadLayout>
-      <Heading title="Examination Type" />
+        <Heading title="Examination Type" />
         {hasPermission(role, "examination Type", "create") ? (
-            <AddButton handleAddDialog={handleOpenAddDialog} />
-          ) : (
+          <AddButton handleAddDialog={handleOpenAddDialog} />
+        ) : (
           ""
         )}
       </TableHeadLayout>

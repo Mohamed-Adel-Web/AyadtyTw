@@ -88,7 +88,7 @@ export default function ReservationsCalendar({
   }, [isSuccess, reserVationData]);
 
   return (
-    <div>
+    <div className="bg-white p-4 shadow-xl rounded-lg">
       <FullCalendar
         plugins={[
           dayGridPlugin,

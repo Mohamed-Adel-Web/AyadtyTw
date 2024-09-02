@@ -25,8 +25,13 @@ export function hasStatus(obj: any): obj is { status: boolean } {
   return "status" in obj;
 }
 
+interface ColumnConfig<T> {
+  key: keyof T | string;
+  label: string;
+}
+
 export function createColumns<T extends BaseData>(
-  props: (keyof T | string)[],
+  props: ColumnConfig<T>[],
   currentSection: string,
   role: Role,
   handleOpenEditDialog?: (row: T) => void,
@@ -58,22 +63,19 @@ export function createColumns<T extends BaseData>(
       enableHiding: false,
     },
     ...props.map((prop) => ({
-      id: prop as string,
-      accessorKey: prop as string,
+      id: prop.key as string,
+      accessorKey: prop.key as string,
       header: ({ column }: { column: any }) => (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {String(prop)
-            .split(".")
-            .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-            .join(" ")}
+          {prop.label}
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
       cell: ({ row }: { row: any }) =>
-        prop === "status" ? (
+        prop.key === "status" ? (
           <div
             className={` ${
               row.original.status === "confirmed"
@@ -86,19 +88,21 @@ export function createColumns<T extends BaseData>(
                 ? "text-green-700 font-extrabold bg-green-200 inline-block py-1 px-2 rounded"
                 : row.original.status === "not-available"
                 ? "text-red-700 font-extrabold bg-red-200 inline-block py-1 px-2 rounded"
+                : row.original.status === "reserved"
+                ? "text-yellow-700 font-extrabold bg-yellow-200 inline-block py-1 px-2 rounded"
                 : ""
             }`}
           >
             {row.original.status.charAt(0).toUpperCase() +
               row.original.status.slice(1)}
           </div>
-        ) : prop === "time_start" ||
-          prop === "time_end" ||
-          prop === "created_at" ? (
+        ) : prop.key === "time_start" ||
+          prop.key === "time_end" ||
+          prop.key === "created_at" ? (
           <div className="border-r border-gray-200 px-3 py-2">
-            {formatDateTime(getNestedValue(row.original, prop as string))}
+            {formatDateTime(getNestedValue(row.original, prop.key as string))}
           </div>
-        ) : prop === "color" ? (
+        ) : prop.key === "color" ? (
           <div className="flex items-center space-x-2">
             <div
               className="w-4 h-4 rounded"
@@ -108,7 +112,7 @@ export function createColumns<T extends BaseData>(
           </div>
         ) : (
           <div className="border-r border-gray-200 px-3 py-2">
-            {getNestedValue(row.original, prop as string)}
+            {getNestedValue(row.original, prop.key as string)}
           </div>
         ),
     })),

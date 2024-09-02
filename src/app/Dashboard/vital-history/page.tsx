@@ -14,8 +14,8 @@ import { IVitalHistory } from "@/types/vitalHistoryTypes/vitalHistory";
 import { AddDialog } from "@/components/Dashboard/vitalHistory/AddVitalDialog";
 import { EditDialog } from "@/components/Dashboard/vitalHistory/EditVitalDialog";
 import ReportSheetComponent from "@/components/Dashboard/vitalHistory/ReportDialog";
-import AddButton from "@/components/Common/AddButton";
-import TableHeadLayout from "@/components/Common/TableHeadingLayout";
+import AddButton from "@/components/Dashboard/DashboardLayout/AddButton";
+import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeadingLayout";
 export default function App() {
   const { user, role, isSuccess } = useUser();
   const router = useRouter();
@@ -59,7 +59,13 @@ export default function App() {
     setOpenSheet(true);
   };
   const columns = createColumns<IVitalHistory>(
-    ["patient_id", "pressure", "weight", "blood_sugar", "doctor_id"],
+    [
+      { key: "patient_id", label: "patient id" },
+      { key: "pressure", label: "Pressure" },
+      { key: "weight", label: "Weight" },
+      { key: "blood_sugar", label: "Blood Sugar" },
+      { key: "doctor_id", label: "Doctor id" },
+    ],
     "vital history",
     role,
     handleOpenEditDialog,

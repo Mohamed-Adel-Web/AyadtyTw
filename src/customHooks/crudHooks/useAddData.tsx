@@ -8,7 +8,7 @@ import { useAuth } from "../loginHooks/useAuth";
 const useAddData = <T,>(
   url: string,
   mutationKey: string,
-  invalidateQueryKey: string
+  invalidateQueryKey: string | string[]
 ) => {
   const { token, setToken } = useAuth();
   const cookieToken = Cookies.get("token");

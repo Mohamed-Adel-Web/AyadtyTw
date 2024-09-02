@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function DoctorReservationCard({ doctor }: { doctor: Doctor }) {
   return (
-    <div className="lg:col-span-3 md:col-span-6 col-span-12 shadow-lg border  rounded-lg m-2 p-4">
+    <div className="lg:col-span-3 md:col-span-6 col-span-12 shadow-lg border bg-white  rounded-lg m-2 p-4">
       <div className="col-span-12 md:col-span-1">
         <Image  
           src={`${doctor.image}`}
@@ -30,7 +30,7 @@ export default function DoctorReservationCard({ doctor }: { doctor: Doctor }) {
             <span>{doctor.email}</span>
           </div>
         </div>
-        <div className="mt-4 flex justify-center md:justify-start space-x-2">
+        <div className="mt-4 flex justify-center md:justify-start space-x-2 text-sm">
           <Link
             href={`/doctor/${doctor.id}`}
             className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"

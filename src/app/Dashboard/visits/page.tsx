@@ -1,5 +1,5 @@
 "use client";
-import TableHeadLayout from "@/components/Common/TableHeadingLayout";
+import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeadingLayout";
 import Heading from "@/components/Dashboard/DashboardLayout/Heading";
 import ReservationsCalendar from "@/components/Dashboard/visits/ReservationsConfirmCalendar";
 import SelectDoctorReservation from "@/components/Dashboard/visits/SelectDoctorReservations";

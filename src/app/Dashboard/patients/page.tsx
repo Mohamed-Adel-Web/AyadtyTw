@@ -13,8 +13,8 @@ import { patient, patientDetails } from "@/types/patientTypes/patient";
 import { useRouter } from "next/navigation";
 import useUser from "@/customHooks/loginHooks/useUser";
 import { hasPermission } from "@/lib/utils";
-import AddButton from "@/components/Common/AddButton";
-import TableHeadLayout from "@/components/Common/TableHeadingLayout";
+import AddButton from "@/components/Dashboard/DashboardLayout/AddButton";
+import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeadingLayout";
 export default function App() {
   const router = useRouter();
   const [openAdd, setOpenAdd] = React.useState(false);
@@ -56,7 +56,13 @@ export default function App() {
   };
   const { user, role, isSuccess } = useUser();
   const columns = createColumns<patientDetails>(
-    ["id", "first_name", "last_name", "phone", "email"],
+    [
+      { key: "id", label: "id" },
+      { key: "first_name", label: "First Name" },
+      { key: "last_name", label: "last Name" },
+      { key: "phone", label: "Phone" },
+      { key: "email", label: "Email" },
+    ],
 
     "patient",
     role,
@@ -73,10 +79,10 @@ export default function App() {
   return (
     <>
       <TableHeadLayout>
-      <Heading title="Patients" />
+        <Heading title="Patients" />
         {hasPermission(role, "patient", "create") ? (
-            <AddButton handleAddDialog={handleOpenAddDialog} />
-          ) : (
+          <AddButton handleAddDialog={handleOpenAddDialog} />
+        ) : (
           ""
         )}
       </TableHeadLayout>

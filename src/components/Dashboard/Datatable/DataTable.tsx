@@ -144,7 +144,7 @@ export function DataTable<TData>({
   };
 
   return (
-    <div className="w-full shadow-lg rounded-lg border border-gray-300">
+    <div className="w-full shadow-2xl rounded-lg border border-gray-300">
       <div className="flex items-center py-4 px-6 space-x-4 bg-[#787EFF] text-white rounded-t-lg">
         {filterKeys.length > 0 && (
           <DropdownMenu>

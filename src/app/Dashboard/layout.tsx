@@ -125,10 +125,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       <Sidebar links={filteredLinks} />
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
         <Header links={filteredLinks} />
-        <main className="grid flex-1 items-start gap-4 p-8 sm:px-6 sm:py-0 md:gap-8">
-          <div className="container shadow-2xl p-5">{children}</div>
+        <main className="grid flex-1 items-start gap-4 p-8 sm:px-6 sm:py-0 md:gap-8 bg-[#e4e1e1a1] min-h-lvh">
+          <div className="container   p-5">{children}</div>
         </main>
       </div>
+      
     </div>
   );
 }

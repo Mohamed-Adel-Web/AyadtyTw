@@ -58,7 +58,7 @@ export default function SpecializationFilter({
               key={specialty.id}
               variant={specialty.name === selectedSpecialty?.name ? "default" : "outline"}
               onClick={() => handleGetDoctorBySpecial(specialty)}
-              className="col-span-3 text-md font-bold"
+              className="col-span-3 text-md font-bold bg-[]"
             >
               {specialty.name}
             </Button>
