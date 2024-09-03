@@ -47,7 +47,7 @@ export default function ProfileSetting({
     default:
       endpointUrl = patientsUrl;
   }
-  const { mutate ,isPending} = useEditData(
+  const { mutate, isPending } = useEditData(
     endpointUrl,
     profileData?.id,
     `edit${role?.permissions?.profileType?.type}`,
@@ -86,7 +86,7 @@ export default function ProfileSetting({
   const { errors } = formState;
   return (
     <>
-      <div className="flex flex-col min-h-dvh bg-background">
+      <div className="flex flex-col min-h-dvh bg-background shadow-2xl rounded-xl">
         <header className="sticky top-0 z-10 flex items-center gap-4 border-b bg-background px-4 py-3 sm:px-6">
           <div className="flex items-center gap-4">
             <Avatar className="h-10 w-10">

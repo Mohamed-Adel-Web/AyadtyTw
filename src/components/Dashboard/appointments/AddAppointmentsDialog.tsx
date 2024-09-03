@@ -1,9 +1,7 @@
-import React, { useMemo, useCallback } from "react";
-import { useForm, Controller } from "react-hook-form";
+import React, { useMemo } from "react";
+import { useForm} from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
@@ -11,14 +9,11 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import AsyncSelect from "react-select/async";
 import useAddData from "@/customHooks/crudHooks/useAddData";
 import { appointmentUrl, doctorUrl } from "@/backend/backend";
 import { fields } from "./fields";
 import { appointment } from "@/types/appointmentTypes/appointments";
 import useMinDateTime from "@/customHooks/appointmentHook/useMinDateTime";
-import { Doctor } from "@/types/doctorsTypes/doctors";
-import { IAsyncSelectOption } from "@/types/AsyncSelectOption";
 import { AsyncSelectComponent } from "@/components/Common/AsyncSelect";
 import DialogLayout from "@/components/generalDialog/DialogLayout";
 

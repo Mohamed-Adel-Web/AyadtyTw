@@ -13,7 +13,6 @@ import useAddData from "@/customHooks/crudHooks/useAddData";
 import { AsyncSelectComponent } from "@/components/Common/AsyncSelect";
 import DialogLayout from "@/components/generalDialog/DialogLayout";
 import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
 import { IVitalHistory } from "@/types/vitalHistoryTypes/vitalHistory";
 import { patientsUrl, doctorUrl, vitalHistoryUrl } from "@/backend/backend";
 import { fields } from "./fields";

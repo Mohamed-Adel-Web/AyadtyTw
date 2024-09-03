@@ -2,7 +2,6 @@
 import * as React from "react";
 import { createColumns } from "../../../components/Dashboard/Datatable/columns";
 import { DataTable } from "../../../components/Dashboard/Datatable/DataTable";
-import { Button } from "@/components/ui/button";
 import Heading from "@/components/Dashboard/DashboardLayout/Heading";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { examinationTypeUrl } from "@/backend/backend";

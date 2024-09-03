@@ -20,3 +20,4 @@ export const statisticsUrl = `${baseUrl}/statistics`;
 export const yearlyTransactionUrl = `${baseUrl}/payment/totals`;
 export const patientReservationUrl = `${baseUrl}/reservations/patients`;
 export const patientVitalHistoryUrl = `${baseUrl}/vital-histories-patients`;
+export const patientTransactionUrl = `${baseUrl}/payments/patients`;

@@ -58,14 +58,14 @@ export default function DoctorProfileSetting({ doctor }: { doctor: Doctor }) {
   }, [doctorSetting, reset]);
 
   return (
-    <div className="container mx-auto max-w-3xl px-4 py-12 md:px-6 md:py-16">
+    <div className="container mx-auto max-w-3xl px-4 py-12 md:px-6 md:py-16 shadow-2xl bg-white my-5 rounded-lg">
       <div className="space-y-4">
         <h1 className="text-3xl font-bold">Profile Settings</h1>
         <p className="text-muted-foreground">
           Manage your account settings and API key.
         </p>
       </div>
-      <Card className="mt-8">
+      <Card className="mt-8 border-4 border-[#5A5FE0] border-solid">
         <CardHeader>
           <CardTitle>API Key</CardTitle>
           <CardDescription>

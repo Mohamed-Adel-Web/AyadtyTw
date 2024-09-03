@@ -1,8 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
+
   DialogDescription,
   DialogFooter,
   DialogHeader,
@@ -12,7 +11,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { Doctor } from "@/types/doctorsTypes/doctors";
 import { doctorUrl, examinationTypeUrl, rolesUrl } from "@/backend/backend";
 import useEditData from "@/customHooks/crudHooks/useEditData";
 import { fields } from "./fields";

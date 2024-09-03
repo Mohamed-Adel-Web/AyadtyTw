@@ -8,11 +8,9 @@ import ProfileSetting from "@/components/myProfile/ProfileSetting";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import useUser from "@/customHooks/loginHooks/useUser";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function App() {
-  const router = useRouter();
   const { user, role, isSuccess } = useUser();
   const [endpointUrl, setEndpointUrl] = useState<string | null>(null);
 

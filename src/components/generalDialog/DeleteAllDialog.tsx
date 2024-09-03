@@ -9,7 +9,6 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import useDeleteData from "@/customHooks/crudHooks/useDeleteData";
 import useDeleteAllData from "@/customHooks/crudHooks/useDeleteAllData";
 
 interface DeleteDialogProps {

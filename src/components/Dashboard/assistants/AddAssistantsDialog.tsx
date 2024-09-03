@@ -1,8 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
+
   DialogDescription,
   DialogFooter,
   DialogHeader,
@@ -17,7 +16,6 @@ import useAddData from "@/customHooks/crudHooks/useAddData";
 import { fields } from "./fields";
 import { assistant } from "@/types/assistantTypes/assistants";
 import useGetData from "@/customHooks/crudHooks/useGetData";
-import { Doctor } from "@/types/doctorsTypes/doctors";
 import { Role } from "@/types/RolesTypes/role";
 import { AsyncSelectComponent } from "@/components/Common/AsyncSelect";
 import DialogLayout from "@/components/generalDialog/DialogLayout";

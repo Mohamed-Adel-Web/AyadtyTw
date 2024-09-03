@@ -25,7 +25,7 @@ import { IStatistics } from "@/types/statisticsTypes/statistics";
 import LoadingSpinner from "@/components/Common/LoadingSpinner";
 import { generateYears } from "@/lib/utils";
 
-export default function Component() {
+export default function App() {
   const currentYear = new Date().getFullYear();
   const [selectedYear, setSelectedYear] = useState(currentYear.toString());
 

@@ -4,14 +4,6 @@ import { ReactNode } from "react";
 
 import {
   HomeIcon,
-  SettingsIcon,
-  UsersIcon,
-  PackageIcon,
-  ShoppingCartIcon,
-  FileIcon,
-  ListFilterIcon,
-  LineChartIcon,
-  ShieldBan,
   UserIcon,
   KeyIcon,
   StarIcon,
@@ -27,7 +19,6 @@ import {
 import Sidebar from "@/components/Dashboard/DashboardLayout/DashboardSidebar";
 import Header from "@/components/Dashboard/DashboardLayout/DashboardHeader";
 import { LinkItem } from "@/types/linkItem";
-import AuthProvider from "@/customHooks/loginHooks/useAuth";
 import useUser from "@/customHooks/loginHooks/useUser";
 import { hasPermission } from "@/lib/utils";
 

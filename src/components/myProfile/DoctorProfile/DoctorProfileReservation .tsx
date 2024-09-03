@@ -52,7 +52,7 @@ export default function DoctorProfileReservation({
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 bg-gray-50 min-h-screen shadow-lg rounded-lg">
       <h2 className="text-3xl font-bold text-gray-800 mb-8">Reservations</h2>
       {reservations?.length === 0 ? (
         <p className="text-gray-500">No reservations for today.</p>

@@ -1,8 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
@@ -13,11 +11,9 @@ import { Label } from "@/components/ui/label";
 import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { doctorUrl, examinationTypeUrl } from "@/backend/backend";
-import useGetData from "@/customHooks/crudHooks/useGetData";
 import useAddData from "@/customHooks/crudHooks/useAddData";
 import { examination } from "@/types/examinationTypes/examinationTypes";
 import { fields } from "./fields";
-import { Doctor } from "@/types/doctorsTypes/doctors";
 import { AsyncSelectComponent } from "@/components/Common/AsyncSelect";
 import DialogLayout from "@/components/generalDialog/DialogLayout";
 export function AddDialog({

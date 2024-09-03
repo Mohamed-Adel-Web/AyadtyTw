@@ -1,30 +1,25 @@
 "use client";
 import * as React from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogClose,
-  DialogFooter,
-} from "@/components/ui/dialog";
 import useGetData from "@/customHooks/crudHooks/useGetData";
-import { doctorUrl, patientsUrl, reservationUrl } from "@/backend/backend";
-import { formatDateTime } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  doctorUrl,
+  examinationTypeUrl,
+  patientsUrl,
+  reservationUrl,
+} from "@/backend/backend";
+import LoadingSpinner from "@/components/Common/LoadingSpinner";
 import { IPayment } from "@/types/paymentTypes/payment";
 import { patient } from "@/types/patientTypes/patient";
 import { Doctor } from "@/types/doctorsTypes/doctors";
-import LoadingSpinner from "@/components/Common/LoadingSpinner";
+import PremiumPatientInvoice from "./PremiumPatientInvoice";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
 
-interface EditDialogProps {
+interface TransactionDetailsDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   payment: IPayment | null;
 }
-
-const TransactionDetailsDialog: React.FC<EditDialogProps> = ({
+const TransactionDetailsDialog: React.FC<TransactionDetailsDialogProps> = ({
   open,
   onOpenChange,
   payment,
@@ -36,6 +31,13 @@ const TransactionDetailsDialog: React.FC<EditDialogProps> = ({
     !!payment?.reservation_id
   );
   const reservation = reservationData?.data.data;
+  const { data: examinationData, isLoading: isLoadingExamination } = useGetData(
+    `${examinationTypeUrl}/${reservation?.examination_id}`,
+    "transactionDetails",
+    [reservation?.examination_id],
+    !!reservation?.examination_id
+  );
+  const examination = examinationData?.data;
 
   const { data: patientData, isLoading: isLoadingPatient } = useGetData(
     `${patientsUrl}/${reservation?.patient_id}`,
@@ -53,104 +55,37 @@ const TransactionDetailsDialog: React.FC<EditDialogProps> = ({
   );
   const doctor: Doctor = doctorData?.data.data;
 
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl">
-        <DialogHeader>
-          <DialogTitle>Transaction Details</DialogTitle>
-          <DialogClose />
-        </DialogHeader>
-        {isLoadingReservation || isLoadingPatient || isLoadingDoctor ? (
+  if (
+    isLoadingReservation ||
+    isLoadingPatient ||
+    isLoadingDoctor ||
+    isLoadingExamination
+  ) {
+    return (
+      <Sheet open={open} onOpenChange={onOpenChange}>
+        <SheetContent side={"top"} className="w-[500px] sm:w-full  ">
           <div className="flex justify-center items-center h-64">
             <LoadingSpinner />
           </div>
-        ) : (
-          patient &&
-          reservation &&
-          doctor && (
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <Card className="border-b pb-4">
-                  <CardHeader>
-                    <CardTitle>Patient Details</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p>
-                      <strong>Name:</strong>{" "}
-                      {patient.first_name + " " + patient.last_name}
-                    </p>
-                    <p>
-                      <strong>Email:</strong> {patient.email}
-                    </p>
-                    <p>
-                      <strong>Phone:</strong> {patient.phone}
-                    </p>
-                  </CardContent>
-                </Card>
+        </SheetContent>
+      </Sheet>
+    );
+  }
 
-                <Card className="border-b pb-4">
-                  <CardHeader>
-                    <CardTitle>Doctor Details</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p>
-                      <strong>Name:</strong> Dr.{" "}
-                      {doctor.first_name + " " + doctor.last_name}
-                    </p>
-
-                    <p>
-                      <strong>Email:</strong> {doctor.email}
-                    </p>
-                    <p>
-                      <strong>Phone:</strong> {doctor.phone}
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
-
-              <Card className="border-b pb-4">
-                <CardHeader>
-                  <CardTitle>Appointment Details</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p>
-                    <strong>Appointment ID:</strong>{" "}
-                    {reservation.appointment.id}
-                  </p>
-                  <p>
-                    <strong>Time Start:</strong>{" "}
-                    {formatDateTime(reservation.appointment.time_start)}
-                  </p>
-                  <p>
-                    <strong>Time End:</strong>{" "}
-                    {formatDateTime(reservation.appointment.time_end)}
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-b pb-4">
-                <CardHeader>
-                  <CardTitle>Reservation Details</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p>
-                    <strong>Reservation ID:</strong> {reservation.id}
-                  </p>
-
-                  <p>
-                    <strong>Created At:</strong>{" "}
-                    {formatDateTime(reservation.created_at)}
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          )
+  return (
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent side={"top"} className="w-[500px] sm:w-full  ">
+        {patient && reservation && doctor && payment && examination && (
+          <PremiumPatientInvoice
+            payment={payment}
+            patient={patient}
+            doctor={doctor}
+            reservation={reservation}
+            examination={examination}
+          />
         )}
-        <DialogFooter className="mt-3">
-          <Button onClick={() => onOpenChange(false)}>Close</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 };
 

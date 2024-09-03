@@ -22,8 +22,10 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { PanelLeftIcon } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { LinkItem } from "@/types/linkItem";
+import Cookies from "js-cookie";
+
 
 interface HeaderProps {
   links: LinkItem[];
@@ -32,10 +34,17 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ links }) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const currentPath = usePathname();
+  const router=useRouter()
 
   const handleLinkClick = () => {
     setIsSheetOpen(false);
   };
+  const handleLogout=()=>{
+    Cookies.remove("token")
+    Cookies.remove("user")
+    router.push("/login")
+
+  }
 
   return (
     <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-white px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 shadow-md">
@@ -101,12 +110,17 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="bg-white shadow-lg">
-            <DropdownMenuLabel className="text-[#5A5FE0]">My Account</DropdownMenuLabel>
+            <DropdownMenuLabel className="text-[#5A5FE0]">
+              My Account
+            </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="hover:bg-gray-100">Settings</DropdownMenuItem>
-            <DropdownMenuItem className="hover:bg-gray-100">Support</DropdownMenuItem>
+            <DropdownMenuItem className="hover:bg-gray-100">
+              <Link href={"MyProfile"}>Settings</Link>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="hover:bg-gray-100">Logout</DropdownMenuItem>
+            <DropdownMenuItem className="hover:bg-gray-100 cursor-pointer" onClick={handleLogout}>
+              Logout
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

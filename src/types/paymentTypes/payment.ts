@@ -6,6 +6,8 @@ export interface IPayment {
   amount: number;
   extra_amount: number;
   total: number;
+  comment:string;
+  discount:number;
   status: string;
   created_at: string;
   payment_method: PaymentMethod;

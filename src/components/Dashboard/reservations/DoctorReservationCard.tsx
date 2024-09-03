@@ -1,5 +1,5 @@
 import { Doctor } from "@/types/doctorsTypes/doctors";
-import { BadgeDollarSign, MailIcon, PhoneIcon } from "lucide-react";
+import {  MailIcon, PhoneIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 

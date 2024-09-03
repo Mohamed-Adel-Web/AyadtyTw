@@ -4,14 +4,18 @@ import { createColumns } from "../../../components/Dashboard/Datatable/columns";
 import { DataTable } from "../../../components/Dashboard/Datatable/DataTable";
 import Heading from "@/components/Dashboard/DashboardLayout/Heading";
 import useGetData from "@/customHooks/crudHooks/useGetData";
-import { paymentUrl } from "@/backend/backend";
+import { patientTransactionUrl } from "@/backend/backend";
 import { hasPermission } from "@/lib/utils";
 import useUser from "@/customHooks/loginHooks/useUser";
 import { useRouter } from "next/navigation";
 import { IPayment } from "@/types/paymentTypes/payment";
 import TransactionDetailsDialog from "@/components/Dashboard/income/TransactionDetailsDialog";
 import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeadingLayout";
-export default function App() {
+export default function PatientTransactionDetails({
+  patientId,
+}: {
+  patientId: string;
+}) {
   const { user, role, isSuccess } = useUser();
   const router = useRouter();
   const [openTransaction, setOpenTransaction] = React.useState(false);
@@ -21,10 +25,10 @@ export default function App() {
   const [selectedFilterKey, setSelectedFilterKey] = React.useState<string>();
   const [filterValue, setFilterValue] = React.useState<string>("");
   const { data } = useGetData(
-    paymentUrl,
+    `${patientTransactionUrl}/${patientId}`,
     "allPayments",
-    [],
-    true,
+    [patientId],
+    !!patientId,
     page,
     pageSize,
     selectedFilterKey,
@@ -56,7 +60,7 @@ export default function App() {
     "income",
     role,
     undefined,
-   undefined,
+    undefined,
     handleShowTransactionsDialog
   );
   if (isSuccess && !hasPermission(role, "income", "read")) {
@@ -98,7 +102,7 @@ export default function App() {
         onOpenChange={setOpenTransaction}
         payment={selectedData}
       />
-   
+      
     </>
   );
 }

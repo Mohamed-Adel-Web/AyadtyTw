@@ -12,7 +12,7 @@ interface IAsyncSelectComponentProps {
   placeholder?: string;
   isRequired?: boolean;
   id?: string;
-  defaultValue?: IAsyncSelectOption | null; // Add defaultValue prop
+  defaultValue?: IAsyncSelectOption | null;
 }
 
 export const AsyncSelectComponent: React.FC<IAsyncSelectComponentProps> = ({
