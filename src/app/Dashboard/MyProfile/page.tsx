@@ -1,5 +1,6 @@
 "use client";
 import { patientsUrl, assistantsUrl, doctorUrl } from "@/backend/backend";
+import LoadingSpinner from "@/components/Common/LoadingSpinner";
 import DoctorProfileReservation from "@/components/myProfile/DoctorProfile/DoctorProfileReservation ";
 import DoctorProfileSetting from "@/components/myProfile/DoctorProfile/DoctorProfileSetting";
 import PatientProfileReservation from "@/components/myProfile/PatientProfile/PatientProfileReservation";
@@ -39,8 +40,13 @@ export default function App() {
     !!user?.id && !!endpointUrl
   );
   const profileData = data?.data.data;
-  const reservationData = data?.data.reservations||[];
-  if (isLoading) return <div>Loading...</div>;
+  const reservationData = data?.data.reservations || [];
+  if (isLoading)
+    return (
+      <div>
+        <LoadingSpinner />
+      </div>
+    );
   if (error) return <div>Error: {error.message}</div>;
 
   return (

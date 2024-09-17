@@ -34,7 +34,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       href: "/Dashboard",
       label: "Home",
       icon: <HomeIcon className="h-5 w-5" />,
-      permission: true,
+      permission: role?.name == "superAdmin",
     },
     {
       href: "/Dashboard/MyProfile",

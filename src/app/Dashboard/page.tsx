@@ -24,10 +24,17 @@ import { statisticsUrl, yearlyTransactionUrl } from "@/backend/backend";
 import { IStatistics } from "@/types/statisticsTypes/statistics";
 import LoadingSpinner from "@/components/Common/LoadingSpinner";
 import { generateYears } from "@/lib/utils";
+import useUser from "@/customHooks/loginHooks/useUser";
+import { useRouter } from "next/navigation";
 
 export default function App() {
   const currentYear = new Date().getFullYear();
+  const router=useRouter();
   const [selectedYear, setSelectedYear] = useState(currentYear.toString());
+  const { user, role, isSuccess } = useUser();
+  if (isSuccess && role?.name !== "superAdmin") {
+    router.push("/unauthorized");
+  }
 
   const { data, isLoading: isStatisticsLoading } = useGetData(
     statisticsUrl,

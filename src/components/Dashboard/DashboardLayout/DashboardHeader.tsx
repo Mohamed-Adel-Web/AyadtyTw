@@ -79,7 +79,7 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/" prefetch={false}>
+              <Link href="/Dashboard/MyProfile" prefetch={false}>
                 Dashboard
               </Link>
             </BreadcrumbLink>
@@ -115,7 +115,7 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="hover:bg-gray-100">
-              <Link href={"MyProfile"}>Settings</Link>
+              <Link href={"/Dashboard/MyProfile"}>Settings</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="hover:bg-gray-100 cursor-pointer" onClick={handleLogout}>

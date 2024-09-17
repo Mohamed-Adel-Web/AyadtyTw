@@ -12,6 +12,7 @@ import { EventInput } from "@fullcalendar/core/index.js";
 import ReservationFilter from "@/components/Dashboard/reservations/reservationFilters/ReservationFilter";
 import { AddDialog } from "@/components/Dashboard/reservations/AddReservationDialog";
 import { appointment } from "@/types/appointmentTypes/appointments";
+import LoadingSpinner from "@/components/Common/LoadingSpinner";
 
 export default function DoctorAppointment({
   params,
@@ -19,7 +20,7 @@ export default function DoctorAppointment({
   params: { id: string };
 }) {
   const doctorId = params.id;
-  const { data, isSuccess } = useGetData(
+  const { data, isSuccess, isLoading } = useGetData(
     `${doctorUrl}/${doctorId}`,
     "doctorAppointmentDetails",
     [doctorId],
@@ -29,7 +30,7 @@ export default function DoctorAppointment({
   const [filter, setFilter] = useState<string>("all");
   const [open, setOpen] = useState<boolean>(false);
   const [appointmentId, setAppointmentId] = useState<number>(0);
-  const appointmentsData = data?.data.data.appointments;
+  const appointmentsData = data?.data?.data?.appointments;
   const doctorData = data?.data.data;
   useMemo(() => {
     if (isSuccess) {
@@ -72,6 +73,9 @@ export default function DoctorAppointment({
   const handleFilterChange = (newFilter: string) => {
     setFilter(newFilter);
   };
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="p-7 bg-white shadow-2xl rounded-lg  ">

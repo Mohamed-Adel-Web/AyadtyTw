@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AuthProvider from "@/customHooks/loginHooks/useAuth";
+import NavBarLayout from "@/components/Ayadty/navbar/NavbarLayout";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -26,7 +27,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               fontSans.variable
             )}
           >
-            <main>{children}</main>
+            <NavBarLayout />
+            <main>
+              <div className="container">{children}</div>
+            </main>
 
             <Toaster />
           </body>

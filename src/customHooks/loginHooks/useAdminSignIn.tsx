@@ -24,7 +24,7 @@ const useAdminSignIn = () => {
         Cookies.set("user", JSON.stringify(data.data.user), { expires: 30 });
         setToken(data.data.token);
         setUser(data.data.user);
-        window.location.href = "/Dashboard";
+        window.location.href = "/Dashboard/MyProfile";
       } else {
         toast({
           variant: "destructive",
