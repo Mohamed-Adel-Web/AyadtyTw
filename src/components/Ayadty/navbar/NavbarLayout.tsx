@@ -17,7 +17,7 @@ export default function NavBar() {
     { label: "Pricing", href: "/pricing" },
     { label: "FAQs", href: "/FAQs" },
     { label: "Contact Us", href: "/contact" },
-    { label: "Register", href: "/register" },
+    { label: "Register", href: "/clinic-register" },
   ];
 
   return (

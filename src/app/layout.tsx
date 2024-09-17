@@ -14,7 +14,6 @@ const fontSans = FontSans({
   variable: "--font-sans",
 });
 const queryClient = new QueryClient();
-
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
