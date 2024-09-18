@@ -12,13 +12,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { doctorUrl, patientsUrl, rolesUrl } from "@/backend/backend";
+import { patientsUrl, rolesUrl } from "@/backend/backend";
 import useEditData from "@/customHooks/crudHooks/useEditData";
 import { fields } from "./fields";
 import { patient, patientDetails } from "@/types/patientTypes/patient";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { Role } from "@/types/RolesTypes/role";
-import DialogLayout from "@/components/generalDialog/DialogLayout";
+import DialogLayout from "../generalDialog/DialogLayout";
 export function EditDialog({
   open,
   onOpenChange,

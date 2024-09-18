@@ -5,7 +5,6 @@ import { DataTable } from "../../../components/Dashboard/Datatable/DataTable";
 import Heading from "@/components/Dashboard/DashboardLayout/Heading";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { patientVitalHistoryUrl, vitalHistoryUrl } from "@/backend/backend";
-import DeleteDialog from "@/components/generalDialog/DeleteDialog";
 import { hasPermission } from "@/lib/utils";
 import useUser from "@/customHooks/loginHooks/useUser";
 import { useRouter } from "next/navigation";
@@ -15,6 +14,7 @@ import { EditDialog } from "@/components/Dashboard/vitalHistory/EditVitalDialog"
 import ReportSheetComponent from "@/components/Dashboard/vitalHistory/ReportDialog";
 import AddButton from "@/components/Dashboard/DashboardLayout/AddButton";
 import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeadingLayout";
+import DeleteDialog from "../generalDialog/DeleteDialog";
 export default function PatientVitalHistory({
   patientId,
 }: {

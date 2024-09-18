@@ -1,0 +1,96 @@
+{
+  "Ayadty": {
+    "navbar": {
+      "links": {
+        "home": "Home",
+        "pricing": "Pricing",
+        "faqs": "FAQs",
+        "contactUs": "Contact Us",
+        "register": "Register",
+        "openMenu": "Open main menu",
+        "closeMenu": "Close menu"
+      }
+    },
+    "RegisterForm": {
+      "welcomeTitle": "Welcome!",
+      "description": "Enter your details to create an account",
+      "submitButton": "Sign Up",
+      "fields": {
+        "subdomain": {
+          "label": "Subdomain",
+          "required": "Subdomain is required"
+        },
+        "first_name": {
+          "label": "First Name",
+          "required": "First name is required"
+        },
+        "last_name": {
+          "label": "Last Name",
+          "required": "Last name is required"
+        },
+        "email": {
+          "label": "Email",
+          "required": "Email is required"
+        },
+        "password": {
+          "label": "Password",
+          "required": "Password is required"
+        },
+        "phone": {
+          "label": "Phone",
+          "required": "Phone number is required"
+        },
+        "clinic_name_en": {
+          "label": "Clinic Name",
+          "required": "Clinic name is required"
+        }
+      }
+    }
+  },
+  "clinicWebsite": {
+    "links": {
+      "home": "Home",
+      "services": "Services",
+      "medicalSpecialties": "Medical Specialties",
+      "ourArticles": "Our Articles",
+      "contact": "Contact Us",
+      "login": "Login",
+      "register": "Register"
+    },
+    "Login": {
+      "welcomeBack": "Welcome Back!",
+      "enterCredentials": "Enter your credentials to access your account",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Enter your Email",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Email is not correct",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "passwordRequired": "Password is required",
+      "forgotPassword": "Forgot Password?",
+      "signInButton": "Sign In",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign Up",
+      "loginFailed": "Login failed. Please try again."
+    },
+    "Register": {
+        "welcome": "Welcome!",
+        "enterDetails": "Enter your details to create an account",
+        "firstNameLabel": "First Name",
+        "firstNameRequired": "First name is required",
+        "lastNameLabel": "Last Name",
+        "lastNameRequired": "Last name is required",
+        "emailLabel": "Email",
+        "emailRequired": "Email is required",
+        "passwordLabel": "Password",
+        "passwordRequired": "Password is required",
+        "phoneLabel": "Phone",
+        "phoneRequired": "Phone number is required",
+        "weightLabel": "Weight",
+        "weightRequired": "Weight is required",
+        "signUp": "Sign Up",
+        "alreadyHaveAccount": "Already have an account?",
+        "signIn": "Sign In"
+      }
+  }
+}

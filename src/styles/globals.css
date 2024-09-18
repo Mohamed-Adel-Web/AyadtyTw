@@ -73,6 +73,10 @@
   body {
     @apply bg-background text-foreground;
   }
+  .nav-background{
+    @apply bg-[#7202BB];
+
+  }
 }
 .react-datepicker-wrapper {
   width: 100%;

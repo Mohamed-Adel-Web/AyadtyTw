@@ -1,72 +1,85 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Menu, Globe } from "lucide-react";
 import Image from "next/image";
-import MenuItem from "./MenuItem";
-
-export default function NavBar() {
+import { useTranslations } from "next-intl";
+import { formatUrl } from "@/lib/utils";
+import { Link } from "@/i18n/routing";
+import LanguageSwitcher from "@/components/lang/LanguageSwitcher";
+export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const t = useTranslations("Ayadty.navbar.links");
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-  const menuItems = [
-    { label: "Home", href: "/" },
-    { label: "Pricing", href: "/pricing" },
-    { label: "FAQs", href: "/FAQs" },
-    { label: "Contact Us", href: "/contact" },
-    { label: "Register", href: "/clinic-register" },
-  ];
+  const navItems = [
+    { key: "home" },
+    { key: "pricing" },
+    { key: "faqs" },
+    { key: "register" },
+  ].map((item) => ({
+    name: t(item.key),
+    href: `/${formatUrl(item.key)}`,
+  }));
 
   return (
-    <nav className="bg-primary text-primary-foreground">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-        <div className="flex items-center justify-between h-16">
+    <nav className="nav-background shadow-md py-2">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link href="/" className="text-xl font-bold">
-              <Image
-                src={"https://ayadty.com/logo.png"}
-                width={100}
-                height={100}
-                alt="logo"
-              />
-            </Link>
+            <Image
+              src={"https://ayadty.com/logo.png"}
+              width={100}
+              height={100}
+              alt="logo"
+            />
           </div>
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              {menuItems.map((item) => (
-                <MenuItem key={item.href} label={item.label} href={item.href} />
-              ))}
-            </div>
+
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center space-x-4">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="text-white  px-3 py-2 rounded-md text-lg font-bold "
+              >
+                {item.name}
+              </Link>
+            ))}
           </div>
-          <div className="md:hidden">
-            <button
-              onClick={toggleMenu}
-              className="inline-flex items-center justify-center p-2 rounded-md hover:bg-primary-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-              aria-expanded={isOpen}
-            >
-              <span className="sr-only">Open main menu</span>
-              {isOpen ? (
-                <X className="block h-6 w-6" aria-hidden="true" />
-              ) : (
-                <Menu className="block h-6 w-6" aria-hidden="true" />
-              )}
-            </button>
+
+          {/* Language and Mobile Menu */}
+          <div className="flex items-center space-x-4">
+            <LanguageSwitcher />
+
+            {/* Mobile Menu */}
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="md:hidden">
+                  <Menu className="h-5 w-5" />
+                  <span className="sr-only">Open menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right">
+                <div className="flex flex-col space-y-4 mt-4">
+                  {navItems.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className="text-gray-700 duration-300 hover:text-white hover:bg-fuchsia-900 px-3 py-2 rounded-md text-sm font-medium"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>
-
-      {isOpen && (
-        <div className="md:hidden text-center">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {menuItems.map((item) => (
-              <MenuItem key={item.href} label={item.label} href={item.href} />
-            ))}
-          </div>
-        </div>
-      )}
     </nav>
   );
 }

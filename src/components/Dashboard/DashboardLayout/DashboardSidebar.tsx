@@ -6,17 +6,15 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "@/components/ui/tooltip";
-import Link from "next/link";
-import { MenuIcon, XIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { LinkItem } from "@/types/linkItem";
+import useUser from "@/customHooks/loginHooks/useUser";
+import { links } from "@/app/[locale]/(Dashboard)/Dashboard/links";
+import { Link } from "@/i18n/routing";
 
-interface SidebarProps {
-  links: LinkItem[];
-}
+const Sidebar = () => {
+  const { user, role } = useUser();
 
-const Sidebar: React.FC<SidebarProps> = ({ links }) => {
   const currentPath = usePathname();
   const [isHovered, setIsHovered] = useState(false);
 
@@ -44,7 +42,7 @@ const Sidebar: React.FC<SidebarProps> = ({ links }) => {
       </div>
       <nav className="flex flex-col items-start gap-4 px-2 py-5">
         <TooltipProvider>
-          {links.map((link) => (
+          {links(role).map((link) => (
             <Tooltip key={link.href}>
               <TooltipTrigger asChild>
                 <Link

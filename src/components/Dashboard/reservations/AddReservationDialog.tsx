@@ -21,7 +21,7 @@ import useGetData from "@/customHooks/crudHooks/useGetData";
 import { examinationDetails } from "@/types/examinationTypes/examinationTypes";
 import Select from "react-select";
 import useUser from "@/customHooks/loginHooks/useUser";
-import DialogLayout from "@/components/generalDialog/DialogLayout";
+import DialogLayout from "../generalDialog/DialogLayout";
 export function AddDialog({
   open,
   onOpenChange,

@@ -16,8 +16,9 @@ import { fields } from "./fields";
 import { assistant, assistantDetails } from "@/types/assistantTypes/assistants";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { Role } from "@/types/RolesTypes/role";
-import { AsyncSelectComponent } from "@/components/Common/AsyncSelect";
-import DialogLayout from "@/components/generalDialog/DialogLayout";
+import DialogLayout from "../generalDialog/DialogLayout";
+import { AsyncSelectComponent } from "../Common/AsyncSelect";
+
 
 export function EditDialog({
   open,

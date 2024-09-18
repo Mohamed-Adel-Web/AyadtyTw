@@ -7,12 +7,12 @@ import {
   patientsUrl,
   reservationUrl,
 } from "@/backend/backend";
-import LoadingSpinner from "@/components/Common/LoadingSpinner";
 import { IPayment } from "@/types/paymentTypes/payment";
 import { patient } from "@/types/patientTypes/patient";
 import { Doctor } from "@/types/doctorsTypes/doctors";
 import PremiumPatientInvoice from "./PremiumPatientInvoice";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
+import LoadingSpinner from "../Common/LoadingSpinner";
 
 interface TransactionDetailsDialogProps {
   open: boolean;

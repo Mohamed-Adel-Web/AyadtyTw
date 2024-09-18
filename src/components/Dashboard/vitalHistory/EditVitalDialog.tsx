@@ -20,9 +20,9 @@ import useEditData from "@/customHooks/crudHooks/useEditData";
 import { fields } from "./fields";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { IVitalHistory } from "@/types/vitalHistoryTypes/vitalHistory";
-import { AsyncSelectComponent } from "@/components/Common/AsyncSelect";
 import { Textarea } from "@/components/ui/textarea";
-import DialogLayout from "@/components/generalDialog/DialogLayout";
+import DialogLayout from "../generalDialog/DialogLayout";
+import { AsyncSelectComponent } from "../Common/AsyncSelect";
 
 export function EditDialog({
   open,

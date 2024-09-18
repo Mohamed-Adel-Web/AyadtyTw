@@ -10,12 +10,13 @@ import { Label } from "@/components/ui/label";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import useAddData from "@/customHooks/crudHooks/useAddData";
-import { AsyncSelectComponent } from "@/components/Common/AsyncSelect";
-import DialogLayout from "@/components/generalDialog/DialogLayout";
+
 import { Textarea } from "@/components/ui/textarea";
 import { IVitalHistory } from "@/types/vitalHistoryTypes/vitalHistory";
 import { patientsUrl, doctorUrl, vitalHistoryUrl } from "@/backend/backend";
 import { fields } from "./fields";
+import DialogLayout from "../generalDialog/DialogLayout";
+import { AsyncSelectComponent } from "../Common/AsyncSelect";
 
 export function AddDialog({
   open,

@@ -19,8 +19,9 @@ import {
   examination,
   examinationDetails,
 } from "@/types/examinationTypes/examinationTypes";
-import { AsyncSelectComponent } from "@/components/Common/AsyncSelect";
-import DialogLayout from "@/components/generalDialog/DialogLayout";
+import { AsyncSelectComponent } from "../Common/AsyncSelect";
+import DialogLayout from "../generalDialog/DialogLayout";
+
 
 export function EditDialog({
   open,

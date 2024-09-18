@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,31 +20,27 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
-import Link from "next/link";
 import { PanelLeftIcon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { LinkItem } from "@/types/linkItem";
 import Cookies from "js-cookie";
+import { links } from "@/app/[locale]/(Dashboard)/Dashboard/links";
+import useUser from "@/customHooks/loginHooks/useUser";
+import { Link } from "@/i18n/routing";
 
-
-interface HeaderProps {
-  links: LinkItem[];
-}
-
-const Header: React.FC<HeaderProps> = ({ links }) => {
+const Header = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const currentPath = usePathname();
-  const router=useRouter()
+  const router = useRouter();
+  const { user, role } = useUser();
 
   const handleLinkClick = () => {
     setIsSheetOpen(false);
   };
-  const handleLogout=()=>{
-    Cookies.remove("token")
-    Cookies.remove("user")
-    router.push("/login")
-
-  }
+  const handleLogout = () => {
+    Cookies.remove("token");
+    Cookies.remove("user");
+    router.push("/login");
+  };
 
   return (
     <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-white px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 shadow-md">
@@ -57,7 +53,7 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
         </SheetTrigger>
         <SheetContent side="left" className="sm:max-w-xs bg-white shadow-lg">
           <nav className="grid gap-6 text-lg font-medium my-5">
-            {links.map((link) => (
+            {links(role).map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -87,7 +83,7 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
           <BreadcrumbSeparator />
           <BreadcrumbItem>
             <BreadcrumbPage>
-              {links.find((link) => link.href === currentPath)?.label}
+              {links(role).find((link) => link.href === currentPath)?.label}
             </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
@@ -118,7 +114,10 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
               <Link href={"/Dashboard/MyProfile"}>Settings</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="hover:bg-gray-100 cursor-pointer" onClick={handleLogout}>
+            <DropdownMenuItem
+              className="hover:bg-gray-100 cursor-pointer"
+              onClick={handleLogout}
+            >
               Logout
             </DropdownMenuItem>
           </DropdownMenuContent>

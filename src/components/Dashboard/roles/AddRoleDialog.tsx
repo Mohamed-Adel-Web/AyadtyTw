@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/accordion";
 import { sections } from "./sections";
 import { generateDefaultPermissions } from "@/lib/utils";
-import DialogLayout from "@/components/generalDialog/DialogLayout";
+import DialogLayout from "../generalDialog/DialogLayout";
 
 export function AddDialog({
   open,

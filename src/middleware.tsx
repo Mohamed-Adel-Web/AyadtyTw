@@ -1,5 +1,8 @@
-import { NextResponse, type NextRequest } from "next/server";
-
-export function middleware(request: NextRequest) {
-
-}
+import createMiddleware from 'next-intl/middleware';
+import {routing} from './i18n/routing';
+ 
+export default createMiddleware(routing);
+ 
+export const config = {
+  matcher: ['/', '/(ar|en)/:path*']
+};

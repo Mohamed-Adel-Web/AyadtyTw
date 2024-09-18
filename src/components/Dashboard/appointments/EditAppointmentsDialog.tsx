@@ -19,7 +19,7 @@
     appointment,
     appointmentDetails,
   } from "@/types/appointmentTypes/appointments";
-import DialogLayout from "@/components/generalDialog/DialogLayout";
+import DialogLayout from "../generalDialog/DialogLayout";
 
   export function EditDialog({
     open,

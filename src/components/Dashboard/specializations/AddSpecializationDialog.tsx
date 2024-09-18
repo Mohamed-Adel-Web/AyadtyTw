@@ -14,7 +14,7 @@ import { Specialization } from "@/types/specializationsTypes/specialization";
 import { specializationUrl } from "@/backend/backend";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
-import DialogLayout from "@/components/generalDialog/DialogLayout";
+import DialogLayout from "../generalDialog/DialogLayout";
 export function AddDialog({
   open,
   onOpenChange,

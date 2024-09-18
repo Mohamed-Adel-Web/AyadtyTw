@@ -14,7 +14,7 @@ import { useForm } from "react-hook-form";
 import useEditData from "@/customHooks/crudHooks/useEditData";
 import { specializationUrl } from "@/backend/backend";
 import { Label } from "@radix-ui/react-label";
-import DialogLayout from "@/components/generalDialog/DialogLayout";
+import DialogLayout from "../generalDialog/DialogLayout";
 
 interface EditDialogProps {
   open: boolean;
@@ -52,7 +52,7 @@ const EditDialog: React.FC<EditDialogProps> = ({
     }
   }, [isSuccess, onOpenChange]);
   return (
-    <DialogLayout open={open} onOpenChange={onOpenChange}>
+    <DialogLayout  open={open} onOpenChange={onOpenChange}>
       <form noValidate onSubmit={handleSubmit(onSubmit)}>
         <DialogHeader>
           <DialogTitle>Edit Specialization</DialogTitle>

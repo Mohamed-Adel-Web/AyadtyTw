@@ -14,8 +14,9 @@ import { doctorUrl, examinationTypeUrl } from "@/backend/backend";
 import useAddData from "@/customHooks/crudHooks/useAddData";
 import { examination } from "@/types/examinationTypes/examinationTypes";
 import { fields } from "./fields";
-import { AsyncSelectComponent } from "@/components/Common/AsyncSelect";
-import DialogLayout from "@/components/generalDialog/DialogLayout";
+import DialogLayout from "../generalDialog/DialogLayout";
+import { AsyncSelectComponent } from "../Common/AsyncSelect";
+
 export function AddDialog({
   open,
   onOpenChange,

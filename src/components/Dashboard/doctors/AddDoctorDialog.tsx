@@ -17,7 +17,7 @@ import { Specialization } from "@/types/specializationsTypes/specialization";
 import useAddData from "@/customHooks/crudHooks/useAddData";
 import { fields } from "./fields";
 import { Role } from "@/types/RolesTypes/role";
-import DialogLayout from "@/components/generalDialog/DialogLayout";
+import DialogLayout from "../generalDialog/DialogLayout";
 
 export function AddDialog({
   open,

@@ -14,8 +14,9 @@ import { appointmentUrl, doctorUrl } from "@/backend/backend";
 import { fields } from "./fields";
 import { appointment } from "@/types/appointmentTypes/appointments";
 import useMinDateTime from "@/customHooks/appointmentHook/useMinDateTime";
-import { AsyncSelectComponent } from "@/components/Common/AsyncSelect";
-import DialogLayout from "@/components/generalDialog/DialogLayout";
+import { AsyncSelectComponent } from "../Common/AsyncSelect";
+import DialogLayout from "../generalDialog/DialogLayout";
+
 
 export function AddDialog({
   open,

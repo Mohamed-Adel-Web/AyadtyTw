@@ -9,7 +9,7 @@ import {
 import { formatDateTime } from "@/lib/utils";
 import { reservationDetails } from "@/types/reservationTypes/reservation";
 import ConfirmForm from "./ConfirmForm";
-import DialogLayout from "@/components/generalDialog/DialogLayout";
+import DialogLayout from "../generalDialog/DialogLayout";
 
 export default function ReservationDetailsModal({
   reservation,

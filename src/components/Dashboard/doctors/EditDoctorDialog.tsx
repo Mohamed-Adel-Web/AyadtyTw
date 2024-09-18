@@ -18,7 +18,7 @@ import { Specialization } from "@/types/specializationsTypes/specialization";
 import useEditData from "@/customHooks/crudHooks/useEditData";
 import { fields } from "./fields";
 import { Role } from "@/types/RolesTypes/role";
-import DialogLayout from "@/components/generalDialog/DialogLayout";
+import DialogLayout from "../generalDialog/DialogLayout";
 
 export function EditDialog({
   open,
