@@ -16,7 +16,7 @@ import { fields } from "./fields";
 import { patient } from "@/types/patientTypes/patient";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { Role } from "@/types/RolesTypes/role";
-import DialogLayout from "@/components/generalDialog/DialogLayout";
+import DialogLayout from "../generalDialog/DialogLayout";
 export function AddDialog({
   open,
   onOpenChange,

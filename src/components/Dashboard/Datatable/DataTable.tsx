@@ -29,6 +29,7 @@ import {
 import { useDebounce } from "@/customHooks/useDebounce";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { useTranslations } from "next-intl"; // Import useTranslations
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData, any>[];
@@ -44,6 +45,7 @@ interface DataTableProps<TData> {
   onFilterChange?: (key: string, value: string) => void;
   clickable?: boolean;
 }
+
 function getNestedValue(obj: any, path: string): any {
   return path.split(".").reduce((o, p) => (o ? o[p] : ""), obj);
 }
@@ -78,6 +80,8 @@ export function DataTable<TData>({
     string | null
   >(null);
   const [filterValue, setFilterValue] = React.useState("");
+
+  const t = useTranslations("Dashboard.dataTable"); // Initialize translations hook
 
   const debouncedFilterValue = useDebounce(filterValue, 500);
 
@@ -153,7 +157,7 @@ export function DataTable<TData>({
                 variant="outline"
                 className="ml-auto bg-white text-[#787EFF] hover:bg-gray-100"
               >
-                {selectedFilterKey || "Select Filter"}{" "}
+                {selectedFilterKey || t("SelectFilter")}{" "}
                 <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -173,7 +177,7 @@ export function DataTable<TData>({
         )}
         {selectedFilterKey && (
           <Input
-            placeholder={filterPlaceholder}
+            placeholder={t("FilterPlaceholder")}
             value={filterValue}
             onChange={(event) => handleFilterValueChange(event.target.value)}
             className="max-w-sm border-gray-300 shadow-sm text-black"
@@ -185,7 +189,7 @@ export function DataTable<TData>({
               variant="outline"
               className="ml-2 bg-white text-[#787EFF] hover:bg-gray-100"
             >
-              Columns <ChevronDown className="ml-2 h-4 w-4" />
+              {t("Columns")} <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="bg-white text-gray-700">
@@ -271,7 +275,7 @@ export function DataTable<TData>({
                   colSpan={columns.length}
                   className="h-24 text-center text-gray-500"
                 >
-                  No results.
+                  {t("NoResults")}
                 </TableCell>
               </TableRow>
             )}
@@ -280,8 +284,11 @@ export function DataTable<TData>({
       </div>
       <div className="flex items-center justify-between space-x-2 py-4 px-6 bg-gray-50 rounded-b-lg">
         <div className="text-sm text-gray-500">
-          Showing {page * pageSize - pageSize + 1} to{" "}
-          {Math.min(page * pageSize, totalRecords)} of {totalRecords} results.
+          {t("ShowingResults", {
+            start: page * pageSize - pageSize + 1,
+            end: Math.min(page * pageSize, totalRecords),
+            total: totalRecords,
+          })}
         </div>
         <div className="flex space-x-2">
           <Button
@@ -291,7 +298,7 @@ export function DataTable<TData>({
             disabled={page <= 1}
             className="bg-white text-[#787EFF] hover:bg-gray-100"
           >
-            Previous
+            {t("Previous")}
           </Button>
           <Button
             variant="outline"
@@ -300,7 +307,7 @@ export function DataTable<TData>({
             disabled={page >= totalPages}
             className="bg-white text-[#787EFF] hover:bg-gray-100"
           >
-            Next
+            {t("Next")}
           </Button>
         </div>
         <div>

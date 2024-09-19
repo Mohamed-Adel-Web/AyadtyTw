@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
   DialogDescription,
@@ -16,7 +16,7 @@ import { appointment } from "@/types/appointmentTypes/appointments";
 import useMinDateTime from "@/customHooks/appointmentHook/useMinDateTime";
 import { AsyncSelectComponent } from "../Common/AsyncSelect";
 import DialogLayout from "../generalDialog/DialogLayout";
-
+import { useTranslations } from "next-intl"; // Import useTranslations hook
 
 export function AddDialog({
   open,
@@ -33,6 +33,8 @@ export function AddDialog({
     "allAppointment"
   );
   const { errors } = formState;
+
+  const t = useTranslations("Dashboard.appointment.addDialog"); 
 
   const onSubmit = (data: appointment) => {
     mutate(data);
@@ -51,11 +53,8 @@ export function AddDialog({
     <DialogLayout open={open} onOpenChange={onOpenChange}>
       <form noValidate onSubmit={handleSubmit(onSubmit)}>
         <DialogHeader>
-          <DialogTitle>Add New Appointment</DialogTitle>
-          <DialogDescription>
-            Enter the details of the new appointment. Click save when
-            you&apos;re done.
-          </DialogDescription>
+          <DialogTitle>{t("AddNewAppointment")}</DialogTitle>
+          <DialogDescription>{t("EnterDetails")}</DialogDescription>
         </DialogHeader>
 
         {fields
@@ -63,7 +62,7 @@ export function AddDialog({
           .map((field) => (
             <div className="space-y-2 my-3" key={field.name}>
               <Label htmlFor={field.name} className="text-right">
-                {field.label}
+                {t(field.label)}
               </Label>
               <Input
                 id={field.name}
@@ -72,7 +71,7 @@ export function AddDialog({
                 className="col-span-3"
                 {...register(
                   field.name,
-                  field.validate ? { required: field.required } : {}
+                  field.validate ? { required: t(field.required || "") } : {}
                 )}
               />
               {errors[field.name] && (
@@ -87,27 +86,27 @@ export function AddDialog({
           <AsyncSelectComponent
             control={control}
             name="doctor_id"
-            label="Doctor Name"
+            label={t("DoctorName")}
             url={doctorUrl}
-            placeholder="Select doctor..."
+            placeholder={t("SelectDoctor")}
             isRequired={true}
           />
         </div>
 
         <div className="space-y-2 my-3">
           <Label htmlFor="status" className="text-right">
-            Status
+            {t("Status")}
           </Label>
           <select
             id="status"
             {...register("status", {
-              required: "Status is required",
+              required: t("StatusRequired"),
             })}
             className="block w-full mt-3 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           >
-            <option value="">Select status</option>
-            <option value={"available"}>Available</option>
-            <option value={"not-available"}>Not Available</option>
+            <option value="">{t("SelectStatus")}</option>
+            <option value={"available"}>{t("Available")}</option>
+            <option value={"not-available"}>{t("NotAvailable")}</option>
           </select>
           {errors.status && (
             <div className="text-red-500 w-full">{errors.status?.message}</div>
@@ -116,7 +115,7 @@ export function AddDialog({
 
         <DialogFooter className="mt-3">
           <Button type="submit" disabled={isPending}>
-            Save changes
+            {t("SaveChanges")}
           </Button>
         </DialogFooter>
       </form>

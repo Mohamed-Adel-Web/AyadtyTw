@@ -14,9 +14,13 @@ import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeading
 import { DataTable } from "@/components/Dashboard/Datatable/DataTable";
 import DeleteDialog from "@/components/Dashboard/generalDialog/DeleteDialog";
 import { createColumns } from "@/components/Dashboard/Datatable/columns";
+import { useTranslations } from "next-intl"; // Import useTranslations
+
 export default function App() {
   const { user, role, isSuccess } = useUser();
   const router = useRouter();
+  const t = useTranslations("Dashboard.assistant"); 
+
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
@@ -26,6 +30,7 @@ export default function App() {
   const [pageSize, setPageSize] = React.useState(10);
   const [selectedFilterKey, setSelectedFilterKey] = React.useState<string>();
   const [filterValue, setFilterValue] = React.useState<string>("");
+
   const { data } = useGetData(
     assistantsUrl,
     "allAssistant",
@@ -51,35 +56,39 @@ export default function App() {
     setSelectedData(data);
     setOpenDelete(true);
   };
-  const columns = createColumns<assistantDetails>(
-    [ { key: "id", label: "ID" },
-      { key: "first_name", label: "First Name" },
-      { key: "last_name", label: "Last Name" },
-      { key: "phone", label: "Phone Number" },
-      { key: "email", label: "Email Address" },
-      { key: "doctor.first_name", label: "Doctor's First Name" },
-      { key: "doctor.last_name", label: "Doctor's Last Name" },
-    ],
 
+  const columns = createColumns<assistantDetails>(
+    [
+      { key: "id", label: "ID" },
+      { key: "first_name", label: t("FirstName") }, // Use translated label
+      { key: "last_name", label: t("LastName") }, // Use translated label
+      { key: "phone", label: t("PhoneNumber") }, // Use translated label
+      { key: "email", label: t("EmailAddress") }, // Use translated label
+      { key: "doctor.first_name", label: t("DoctorFirstName") }, // Use translated label
+      { key: "doctor.last_name", label: t("DoctorLastName") }, // Use translated label
+    ],
     "assistant",
     role,
     handleOpenEditDialog,
     handleOpenDeleteDialog
   );
+
   if (isSuccess && !hasPermission(role, "assistant", "read")) {
     router.push("/unauthorized");
   }
+
   const handleFilterChange = (key: string, value: string) => {
     setSelectedFilterKey(key);
     setFilterValue(value);
   };
+
   return (
     <>
       <TableHeadLayout>
-        <Heading title="assistants" />
-        {hasPermission(role, "assistant", "create") && (
+        <Heading title={t("assistants")} /> {/* Use translated title */}
+        {/* {hasPermission(role, "assistant", "create") && ( */}
           <AddButton handleAddDialog={handleOpenAddDialog} />
-        )}
+        {/* )} */}
       </TableHeadLayout>
 
       {assistantsData && (
@@ -87,7 +96,7 @@ export default function App() {
           columns={columns}
           data={assistantsData}
           filterKeys={["id", "first_name", "last_name", "email", "phone"]}
-          filterPlaceholder="Filter name..."
+          filterPlaceholder={t("FilterName")} // Use translated placeholder
           page={page}
           pageSize={pageSize}
           totalPages={totalPages}
@@ -111,7 +120,7 @@ export default function App() {
         url={assistantsUrl}
         mutationKey="deleteAssistant"
         queryKey="allAssistant"
-        itemName="assistant"
+        itemName={t("DeleteAssistant")} // Use translated item name
       />
     </>
   );

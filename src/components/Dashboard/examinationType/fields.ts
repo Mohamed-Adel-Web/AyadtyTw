@@ -1,11 +1,10 @@
-import { Doctor } from "@/types/doctorsTypes/doctors";
 import { examination } from "@/types/examinationTypes/examinationTypes";
 
 export const fields: {
   name: keyof examination;
   type: string;
-  label: string;
-  required?: string;
+  label: string; // Translation key
+  required?: string; // Translation key for error message
   validate?: boolean;
   showInAdd?: boolean;
   showInEdit?: boolean;
@@ -13,8 +12,8 @@ export const fields: {
   {
     name: "name",
     type: "text",
-    label: "Name",
-    required: "Full name is required",
+    label: "Name", // Translation key
+    required: "NameRequired", // Translation key for error message
     validate: true,
     showInAdd: true,
     showInEdit: true,
@@ -22,8 +21,8 @@ export const fields: {
   {
     name: "amount",
     type: "number",
-    label: "amount",
-    required: "Full name is required",
+    label: "Amount", // Translation key
+    required: "AmountRequired", // Translation key for error message
     validate: true,
     showInAdd: true,
     showInEdit: true,
@@ -31,11 +30,10 @@ export const fields: {
   {
     name: "color",
     type: "color",
-    label: "Color",
-    required: "Email is required",
+    label: "Color", // Translation key
+    required: "ColorRequired", // Translation key for error message
     validate: true,
     showInAdd: true,
     showInEdit: true,
   },
-
 ];

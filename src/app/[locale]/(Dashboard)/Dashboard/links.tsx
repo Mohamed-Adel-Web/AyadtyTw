@@ -14,83 +14,87 @@ import {
   DollarSignIcon,
   BriefcaseMedicalIcon,
 } from "lucide-react";
-export const links = (role: Role) => {
+import { useTranslations } from "next-intl";
+
+export const Links = (role: Role) => {
+  const t = useTranslations("Dashboard.links"); // Initialize useTranslations hook
+
   return [
     {
       href: "/Dashboard",
-      label: "Home",
+      label: t("Home"), // Use translation key
       icon: <HomeIcon className="h-5 w-5" />,
       permission: role?.name == "superAdmin",
     },
     {
       href: "/Dashboard/MyProfile",
-      label: "Profile",
+      label: t("Profile"),
       icon: <UserIcon className="h-5 w-5" />,
       permission: true,
     },
     {
       href: "/Dashboard/roles",
-      label: "Roles",
+      label: t("Roles"),
       icon: <KeyIcon className="h-5 w-5" />,
       permission: role?.name == "superAdmin",
     },
     {
       href: "/Dashboard/specializations",
-      label: "Specializations",
+      label: t("Specializations"),
       icon: <StarIcon className="h-5 w-5" />,
       permission: hasPermission(role, "specialization", "read"),
     },
     {
       href: "/Dashboard/doctors",
-      label: "Doctors",
+      label: t("Doctors"),
       icon: <UserPlusIcon className="h-5 w-5" />,
       permission: hasPermission(role, "doctor", "read"),
     },
     {
       href: "/Dashboard/assistants",
-      label: "Assistants",
+      label: t("Assistants"),
       icon: <UserCogIcon className="h-5 w-5" />,
       permission: hasPermission(role, "assistant", "read"),
     },
     {
       href: "/Dashboard/patients",
-      label: "Patients",
+      label: t("Patients"),
       icon: <UserIcon className="h-5 w-5" />,
       permission: hasPermission(role, "patient", "read"),
     },
     {
       href: "/Dashboard/vital-history",
-      label: "Vital History",
+      label: t("VitalHistory"),
       icon: <BriefcaseMedicalIcon className="h-5 w-5" />,
       permission: hasPermission(role, "patient", "read"),
     },
     {
       href: "/Dashboard/appointments",
-      label: "Appointments",
+      label: t("Appointments"),
       icon: <CalendarIcon className="h-5 w-5" />,
       permission: hasPermission(role, "appointment", "read"),
     },
     {
       href: "/Dashboard/reservations",
-      label: "Reservations",
+      label: t("Reservations"),
       icon: <CalendarCheckIcon className="h-5 w-5" />,
       permission: hasPermission(role, "reservation", "read"),
     },
     {
       href: "/Dashboard/examinationType",
-      label: "Examination Type",
+      label: t("ExaminationType"),
       icon: <ClipboardIcon className="h-5 w-5" />,
       permission: hasPermission(role, "examination Type", "read"),
     },
     {
       href: "/Dashboard/visits",
-      label: "Visits",
+      label: t("Visits"),
       icon: <MapPinIcon className="h-5 w-5" />,
       permission: hasPermission(role, "visits", "read"),
     },
     {
       href: "/Dashboard/income",
-      label: "Income",
+      label: t("Income"),
       icon: <DollarSignIcon className="h-5 w-5" />,
       permission: hasPermission(role, "income", "read"),
     },

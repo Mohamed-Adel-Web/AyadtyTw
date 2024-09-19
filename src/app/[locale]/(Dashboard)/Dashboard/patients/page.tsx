@@ -1,6 +1,5 @@
 "use client";
 import * as React from "react";
-
 import Heading from "@/components/Dashboard/DashboardLayout/Heading";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { patientsUrl } from "@/backend/backend";

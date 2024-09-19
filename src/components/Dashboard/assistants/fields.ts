@@ -1,9 +1,10 @@
 import { assistant } from "@/types/assistantTypes/assistants";
+
 export const fields: {
   name: keyof assistant;
   type: string;
-  label: string;
-  required?: string;
+  label: string; // This should now be the translation key
+  required?: string; // This should now be the translation key for the error message
   validate?: boolean;
   showInAdd?: boolean;
   showInEdit?: boolean;
@@ -11,8 +12,8 @@ export const fields: {
   {
     name: "first_name",
     type: "text",
-    label: "First Name",
-    required: "Full name is required",
+    label: "FirstName", // Translation key
+    required: "FirstNameRequired", // Translation key for error message
     validate: true,
     showInAdd: true,
     showInEdit: true,
@@ -20,8 +21,8 @@ export const fields: {
   {
     name: "last_name",
     type: "text",
-    label: "Last Name",
-    required: "Full name is required",
+    label: "LastName", // Translation key
+    required: "LastNameRequired", // Translation key for error message
     validate: true,
     showInAdd: true,
     showInEdit: true,
@@ -29,8 +30,8 @@ export const fields: {
   {
     name: "email",
     type: "email",
-    label: "Email",
-    required: "Email is required",
+    label: "Email", // Translation key
+    required: "EmailRequired", // Translation key for error message
     validate: true,
     showInAdd: true,
     showInEdit: true,
@@ -38,8 +39,8 @@ export const fields: {
   {
     name: "password",
     type: "password",
-    label: "Password",
-    required: "Password is required",
+    label: "Password", // Translation key
+    required: "PasswordRequired", // Translation key for error message
     validate: true,
     showInAdd: true,
     showInEdit: false,
@@ -47,8 +48,8 @@ export const fields: {
   {
     name: "phone",
     type: "text",
-    label: "Phone",
-    required: "Phone number is required",
+    label: "Phone", // Translation key
+    required: "PhoneRequired", // Translation key for error message
     validate: true,
     showInAdd: true,
     showInEdit: true,
@@ -56,7 +57,7 @@ export const fields: {
   {
     name: "image",
     type: "file",
-    label: "Image",
+    label: "Image", // Translation key
     validate: false,
     showInAdd: true,
     showInEdit: true,

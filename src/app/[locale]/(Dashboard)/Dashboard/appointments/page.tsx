@@ -17,7 +17,10 @@ import { createColumns } from "@/components/Dashboard/Datatable/columns";
 import { DataTable } from "@/components/Dashboard/Datatable/DataTable";
 import DeleteDialog from "@/components/Dashboard/generalDialog/DeleteDialog";
 import DeleteAllDialog from "@/components/Dashboard/generalDialog/DeleteAllDialog";
+import { useTranslations } from "next-intl"; // Import useTranslations
+
 export default function App() {
+  const t = useTranslations("Dashboard.appointment"); // Initialize useTranslations hook
   const router = useRouter();
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
@@ -62,13 +65,12 @@ export default function App() {
   const columns = createColumns<appointmentDetails>(
     [
       { key: "id", label: "id" },
-      { key: "time_start", label: "Start time" },
-      { key: "time_end", label: "End time" },
-      { key: "status", label: "Status" },
-      { key: "doctor.first_name", label: "Doctor first name" },
-      { key: "doctor.last_name", label: "Doctor last name" },
+      { key: "time_start", label: t("start_time") }, // Use translated text
+      { key: "time_end", label: t("end_time") }, // Use translated text
+      { key: "status", label: t("status") }, // Use translated text
+      { key: "doctor.first_name", label: t("doctor_first_name") }, // Use translated text
+      { key: "doctor.last_name", label: t("doctor_last_name") }, // Use translated text
     ],
-
     "appointment",
     role,
     handleOpenEditDialog,
@@ -80,7 +82,7 @@ export default function App() {
   return (
     <>
       <TableHeadLayout>
-        <Heading title="appointments" />
+        <Heading title={t("appointments")} />
 
         {hasPermission(role, "appointment", "create") && (
           <>
@@ -96,7 +98,7 @@ export default function App() {
             columns={columns}
             data={appointmentsData}
             filterKeys={["id"]}
-            filterPlaceholder="Filter name..."
+            filterPlaceholder={t("filter_placeholder")}
             page={page}
             pageSize={pageSize}
             totalPages={totalPages}
@@ -111,7 +113,7 @@ export default function App() {
                 variant={"destructive"}
                 onClick={handleOpenDeleteAllDialog}
               >
-                Delete All Appointment
+                {t("delete_all_appointments")} {/* Use translated text */}
               </Button>
             )}
           </div>

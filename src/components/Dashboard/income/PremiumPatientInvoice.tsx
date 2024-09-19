@@ -16,6 +16,7 @@ import { formatDateTime } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { reservation, reservationDetails } from "@/types/reservationTypes/reservation";
 import { examination } from "@/types/examinationTypes/examinationTypes";
+import { useTranslations } from "next-intl"; // Import useTranslations
 
 interface PremiumPatientInvoiceProps {
   payment: IPayment;
@@ -32,11 +33,14 @@ export default function PremiumPatientInvoice({
   reservation,
   examination
 }: PremiumPatientInvoiceProps) {
-    const handlePrint=()=>{
-        window.print()
-    }
+  const  t  = useTranslations("Dashboard.amount"); 
+
+  const handlePrint=()=>{
+    window.print()
+  }
+
   return (
-    <Card className="w-full max-w-5xl mx-auto bg-gradient-to-b from-white to-gray-50 text-gray-800 shadow-lg 	 ">
+    <Card className="w-full max-w-5xl mx-auto bg-gradient-to-b from-white to-gray-50 text-gray-800 shadow-lg">
       <CardContent className="p-8 relative">
         {/* Watermark */}
         <div className="absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none">
@@ -60,16 +64,16 @@ export default function PremiumPatientInvoice({
           </div>
           <div className="text-right">
             <h2 className="text-3xl font-semibold mb-2 text-blue-700">
-              INVOICE
+              {t("Invoice")}
             </h2>
             <p className="font-medium text-lg">
-              Invoice #: {`EHI-${payment.id}`}
+              {t("InvoiceNumber")}: {`EHI-${payment.id}`}
             </p>
             <p className="text-sm">
-              Pay Date: {formatDateTime(payment.created_at)}
+              {t("PayDate")}: {formatDateTime(payment.created_at)}
             </p>
             <p className="text-sm">
-              Due Date: {formatDateTime(new Date(Date.now()))}
+              {t("DueDate")}: {formatDateTime(new Date(Date.now()))}
             </p>
           </div>
         </div>
@@ -80,29 +84,29 @@ export default function PremiumPatientInvoice({
         <div className="grid grid-cols-2 gap-8 mb-8">
           <div>
             <h3 className="text-xl font-semibold mb-3 text-blue-700">
-              Patient Information
+              {t("PatientInformation")}
             </h3>
             <p>
-              <span className="font-medium">Name:</span>{" "}
+              <span className="font-medium">{t("Name")}</span>{" "}
               {`${patient.first_name} ${patient.last_name}`}
             </p>
             <p>
-              <span className="font-medium">Patient ID:</span> {patient.id}
+              <span className="font-medium">{t("PatientID")}</span> {patient.id}
             </p>
           </div>
           <div>
             <h3 className="text-xl font-semibold mb-3 text-blue-700">
-              Doctor Information
+              {t("DoctorInformation")}
             </h3>
             <p>
-              <span className="font-medium">Name:</span>{" "}
+              <span className="font-medium">{t("Name")}</span>{" "}
               {`Dr. ${doctor.first_name} ${doctor.last_name}`}
             </p>
             <p>
-              <span className="font-medium">Email:</span> {doctor.email}
+              <span className="font-medium">{t("Email")}</span> {doctor.email}
             </p>
             <p>
-              <span className="font-medium">Phone:</span> {doctor.phone}
+              <span className="font-medium">{t("Phone")}</span> {doctor.phone}
             </p>
           </div>
         </div>
@@ -112,16 +116,16 @@ export default function PremiumPatientInvoice({
           <TableHeader>
             <TableRow className="bg-blue-50">
               <TableHead className="font-semibold text-blue-700">
-                Date of Service
+                {t("DateOfService")}
               </TableHead>
               <TableHead className="font-semibold text-blue-700">
-                Description
+                {t("Description")}
               </TableHead>
               <TableHead className="font-semibold text-blue-700">
-                CPT Code
+                {t("CPTCode")}
               </TableHead>
               <TableHead className="font-semibold text-blue-700 text-right">
-                Amount
+                {t("Amount")}
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -144,45 +148,45 @@ export default function PremiumPatientInvoice({
         <div className="mt-8 flex justify-between">
           <div className="w-1/2">
             <h3 className="text-xl font-semibold mb-3 text-blue-700">
-              Payment Details
+              {t("PaymentDetails")}
             </h3>
             <div className="bg-white p-4 rounded-lg shadow-sm">
               <p className="mb-2">
-                <span className="font-medium">Payment Method:</span>{" "}
+                <span className="font-medium">{t("PaymentMethod")}</span>{" "}
                 {payment.payment_method}
               </p>
               <p className="mb-2">
-                <span className="font-medium">Transaction ID:</span>{" "}
+                <span className="font-medium">{t("TransactionID")}</span>{" "}
                 {payment.id}
               </p>
               <p className="mb-2">
-                <span className="font-medium">Extra Amount:</span> $
+                <span className="font-medium">{t("ExtraAmount")}</span> $
                 {payment.extra_amount}
               </p>
               <p className="mb-2">
-                <span className="font-medium">Service Details:</span>{" "}
+                <span className="font-medium">{t("ServiceDetails")}</span>{" "}
                 {payment.comment}
               </p>
             </div>
           </div>
           <div className="w-1/3">
             <h3 className="text-xl font-semibold mb-3 text-blue-700">
-              Summary
+              {t("Summary")}
             </h3>
             <div className="bg-blue-50 p-4 rounded-lg">
               <div className="flex justify-between mb-2">
-                <span>Subtotal:</span>
+                <span>{t("Subtotal")}</span>
                 <span>
                   ${Number(payment.amount) + Number(payment.extra_amount)}
                 </span>
               </div>
               <div className="flex justify-between mb-2">
-                <span>Discount:</span>
+                <span>{t("Discount")}</span>
                 <span>-${payment.discount}</span>
               </div>
               <Separator className="my-2" />
               <div className="flex justify-between font-semibold text-lg text-blue-700">
-                <span>Total Amount:</span>
+                <span>{t("TotalAmount")}</span>
                 <span>${payment.total}</span>
               </div>
             </div>
@@ -191,14 +195,11 @@ export default function PremiumPatientInvoice({
 
         {/* Footer */}
         <div className="mt-8 text-center text-sm text-gray-500">
-          <p>
-            Thank you for choosing Ayadty Clinc System for your healthcare
-            needs.
-          </p>
+          <p>{t("ThankYouMessage")}</p>
         </div>
       </CardContent>
       <CardFooter className="flex justify-end">
-        <Button onClick={handlePrint}> print</Button>
+        <Button onClick={handlePrint}>{t("Print")}</Button>
       </CardFooter>
     </Card>
   );

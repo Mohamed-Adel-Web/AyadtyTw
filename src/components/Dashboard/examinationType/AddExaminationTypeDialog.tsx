@@ -16,6 +16,7 @@ import { examination } from "@/types/examinationTypes/examinationTypes";
 import { fields } from "./fields";
 import DialogLayout from "../generalDialog/DialogLayout";
 import { AsyncSelectComponent } from "../Common/AsyncSelect";
+import { useTranslations } from "next-intl"; // Import useTranslations
 
 export function AddDialog({
   open,
@@ -24,6 +25,8 @@ export function AddDialog({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
+  const  t  = useTranslations("Dashboard.examinationType.dialog"); // Initialize useTranslations hook
+
   const { register, formState, handleSubmit, reset, control } =
     useForm<examination>();
   const { mutate, isSuccess, isPending } = useAddData<examination>(
@@ -32,9 +35,11 @@ export function AddDialog({
     "allExaminationType"
   );
   const { errors } = formState;
+
   const onSubmit = (data: examination) => {
     mutate(data);
   };
+
   useMemo(() => {
     if (isSuccess) {
       onOpenChange(false);
@@ -46,18 +51,15 @@ export function AddDialog({
     <DialogLayout open={open} onOpenChange={onOpenChange}>
       <form noValidate onSubmit={handleSubmit(onSubmit)}>
         <DialogHeader>
-          <DialogTitle>Add New Examination Type</DialogTitle>
-          <DialogDescription>
-            Enter the details of the new Examination. Click save when
-            you&apos;re done.
-          </DialogDescription>
+          <DialogTitle>{t("AddNewExaminationType")}</DialogTitle> {/* Translated */}
+          <DialogDescription>{t("EnterExaminationDetails")}</DialogDescription> {/* Translated */}
         </DialogHeader>
         {fields
           .filter((field) => field.showInAdd)
           .map((field) => (
             <div className="space-y-2 my-3" key={field.name}>
               <Label htmlFor={field.name} className="text-right">
-                {field.label}
+                {t(field.label)} {/* Translated */}
               </Label>
               <Input
                 id={field.name}
@@ -65,7 +67,7 @@ export function AddDialog({
                 className="col-span-3"
                 {...register(
                   field.name,
-                  field.validate ? { required: field.required } : {}
+                  field.validate ? { required: t(field.required || "") } : {}
                 )}
               />
               {errors[field.name] && (
@@ -74,20 +76,20 @@ export function AddDialog({
                 </div>
               )}
             </div>
-          ))}{" "}
+          ))}
         <div className="space-y-2 my-3">
           <AsyncSelectComponent
             control={control}
             name="doctor_id"
-            label="Doctor Name"
+            label={t("DoctorName")} // Translated
             url={doctorUrl}
-            placeholder="Select doctor..."
+            placeholder={t("SelectDoctor")} // Translated
             isRequired={true}
           />
         </div>
         <DialogFooter className="mt-3">
           <Button type="submit" disabled={isPending}>
-            Save changes
+            {t("SaveChanges")} {/* Translated */}
           </Button>
         </DialogFooter>
       </form>

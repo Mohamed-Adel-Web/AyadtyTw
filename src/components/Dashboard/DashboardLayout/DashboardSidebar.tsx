@@ -9,7 +9,7 @@ import {
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import useUser from "@/customHooks/loginHooks/useUser";
-import { links } from "@/app/[locale]/(Dashboard)/Dashboard/links";
+import { Links } from "@/app/[locale]/(Dashboard)/Dashboard/links";
 import { Link } from "@/i18n/routing";
 
 const Sidebar = () => {
@@ -42,7 +42,7 @@ const Sidebar = () => {
       </div>
       <nav className="flex flex-col items-start gap-4 px-2 py-5">
         <TooltipProvider>
-          {links(role).map((link) => (
+          {Links(role).map((link) => (
             <Tooltip key={link.href}>
               <TooltipTrigger asChild>
                 <Link
@@ -53,9 +53,9 @@ const Sidebar = () => {
                       : "text-black hover:bg-[#666CFF] hover:text-white"
                   } w-full px-2 py-2`}
                 >
-                  <div className="flex items-center">
+                  <div className="flex items-center m-">
                     {link.icon}
-                    {isHovered && <span className="ml-4">{link.label}</span>}
+                    {isHovered && <span className="mx-4">{link.label}</span>}
                   </div>
                 </Link>
               </TooltipTrigger>

@@ -1,8 +1,9 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import AsyncSelect from "react-select/async";
 import { Controller, Control } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { IAsyncSelectOption } from "@/types/AsyncSelectOption";
+import { useTranslations } from "next-intl";
 
 interface IAsyncSelectComponentProps {
   control: Control<any>;
@@ -12,7 +13,7 @@ interface IAsyncSelectComponentProps {
   placeholder?: string;
   isRequired?: boolean;
   id?: string;
-  defaultValue?: IAsyncSelectOption | null;
+  defaultValue?: IAsyncSelectOption | null; // Default value for edit
 }
 
 export const AsyncSelectComponent: React.FC<IAsyncSelectComponentProps> = ({
@@ -23,8 +24,10 @@ export const AsyncSelectComponent: React.FC<IAsyncSelectComponentProps> = ({
   placeholder = "Select...",
   isRequired = false,
   id,
-  defaultValue = null, // Default value
+  defaultValue = null,
 }) => {
+  const [initialValue, setInitialValue] = useState<IAsyncSelectOption | null>(defaultValue);
+const t =useTranslations("Dashboard.AsyncSelect")
   const loadOptions = useCallback(
     async (inputValue: string): Promise<IAsyncSelectOption[]> => {
       const response = await fetch(`${url}?name=${inputValue}`);
@@ -39,6 +42,13 @@ export const AsyncSelectComponent: React.FC<IAsyncSelectComponentProps> = ({
     [url]
   );
 
+  useEffect(() => {
+    if (defaultValue && !initialValue) {
+      // If there is a default value, set it as the initial value for the select
+      setInitialValue(defaultValue);
+    }
+  }, [defaultValue, initialValue]);
+
   return (
     <div className="space-y-2 my-3">
       <Label htmlFor={id || name} className="text-right">
@@ -47,8 +57,8 @@ export const AsyncSelectComponent: React.FC<IAsyncSelectComponentProps> = ({
       <Controller
         control={control}
         name={name}
-        rules={isRequired ? { required: `${label} is required` } : undefined}
-        defaultValue={defaultValue?.value} // Set default value
+        rules={isRequired ? { required: `${label} ${t("AsyncRequire")}` } : undefined}
+        defaultValue={defaultValue?.value || ""} // Use the value of defaultValue or empty string
         render={({ field, fieldState: { error } }) => (
           <>
             <AsyncSelect<IAsyncSelectOption>
@@ -56,11 +66,12 @@ export const AsyncSelectComponent: React.FC<IAsyncSelectComponentProps> = ({
               cacheOptions
               loadOptions={loadOptions}
               defaultOptions
-              onChange={(selectedOption) =>
-                field.onChange(selectedOption?.value)
-              }
+              value={initialValue} // Set initial value
+              onChange={(selectedOption) => {
+                field.onChange(selectedOption?.value);
+                setInitialValue(selectedOption);
+              }}
               placeholder={placeholder}
-              defaultValue={defaultValue}
             />
             {error && (
               <div className="text-red-500 w-full">{error.message}</div>

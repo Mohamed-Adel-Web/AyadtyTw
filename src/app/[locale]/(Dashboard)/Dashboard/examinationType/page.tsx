@@ -1,6 +1,5 @@
 "use client";
 import * as React from "react";
-
 import Heading from "@/components/Dashboard/DashboardLayout/Heading";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { examinationTypeUrl } from "@/backend/backend";
@@ -15,6 +14,8 @@ import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeading
 import { DataTable } from "@/components/Dashboard/Datatable/DataTable";
 import DeleteDialog from "@/components/Dashboard/generalDialog/DeleteDialog";
 import { createColumns } from "@/components/Dashboard/Datatable/columns";
+import { useTranslations } from "next-intl"; // Import useTranslations
+
 export default function App() {
   const router = useRouter();
   const [openAdd, setOpenAdd] = React.useState(false);
@@ -26,6 +27,9 @@ export default function App() {
     React.useState<examinationDetails | null>(null);
   const [selectedFilterKey, setSelectedFilterKey] = React.useState<string>();
   const [filterValue, setFilterValue] = React.useState<string>("");
+
+  const  t  = useTranslations("Dashboard.examinationType"); // Initialize useTranslations hook
+
   const { data } = useGetData(
     examinationTypeUrl,
     "allExaminationType",
@@ -36,9 +40,10 @@ export default function App() {
     selectedFilterKey,
     filterValue
   );
+
   const totalPages = data?.data.last_page || 1;
   const totalRecords = data?.data.total || 0;
-  const examinationData = data?.data.data;
+  const examinationData = data?.data.data ||[];
 
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
@@ -53,45 +58,52 @@ export default function App() {
     setSelectedData(data);
     setOpenDelete(true);
   };
+
   const { user, role, isSuccess } = useUser();
+
   const columns = createColumns<examinationDetails>(
     [
-      { key: "id", label: "ID" },
-      { key: "name", label: "Name" },
-      { key: "amount", label: "Amount" },
-      { key: "color", label: "Color" },
-      { key: "doctor.first_name", label: "Doctor's First Name" },
-      { key: "doctor.last_name", label: "Doctor's Last Name" },
+      { key: "id", label: t("ID") }, // Translated
+      { key: "name", label: t("Name") }, // Translated
+      { key: "amount", label: t("Amount") }, // Translated
+      { key: "color", label: t("Color") }, // Translated
+      { key: "doctor.first_name", label: t("DoctorFirstName") }, // Translated
+      { key: "doctor.last_name", label: t("DoctorLastName") }, // Translated
     ],
-
     "examination Type",
     role,
     handleOpenEditDialog,
     handleOpenDeleteDialog
   );
+
   if (isSuccess && !hasPermission(role, "examination Type", "read")) {
     router.push("/unauthorized");
   }
+
   const handleFilterChange = (key: string, value: string) => {
     setSelectedFilterKey(key);
     setFilterValue(value);
   };
+
   return (
     <>
       <TableHeadLayout>
-        <Heading title="Examination Type" />
-        {hasPermission(role, "examination Type", "create") ? (
+        <Heading title={t("ExaminationType")} /> {/* Translated */}
+        {/* {hasPermission(role, "examination Type", "create") && ( */}
           <AddButton handleAddDialog={handleOpenAddDialog} />
-        ) : (
-          ""
-        )}
+        {/* )} */}
       </TableHeadLayout>
       {examinationData && (
         <DataTable
           columns={columns}
           data={examinationData}
-          filterKeys={["name", "amount", "doctor_firstName", "doctor_lastName"]}
-          filterPlaceholder="Filter..."
+          filterKeys={[
+            "name",
+            "amount",
+            "doctor_firstName",
+            "doctor_lastName",
+          ]}
+          filterPlaceholder={t("Filter")} // Translated
           page={page}
           pageSize={pageSize}
           totalPages={totalPages}
@@ -115,7 +127,7 @@ export default function App() {
         url={examinationTypeUrl}
         mutationKey="deleteExamination"
         queryKey="allExaminationType"
-        itemName="Examination Type"
+        itemName={t("DeleteExaminationType")} // Translated
       />
     </>
   );

@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import {
-
   DialogDescription,
   DialogFooter,
   DialogHeader,
@@ -11,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { doctorUrl, examinationTypeUrl, rolesUrl } from "@/backend/backend";
+import { doctorUrl, examinationTypeUrl } from "@/backend/backend";
 import useEditData from "@/customHooks/crudHooks/useEditData";
 import { fields } from "./fields";
 import useGetData from "@/customHooks/crudHooks/useGetData";
@@ -21,7 +20,7 @@ import {
 } from "@/types/examinationTypes/examinationTypes";
 import { AsyncSelectComponent } from "../Common/AsyncSelect";
 import DialogLayout from "../generalDialog/DialogLayout";
-
+import { useTranslations } from "next-intl"; // Import useTranslations
 
 export function EditDialog({
   open,
@@ -32,6 +31,8 @@ export function EditDialog({
   onOpenChange: (open: boolean) => void;
   examinationType: examinationDetails | null;
 }) {
+  const  t  = useTranslations("Dashboard.examinationType.dialog"); // Initialize useTranslations hook
+
   const { register, formState, handleSubmit, reset, control } =
     useForm<examination>();
   const { mutate, isSuccess, isPending } = useEditData<examination>(
@@ -43,16 +44,18 @@ export function EditDialog({
   );
   const { data } = useGetData(doctorUrl, "allDoctor");
   const doctorsData = data?.data.data;
-  const { data: resData } = useGetData(rolesUrl, "allRoles");
   const { errors } = formState;
+
   const onSubmit = (data: examination) => {
     mutate(data);
   };
+
   useMemo(() => {
     if (isSuccess) {
       onOpenChange(false);
     }
   }, [isSuccess, onOpenChange]);
+
   React.useMemo(() => {
     if (examinationType) {
       reset(examinationType);
@@ -63,18 +66,15 @@ export function EditDialog({
     <DialogLayout open={open} onOpenChange={onOpenChange}>
       <form noValidate onSubmit={handleSubmit(onSubmit)}>
         <DialogHeader>
-          <DialogTitle>Edit Examination Type</DialogTitle>
-          <DialogDescription>
-            Enter the details of the Examination Type. Click save when
-            you&apos;re done.
-          </DialogDescription>
+          <DialogTitle>{t("EditExaminationType")}</DialogTitle> {/* Translated */}
+          <DialogDescription>{t("EnterExaminationDetails")}</DialogDescription> {/* Translated */}
         </DialogHeader>
         {fields
           .filter((field) => field.showInEdit)
           .map((field) => (
             <div className="space-y-2 my-3" key={field.name}>
               <Label htmlFor={field.name} className="text-right">
-                {field.label}
+                {t(field.label)} {/* Translated */}
               </Label>
               <Input
                 id={field.name}
@@ -82,7 +82,7 @@ export function EditDialog({
                 className="col-span-3"
                 {...register(
                   field.name,
-                  field.validate ? { required: field.required } : {}
+                  field.validate ? { required: t(field.required || "") } : {}
                 )}
               />
               {errors[field.name] && (
@@ -96,9 +96,9 @@ export function EditDialog({
           <AsyncSelectComponent
             control={control}
             name="doctor_id"
-            label="Doctor Name"
+            label={t("DoctorName")} // Translated
             url={doctorUrl}
-            placeholder="Select doctor..."
+            placeholder={t("SelectDoctor")} // Translated
             isRequired={true}
             defaultValue={{
               label:
@@ -112,7 +112,7 @@ export function EditDialog({
         </div>
         <DialogFooter className="mt-3">
           <Button type="submit" disabled={isPending}>
-            Save changes
+            {t("SaveChanges")} {/* Translated */}
           </Button>
         </DialogFooter>
       </form>

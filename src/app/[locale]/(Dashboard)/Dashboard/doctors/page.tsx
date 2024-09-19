@@ -1,6 +1,5 @@
 "use client";
 import * as React from "react";
-
 import Heading from "@/components/Dashboard/DashboardLayout/Heading";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { doctorUrl } from "@/backend/backend";
@@ -15,6 +14,7 @@ import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeading
 import { createColumns } from "@/components/Dashboard/Datatable/columns";
 import DeleteDialog from "@/components/Dashboard/generalDialog/DeleteDialog";
 import { DataTable } from "@/components/Dashboard/Datatable/DataTable";
+import { useTranslations } from "next-intl"; // Import useTranslations
 
 export default function App() {
   const router = useRouter();
@@ -28,6 +28,8 @@ export default function App() {
   const [pageSize, setPageSize] = React.useState(10);
   const [selectedFilterKey, setSelectedFilterKey] = React.useState<string>();
   const [filterValue, setFilterValue] = React.useState<string>("");
+
+  const t = useTranslations("Dashboard.doctor"); // Initialize useTranslations hook
 
   const { data } = useGetData(
     doctorUrl,
@@ -61,12 +63,12 @@ export default function App() {
   const { user, role, isSuccess } = useUser();
   const columns = createColumns<DoctorDetails>(
     [
-      { key: "id", label: "ID" },
-      { key: "first_name", label: "First Name" },
-      { key: "last_name", label: "Last Name" },
-      { key: "email", label: "Email Address" },
-      { key: "phone", label: "Phone Number" },
-      { key: "specialization.name", label: "Specialization" },
+      { key: "id", label: t("ID") }, // Translated
+      { key: "first_name", label: t("FirstName") }, // Translated
+      { key: "last_name", label: t("LastName") }, // Translated
+      { key: "email", label: t("EmailAddress") }, // Translated
+      { key: "phone", label: t("PhoneNumber") }, // Translated
+      { key: "specialization.name", label: t("Specialization") }, // Translated
     ],
     "doctor",
     role,
@@ -86,7 +88,7 @@ export default function App() {
   return (
     <>
       <TableHeadLayout>
-        <Heading title="Doctors" />
+        <Heading title={t("Doctors")} /> {/* Translated */}
         {hasPermission(role, "doctor", "create") && (
           <AddButton handleAddDialog={handleOpenAddDialog} />
         )}
@@ -100,9 +102,9 @@ export default function App() {
             "last_name",
             "email",
             "phone",
-            "specialization_ name",
+            "specialization.name",
           ]}
-          filterPlaceholder="Filter..."
+          filterPlaceholder={t("Filter")} // Translated
           page={page}
           pageSize={pageSize}
           totalPages={totalPages}
@@ -125,7 +127,7 @@ export default function App() {
         url={doctorUrl}
         mutationKey="deleteDoctor"
         queryKey="allDoctor"
-        itemName="doctor"
+        itemName={t("DeleteDoctor")} // Translated
       />
     </>
   );

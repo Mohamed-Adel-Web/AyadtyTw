@@ -1,6 +1,5 @@
 "use client";
 import * as React from "react";
-
 import Heading from "@/components/Dashboard/DashboardLayout/Heading";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { rolesUrl } from "@/backend/backend";
@@ -14,8 +13,9 @@ import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeading
 import { DataTable } from "@/components/Dashboard/Datatable/DataTable";
 import DeleteDialog from "@/components/Dashboard/generalDialog/DeleteDialog";
 import { createColumns } from "@/components/Dashboard/Datatable/columns";
-
+import { useTranslations } from "next-intl"; // Import useTranslations
 export default function App() {
+  const  t  = useTranslations("Dashboard.role");
   const router = useRouter();
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
@@ -25,6 +25,7 @@ export default function App() {
   const [pageSize, setPageSize] = React.useState(10);
   const [selectedFilterKey, setSelectedFilterKey] = React.useState<string>();
   const [filterValue, setFilterValue] = React.useState<string>("");
+
   const { data } = useGetData(
     rolesUrl,
     "allRole",
@@ -35,9 +36,11 @@ export default function App() {
     selectedFilterKey,
     filterValue
   );
+
   const totalPages = data?.data.last_page || 1;
   const totalRecords = data?.data.total || 0;
   const roleData: Role[] = data?.data;
+
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
   };
@@ -51,33 +54,37 @@ export default function App() {
     setSelectedData(data);
     setOpenDelete(true);
   };
+
   const handleFilterChange = (key: string, value: string) => {
     setSelectedFilterKey(key);
     setFilterValue(value);
   };
+
   const { user, role, isSuccess } = useUser();
   const columns = createColumns<Role>(
-    [{ key: "name", label: "Name" }],
+    [{ key: "name", label: t("Name") }], // Use translation key for column label
     "doctor",
     role,
     handleOpenEditDialog,
     handleOpenDeleteDialog
   );
+
   if (isSuccess && role?.name !== "superAdmin") {
     router.push("/unauthorized");
   }
+
   return (
     <>
       <TableHeadLayout>
-        <Heading title="Roles" />
-        <AddButton handleAddDialog={handleOpenAddDialog} />
+        <Heading title={t("Roles")} /> {/* Translated */}
+        <AddButton handleAddDialog={handleOpenAddDialog}/> {/* Translated */}
       </TableHeadLayout>
       {roleData && (
         <DataTable
           columns={columns}
           data={roleData}
           filterKeys={["name"]}
-          filterPlaceholder="Filter..."
+          filterPlaceholder={t("Filter")} // Translated
           page={page}
           pageSize={pageSize}
           totalPages={totalPages}
@@ -101,7 +108,7 @@ export default function App() {
         url={rolesUrl}
         mutationKey="deleteRole"
         queryKey="allRole"
-        itemName="role"
+        itemName={t("Role")} // Translated
       />
     </>
   );

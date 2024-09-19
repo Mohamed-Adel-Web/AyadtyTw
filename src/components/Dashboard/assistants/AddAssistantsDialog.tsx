@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import {
-
   DialogDescription,
   DialogFooter,
   DialogHeader,
@@ -19,7 +18,7 @@ import useGetData from "@/customHooks/crudHooks/useGetData";
 import { Role } from "@/types/RolesTypes/role";
 import DialogLayout from "../generalDialog/DialogLayout";
 import { AsyncSelectComponent } from "../Common/AsyncSelect";
-
+import { useTranslations } from "next-intl"; // Import useTranslations
 
 export function AddDialog({
   open,
@@ -36,6 +35,9 @@ export function AddDialog({
     "allAssistant"
   );
   const { errors } = formState;
+
+  const t = useTranslations("Dashboard.assistant.addDialog"); // Initialize useTranslations hook
+
   const onSubmit = (data: assistant) => {
     const formData = new FormData();
     formData.append("first_name", data.first_name);
@@ -48,6 +50,7 @@ export function AddDialog({
     formData.append("role_id", data.role.id.toString());
     mutate(formData);
   };
+
   const { data } = useGetData(doctorUrl, "allDoctor");
   const doctorsData = data?.data.data;
   const { data: resData } = useGetData(rolesUrl, "allRole");
@@ -64,18 +67,15 @@ export function AddDialog({
     <DialogLayout open={open} onOpenChange={onOpenChange}>
       <form noValidate onSubmit={handleSubmit(onSubmit)}>
         <DialogHeader>
-          <DialogTitle>Add New Assistant</DialogTitle>
-          <DialogDescription>
-            Enter the details of the new Assistant . Click save when you&apos;re
-            done.
-          </DialogDescription>
+          <DialogTitle>{t("AddNewAssistant")}</DialogTitle> {/* Translated */}
+          <DialogDescription>{t("EnterAssistantDetails")}</DialogDescription> {/* Translated */}
         </DialogHeader>
         {fields
           .filter((field) => field.showInAdd)
           .map((field) => (
             <div className="space-y-2 my-3" key={field.name}>
               <Label htmlFor={field.name} className="text-right">
-                {field.label}
+                {t(field.label)} {/* Translated */}
               </Label>
               <Input
                 id={field.name}
@@ -83,7 +83,7 @@ export function AddDialog({
                 className="col-span-3"
                 {...register(
                   field.name,
-                  field.validate ? { required: field.required } : {}
+                  field.validate ? { required: t(field.required || "") } : {}
                 )}
               />
               {errors[field.name] && (
@@ -98,21 +98,21 @@ export function AddDialog({
           <AsyncSelectComponent
             control={control}
             name="doctor_id"
-            label="Doctor Name"
+            label={t("DoctorName")} 
             url={doctorUrl}
-            placeholder="Select doctor..."
+            placeholder={t("SelectDoctor")} 
             isRequired={true}
           />
         </div>
-        <h3 className="text-xl font-bold"> Role</h3>
+        <h3 className="text-xl font-bold">{t("Role")}</h3> {/* Translated */}
         <select
           id="role"
           {...register("role.id", {
-            required: "role is required",
+            required: t("RoleRequired"), // Translated
           })}
           className="block w-full mt-3 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
         >
-          <option value="">Select role</option>
+          <option value="">{t("SelectRole")}</option> {/* Translated */}
           {rolesData?.map((spec: Role) => (
             <option key={spec.id} value={spec.id} className="mt-2">
               {spec.name}
@@ -124,7 +124,7 @@ export function AddDialog({
         )}
         <DialogFooter className="mt-3">
           <Button type="submit" disabled={isPending}>
-            Save changes
+            {t("SaveChanges")} {/* Translated */}
           </Button>
         </DialogFooter>
       </form>

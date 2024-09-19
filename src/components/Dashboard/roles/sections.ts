@@ -5,10 +5,9 @@ export const sections = [
   "patient",
   "appointment",
   "reservation",
-  "examination Type",
+  "examinationType", 
   "profileType",
   "visits",
-  "vital history",
+  "vitalHistory", 
   "income",
-    
 ];
