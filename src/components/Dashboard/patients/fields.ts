@@ -1,12 +1,10 @@
-import { assistant } from "@/types/assistantTypes/assistants";
-import { Doctor } from "@/types/doctorsTypes/doctors";
 import { patient } from "@/types/patientTypes/patient";
 
 export const fields: {
   name: keyof patient;
   type: string;
-  label: string;
-  required?: string;
+  label: string; // This label should be a translation key.
+  required?: string; // This should also be a translation key if needed.
   validate?: boolean;
   showInAdd?: boolean;
   showInEdit?: boolean;
@@ -14,8 +12,8 @@ export const fields: {
   {
     name: "first_name",
     type: "text",
-    label: "First Name",
-    required: "First name is required",
+    label: "firstName", // Translation key for 'First Name'
+    required: "firstNameRequired", // Translation key for 'First name is required'
     validate: true,
     showInAdd: true,
     showInEdit: true,
@@ -23,8 +21,8 @@ export const fields: {
   {
     name: "last_name",
     type: "text",
-    label: "last Name",
-    required: "last name is required",
+    label: "lastName", // Translation key for 'Last Name'
+    required: "lastNameRequired", // Translation key for 'Last name is required'
     validate: true,
     showInAdd: true,
     showInEdit: true,
@@ -32,8 +30,8 @@ export const fields: {
   {
     name: "email",
     type: "email",
-    label: "Email",
-    required: "Email name is required",
+    label: "email", // Translation key for 'Email'
+    required: "emailRequired", // Translation key for 'Email is required'
     validate: true,
     showInAdd: true,
     showInEdit: true,
@@ -41,8 +39,8 @@ export const fields: {
   {
     name: "phone",
     type: "phone",
-    label: "Phone",
-    required: "Phone number is required",
+    label: "phone", // Translation key for 'Phone'
+    required: "phoneRequired", // Translation key for 'Phone number is required'
     validate: true,
     showInAdd: true,
     showInEdit: true,
@@ -50,17 +48,17 @@ export const fields: {
   {
     name: "password",
     type: "password",
-    label: "Password",
-    required: "Password is required",
+    label: "password", // Translation key for 'Password'
+    required: "passwordRequired", // Translation key for 'Password is required'
     validate: true,
     showInAdd: true,
-    showInEdit: false,
+    showInEdit: false, // Password should not be shown in edit
   },
   {
     name: "image",
     type: "file",
-    label: "Image",
-    required: "Image is required",
+    label: "image", // Translation key for 'Image'
+    required: "imageRequired", // Translation key for 'Image is required'
     validate: false,
     showInAdd: true,
     showInEdit: true,

@@ -28,7 +28,7 @@ export default function App() {
   const [selectedFilterKey, setSelectedFilterKey] = React.useState<string>();
   const [filterValue, setFilterValue] = React.useState<string>("");
 
-  const  t  = useTranslations("Dashboard.examinationType"); // Initialize useTranslations hook
+  const t = useTranslations("Dashboard.examinationType");
 
   const { data } = useGetData(
     examinationTypeUrl,
@@ -43,7 +43,7 @@ export default function App() {
 
   const totalPages = data?.data.last_page || 1;
   const totalRecords = data?.data.total || 0;
-  const examinationData = data?.data.data ||[];
+  const examinationData = data?.data.data || [];
 
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
@@ -88,21 +88,16 @@ export default function App() {
   return (
     <>
       <TableHeadLayout>
-        <Heading title={t("ExaminationType")} /> {/* Translated */}
-        {/* {hasPermission(role, "examination Type", "create") && ( */}
+        <Heading title={t("ExaminationType")} /> 
+        {hasPermission(role, "examination Type", "create") && (
           <AddButton handleAddDialog={handleOpenAddDialog} />
-        {/* )} */}
+        )}
       </TableHeadLayout>
       {examinationData && (
         <DataTable
           columns={columns}
           data={examinationData}
-          filterKeys={[
-            "name",
-            "amount",
-            "doctor_firstName",
-            "doctor_lastName",
-          ]}
+          filterKeys={["name", "amount", "doctor_firstName", "doctor_lastName"]}
           filterPlaceholder={t("Filter")} // Translated
           page={page}
           pageSize={pageSize}

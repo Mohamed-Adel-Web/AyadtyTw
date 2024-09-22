@@ -1,6 +1,6 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
-
   DialogDescription,
   DialogFooter,
   DialogHeader,
@@ -22,6 +22,8 @@ import { examinationDetails } from "@/types/examinationTypes/examinationTypes";
 import Select from "react-select";
 import useUser from "@/customHooks/loginHooks/useUser";
 import DialogLayout from "../generalDialog/DialogLayout";
+import { useTranslations } from "next-intl"; // Import useTranslations
+
 export function AddDialog({
   open,
   onOpenChange,
@@ -33,6 +35,7 @@ export function AddDialog({
   doctorId: string;
   appointmentId: number;
 }) {
+  const t = useTranslations("Dashboard.Reservation.AddDialog"); // Initialize useTranslations hook
   const { formState, handleSubmit, reset, setValue, register } =
     useForm<reservation>();
   const paymentMethods = ["cash", "visa", "wallet", "fawry"];
@@ -88,112 +91,115 @@ export function AddDialog({
   };
   return (
     <DialogLayout open={open} onOpenChange={onOpenChange}>
-        <form noValidate onSubmit={handleSubmit(onSubmit)}>
-          <DialogHeader>
-            <DialogTitle>Book Appointment</DialogTitle>
-            <DialogDescription>
-              Enter the details of the new reservation. Click Book when
-              you&apos;re done.
-            </DialogDescription>
-          </DialogHeader>
-          {role?.name == "patient" ? (
-            ""
-          ) : (
-            <div className="space-y-2 my-3">
-              <Label htmlFor="patient" className="text-right">
-                Patient Name
-              </Label>
-              <Select
-                id="patient"
-                options={patientsData?.map((patient: patient) => ({
-                  value: patient.id,
-                  label: `${patient.first_name} ${patient.last_name}`,
-                }))}
-                onChange={handlePatientChange}
-                className="block w-full mt-3"
-              />
-              {errors.patient_id && (
-                <div className="text-red-500 w-full">
-                  {errors.patient_id?.message}
-                </div>
-              )}
-            </div>
-          )}
+      <form noValidate onSubmit={handleSubmit(onSubmit)}>
+        <DialogHeader>
+          <DialogTitle>{t("bookAppointment")}</DialogTitle> {/* Translated */}
+          <DialogDescription>
+            {t("enterReservationDetails")} {/* Translated */}
+          </DialogDescription>
+        </DialogHeader>
+        {role?.name == "patient" ? (
+          ""
+        ) : (
           <div className="space-y-2 my-3">
-            <Label htmlFor="examination" className="text-right">
-              Examination Type
+            <Label htmlFor="patient" className="text-right">
+              {t("patientName")} {/* Translated */}
             </Label>
             <Select
-              id="examination"
-              options={examinationTypeData?.map(
-                (examination: examinationDetails) => ({
-                  value: examination.id,
-                  label: examination.name,
-                  color: examination.color,
-                  amount: examination.amount,
-                })
-              )}
-              onChange={handleExaminationChange}
-              className="block w-full mt-3 bg-slate-300"
-              styles={{
-                option: (provided, state) => ({
-                  ...provided,
-                  color: state.data.color,
-                }),
-              }}
+              id="patient"
+              options={patientsData?.map((patient: patient) => ({
+                value: patient.id,
+                label: `${patient.first_name} ${patient.last_name}`,
+              }))}
+              onChange={handlePatientChange}
+              className="block w-full mt-3"
             />
-            {errors.examination_id && (
+            {errors.patient_id && (
               <div className="text-red-500 w-full">
-                {errors.examination_id?.message}
-              </div>
-            )}
-          </div>{" "}
-          <div className="space-y-2 my-3">
-            <Label htmlFor="paymentMethod" className="text-right">
-              payment Method
-            </Label>
-            <select
-              id="paymentMethod"
-              {...register("payment_method", {
-                required: "payment method required",
-              })}
-              className="block w-full mt-2 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            >
-              <option value="">Select payment method</option>
-              {paymentMethods.map((paymentMethod) => {
-                return (
-                  <option
-                    key={`${paymentMethod}`}
-                    value={`${paymentMethod}`}
-                    className="m5-2"
-                  >
-                    {paymentMethod}
-                  </option>
-                );
-              })}
-            </select>
-            {errors.examination_id && (
-              <div className="text-red-500 w-full">
-                {errors.examination_id?.message}
+                {errors.patient_id?.message}
               </div>
             )}
           </div>
-          {examinationPrice && (
-            <div className="mt-4">
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <div className="text-sm text-gray-700">Examination Price:</div>
-                <div className="text-2xl font-bold text-blue-600">
-                  {examinationPrice} EGP
-                </div>
-              </div>
+        )}
+        <div className="space-y-2 my-3">
+          <Label htmlFor="examination" className="text-right">
+            {t("examinationType")} {/* Translated */}
+          </Label>
+          <Select
+            id="examination"
+            options={examinationTypeData?.map(
+              (examination: examinationDetails) => ({
+                value: examination.id,
+                label: examination.name,
+                color: examination.color,
+                amount: examination.amount,
+              })
+            )}
+            onChange={handleExaminationChange}
+            className="block w-full mt-3 bg-slate-300"
+            styles={{
+              option: (provided, state) => ({
+                ...provided,
+                color: state.data.color,
+              }),
+            }}
+          />
+          {errors.examination_id && (
+            <div className="text-red-500 w-full">
+              {errors.examination_id?.message}
             </div>
           )}
-          <DialogFooter className="mt-4">
-            <Button type="submit" disabled={isPending}>
-              Book
-            </Button>
-          </DialogFooter>
-        </form>
+        </div>{" "}
+        <div className="space-y-2 my-3">
+          <Label htmlFor="paymentMethod" className="text-right">
+            {t("paymentMethod")} {/* Translated */}
+          </Label>
+          <select
+            id="paymentMethod"
+            {...register("payment_method", {
+              required: t("paymentMethodRequired"), // Translated validation message
+            })}
+            className="block w-full mt-2 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          >
+            <option value="">{t("selectPaymentMethod")}</option>{" "}
+            {/* Translated */}
+            {paymentMethods.map((paymentMethod) => {
+              return (
+                <option
+                  key={`${paymentMethod}`}
+                  value={`${paymentMethod}`}
+                  className="m5-2"
+                >
+                  {paymentMethod}
+                </option>
+              );
+            })}
+          </select>
+          {errors.examination_id && (
+            <div className="text-red-500 w-full">
+              {errors.examination_id?.message}
+            </div>
+          )}
+        </div>
+        {examinationPrice && (
+          <div className="mt-4">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="text-sm text-gray-700">
+                {t("examinationPrice")}
+              </div>{" "}
+              {/* Translated */}
+              <div className="text-2xl font-bold text-blue-600">
+                {examinationPrice} EGP
+              </div>
+            </div>
+          </div>
+        )}
+        <DialogFooter className="mt-4">
+          <Button type="submit" disabled={isPending}>
+            {t("book")} {/* Translated */}
+          </Button>
+        </DialogFooter>
+      </form>
     </DialogLayout>
   );
 }

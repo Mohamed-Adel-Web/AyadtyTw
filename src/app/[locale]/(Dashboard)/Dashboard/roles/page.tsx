@@ -39,7 +39,7 @@ export default function App() {
 
   const totalPages = data?.data.last_page || 1;
   const totalRecords = data?.data.total || 0;
-  const roleData: Role[] = data?.data;
+  const roleData: Role[] = data?.data||[];
 
   const handleOpenAddDialog = () => {
     setOpenAdd(true);

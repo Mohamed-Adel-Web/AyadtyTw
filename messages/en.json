@@ -356,7 +356,6 @@
           "income": "Income"
         }
       }
-
     },
     "links": {
       "Home": "Home",
@@ -372,6 +371,104 @@
       "ExaminationType": "Examination Type",
       "Visits": "Visits",
       "Income": "Income"
+    },
+    "Patients": {
+      "patients": "Patients",
+      "id": "ID",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "phone": "Phone",
+      "email": "Email",
+      "filterPlaceholder": "Filter...",
+      "addPatient": "Add Patient",
+      "editPatient": "Edit Patient",
+      "deletePatient": "Delete Patient",
+      "Dialog": {
+        "addNewPatient": "Add New Patient",
+        "editPatient": "Edit Patient",
+        "enterPatientDetails": "Enter the details of the new patient. Click save when you're done.",
+        "enterDoctorDetails": "Enter the details of the doctor. Click save when you're done.",
+        "saveChanges": "Save changes",
+        "role": "Role",
+        "selectRole": "Select role",
+        "roleRequired": "Role is required",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "password": "Password",
+        "phone": "Phone",
+        "image": "Image"
+      }
+    },
+
+    "Reservation": {
+      "doctorReservations": "Doctor Reservations",
+      "searchDoctor": "Search for a doctor and make a reservation.",
+      "noDoctorsFound": "No doctors found.",
+      "ReservationSearch": {
+        "searchPlaceholder": "Search by doctor name..."
+      },
+      "SpecializationFilter": {
+        "chooseSpecialty": "Choose Specialty",
+        "selectSpecialty": "Select a specialty to filter doctors.",
+        "allSpecializations": "All Specializations",
+        "close": "Close"
+      },
+      "DoctorReservationCard": {
+        "cardiologist": "Cardiologist",
+        "viewDetails": "View Details",
+        "bookNow": "Book Now"
+      },
+      "AddDialog": {
+        "bookAppointment": "Book Appointment",
+        "enterReservationDetails": "Enter the details of the new reservation. Click Book when you're done.",
+        "patientName": "Patient Name",
+        "examinationType": "Examination Type",
+        "paymentMethod": "Payment Method",
+        "selectPaymentMethod": "Select payment method",
+        "examinationPrice": "Examination Price",
+        "book": "Book",
+        "paymentMethodRequired": "Payment method is required"
+      }
+    },
+    "Specializations": {
+      "title": "Specializations",
+      "filterPlaceholder": "Filter name...",
+      "name": "Name",
+      "unauthorized": "Unauthorized",
+      "addSpecialization": "Add Specialization",
+      "editSpecialization": "Edit Specialization",
+      "deleteSpecialization": "Delete Specialization",
+      "Dialog": {
+        "addTitle": "Add New Specialization",
+        "editTitle": "Edit Specialization",
+        "enterDetails": "Enter the details of the new specialization. Click save when you're done.",
+        "name": "Name",
+        "nameRequired": "Specialization name is required",
+        "saveChanges": "Save changes",
+        "save": "Save"
+      }
+    },
+    "visits": {
+      "title": "Reservations Confirm",
+      "selectDoctor": "Select Doctor to View Reservations",
+      "filterPlaceholder": "Filter name...",
+      "pleaseSelectDoctor": "Please select a doctor from the dropdown above to view their reservation.",
+      "reservationDetails": "Reservation Details",
+      "close": "Close",
+      "confirmReservation": "Confirm Reservation",
+      "doctorName": "Doctor Name",
+      "patientName": "Patient Name",
+      "email": "Email",
+      "phone": "Phone",
+      "examination": "Examination",
+      "examinationAmount": "Examination Amount",
+      "examinationColor": "Examination Color",
+      "reservationStatus": "Reservation status",
+      "appointmentStart": "Appointment Start",
+      "appointmentEnd": "Appointment End",
+      "reservedOn": "Reserved On",
+      "showAllDoctors": "Show ALL Doctors"
     }
   }
 }

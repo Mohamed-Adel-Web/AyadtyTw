@@ -1,7 +1,6 @@
 "use client";
 import * as React from "react";
 import {
-
   DialogHeader,
   DialogTitle,
   DialogClose,
@@ -13,8 +12,9 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import useEditData from "@/customHooks/crudHooks/useEditData";
 import { specializationUrl } from "@/backend/backend";
-import { Label } from "@radix-ui/react-label";
+import { Label } from "@/components/ui/label";
 import DialogLayout from "../generalDialog/DialogLayout";
+import { useTranslations } from "next-intl"; // Import useTranslations
 
 interface EditDialogProps {
   open: boolean;
@@ -27,6 +27,7 @@ const EditDialog: React.FC<EditDialogProps> = ({
   onOpenChange,
   specialization,
 }) => {
+  const t = useTranslations("Dashboard.Specializations.Dialog"); // Initialize useTranslations hook
   const { register, formState, handleSubmit, reset } =
     useForm<Specialization>();
   const { mutate, isSuccess, isPending } = useEditData(
@@ -37,9 +38,11 @@ const EditDialog: React.FC<EditDialogProps> = ({
     "post"
   );
   const { errors } = formState;
+
   const onSubmit = (data: Specialization) => {
     mutate(data);
   };
+
   React.useMemo(() => {
     if (specialization) {
       reset(specialization);
@@ -51,32 +54,32 @@ const EditDialog: React.FC<EditDialogProps> = ({
       onOpenChange(false);
     }
   }, [isSuccess, onOpenChange]);
+
   return (
-    <DialogLayout  open={open} onOpenChange={onOpenChange}>
+    <DialogLayout open={open} onOpenChange={onOpenChange}>
       <form noValidate onSubmit={handleSubmit(onSubmit)}>
         <DialogHeader>
-          <DialogTitle>Edit Specialization</DialogTitle>
+          <DialogTitle>{t("editTitle")}</DialogTitle> {/* Translated */}
           <DialogClose />
         </DialogHeader>
         <div className="space-y-2">
           <Label htmlFor="name" className="text-right">
-            Name
+            {t("name")} {/* Translated */}
           </Label>
           <Input
             id="name"
             defaultValue=""
             className="col-span-3"
             {...register("name", {
-              required: "specialization name is required",
+              required: t("nameRequired"), // Translated validation message
             })}
           />
           {errors.name && (
             <div className="text-red-500 w-full">{errors.name.message}</div>
           )}
         </div>
-
         <DialogFooter className="mt-3">
-          <Button disabled={isPending}>Save</Button>
+          <Button disabled={isPending}>{t("save")}</Button> {/* Translated */}
         </DialogFooter>
       </form>
     </DialogLayout>

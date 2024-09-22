@@ -1,4 +1,4 @@
-const baseUrl = `http://192.168.1.19/api`;
+const baseUrl = `https://ayadty.com/el3yada_new/api`;
 export const loginUrl = `${baseUrl}/login`;
 export const registerPatientUrl = `${baseUrl}/register_patient`;
 export const specializationUrl = `${baseUrl}/specializations`;
@@ -21,3 +21,4 @@ export const yearlyTransactionUrl = `${baseUrl}/payment/totals`;
 export const patientReservationUrl = `${baseUrl}/reservations/patients`;
 export const patientVitalHistoryUrl = `${baseUrl}/vital-histories-patients`;
 export const patientTransactionUrl = `${baseUrl}/payments/patients`;
+export const clinicRegister = `${baseUrl}/registerNewClient`;

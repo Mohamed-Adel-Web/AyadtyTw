@@ -13,9 +13,11 @@ import DoctorReservationCard from "@/components/Dashboard/reservations/DoctorRes
 import { useDebounce } from "@/customHooks/useDebounce";
 import LoadingSpinner from "@/components/Dashboard/Common/LoadingSpinner";
 import NoDataMessage from "@/components/Dashboard/Common/NoDataMessage";
+import { useTranslations } from "next-intl"; // Import useTranslations
 
 const App: React.FC = () => {
   const router = useRouter();
+  const t = useTranslations("Dashboard.Reservation"); // Initialize useTranslations hook
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedSpecialty, setSelectedSpecialty] =
     useState<Specialization | null>(null);
@@ -55,10 +57,10 @@ const App: React.FC = () => {
     <>
       <div className="p-6 bg-gray-50 rounded-lg shadow-md">
         <h1 className="text-3xl font-bold mb-4 text-center text-blue-600">
-          Doctor Reservations
+          {t("doctorReservations")} {/* Translated */}
         </h1>
         <p className="text-center mb-6 text-gray-600">
-          Search for a doctor and make a reservation.
+          {t("searchDoctor")} {/* Translated */}
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <ReservationSearch onSearch={handleSearch} />
@@ -72,7 +74,7 @@ const App: React.FC = () => {
       <div className="grid grid-cols-12">
         {doctorsLoading && <LoadingSpinner />}
         {!doctorsLoading && doctorsData?.length === 0 && (
-          <NoDataMessage message="No doctors found." />
+          <NoDataMessage message={t("noDoctorsFound")} />
         )}
         {doctorsData?.map((doctor: Doctor) => (
           <DoctorReservationCard doctor={doctor} key={doctor.id} />

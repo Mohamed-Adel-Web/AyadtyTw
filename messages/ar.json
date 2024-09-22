@@ -372,6 +372,103 @@
       "ExaminationType": "نوع الفحص",
       "Visits": "الزيارات",
       "Income": "الدخل"
+    },
+    "Patients": {
+      "patients": "المرضى",
+      "id": "الرقم",
+      "firstName": "الاسم الأول",
+      "lastName": "اسم العائلة",
+      "phone": "الهاتف",
+      "email": "البريد الإلكتروني",
+      "filterPlaceholder": "بحث...",
+      "addPatient": "إضافة مريض",
+      "editPatient": "تعديل مريض",
+      "deletePatient": "حذف مريض",
+      "Dialog": {
+        "addNewPatient": "إضافة مريض جديد",
+        "editPatient": "تعديل المريض",
+        "enterPatientDetails": "أدخل تفاصيل المريض الجديد. اضغط حفظ عند الانتهاء.",
+        "enterDoctorDetails": "أدخل تفاصيل الطبيب. اضغط حفظ عند الانتهاء.",
+        "saveChanges": "حفظ التغييرات",
+        "role": "الدور",
+        "selectRole": "اختر الدور",
+        "roleRequired": "الدور مطلوب",
+        "firstName": "الاسم الأول",
+        "lastName": "اسم العائلة",
+        "email": "البريد الإلكتروني",
+        "password": "كلمة المرور",
+        "phone": "الهاتف",
+        "image": "الصورة"
+      }
+    },
+    "Reservation": {
+      "doctorReservations": "حجوزات الأطباء",
+      "searchDoctor": "ابحث عن طبيب وقم بالحجز.",
+      "noDoctorsFound": "لم يتم العثور على أطباء.",
+      "ReservationSearch": {
+        "searchPlaceholder": "ابحث باسم الطبيب..."
+      },
+      "SpecializationFilter": {
+        "chooseSpecialty": "اختر التخصص",
+        "selectSpecialty": "اختر تخصصًا لتصفية الأطباء.",
+        "allSpecializations": "كل التخصصات",
+        "close": "إغلاق"
+      },
+      "DoctorReservationCard": {
+        "cardiologist": "طبيب القلب",
+        "viewDetails": "عرض التفاصيل",
+        "bookNow": "احجز الآن"
+      },
+      "AddDialog": {
+        "bookAppointment": "حجز موعد",
+        "enterReservationDetails": "أدخل تفاصيل الحجز الجديد. اضغط على احجز عند الانتهاء.",
+        "patientName": "اسم المريض",
+        "examinationType": "نوع الفحص",
+        "paymentMethod": "طريقة الدفع",
+        "selectPaymentMethod": "اختر طريقة الدفع",
+        "examinationPrice": "سعر الفحص",
+        "book": "احجز",
+        "paymentMethodRequired": "طريقة الدفع مطلوبة"
+      }
+    },
+    "Specializations": {
+      "title": "التخصصات",
+      "filterPlaceholder": "فلتر حسب الاسم...",
+      "name": "الاسم",
+      "unauthorized": "غير مصرح",
+      "addSpecialization": "إضافة تخصص",
+      "editSpecialization": "تعديل التخصص",
+      "deleteSpecialization": "حذف التخصص",
+      "Dialog": {
+        "addTitle": "إضافة تخصص جديد",
+        "editTitle": "تعديل التخصص",
+        "enterDetails": "أدخل تفاصيل التخصص الجديد. انقر فوق حفظ عند الانتهاء.",
+        "name": "الاسم",
+        "nameRequired": "اسم التخصص مطلوب",
+        "saveChanges": "حفظ التغييرات",
+        "save": "حفظ"
+      }
+    },
+    "visits": {
+      "title": "تأكيد الحجوزات",
+      "selectDoctor": "اختر الطبيب لعرض الحجوزات",
+      "filterPlaceholder": "فلتر الاسم...",
+      "pleaseSelectDoctor": "يرجى اختيار طبيب من القائمة أعلاه لعرض حجوزاتهم.",
+      "reservationDetails": "تفاصيل الحجز",
+      "close": "إغلاق",
+      "confirmReservation": "تأكيد الحجز",
+      "doctorName": "اسم الطبيب",
+      "patientName": "اسم المريض",
+      "email": "البريد الإلكتروني",
+      "phone": "رقم الهاتف",
+      "examination": "الفحص",
+      "examinationAmount": "قيمة الفحص",
+      "examinationColor": "لون الفحص",
+      "reservationStatus": "حالة الحجز",
+      "appointmentStart": "بداية الموعد",
+      "appointmentEnd": "نهاية الموعد",
+      "reservedOn": "تم الحجز في",
+      "showAllDoctors": "عرض جميع الأطباء"
     }
   }
 }

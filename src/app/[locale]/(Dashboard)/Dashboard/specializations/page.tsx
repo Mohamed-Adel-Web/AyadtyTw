@@ -1,6 +1,5 @@
 "use client";
 import * as React from "react";
-
 import { Specialization } from "@/types/specializationsTypes/specialization";
 import Heading from "@/components/Dashboard/DashboardLayout/Heading";
 import useGetData from "@/customHooks/crudHooks/useGetData";
@@ -15,8 +14,10 @@ import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeading
 import DeleteDialog from "@/components/Dashboard/generalDialog/DeleteDialog";
 import { DataTable } from "@/components/Dashboard/Datatable/DataTable";
 import { createColumns } from "@/components/Dashboard/Datatable/columns";
+import { useTranslations } from "next-intl"; // Import useTranslations
 
 export default function App() {
+  const t = useTranslations("Dashboard.Specializations"); // Initialize useTranslations hook
   const router = useRouter();
 
   const [openAdd, setOpenAdd] = React.useState(false);
@@ -29,6 +30,7 @@ export default function App() {
   );
   const [selectedFilterKey, setSelectedFilterKey] = React.useState<string>();
   const [filterValue, setFilterValue] = React.useState<string>("");
+
   const { data } = useGetData(
     specializationUrl,
     "allSpecialization",
@@ -39,9 +41,11 @@ export default function App() {
     selectedFilterKey,
     filterValue
   );
+
   const specializationsData = data?.data.data || [];
   const totalPages = data?.data.last_page || 1;
   const totalRecords = data?.data.total || 0;
+
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
   };
@@ -55,27 +59,30 @@ export default function App() {
     setSelectedData(data);
     setOpenDelete(true);
   };
+
   const { user, role, isSuccess } = useUser();
+
   const handleFilterChange = (key: string, value: string) => {
     setSelectedFilterKey(key);
     setFilterValue(value);
   };
-  const columns = createColumns<Specialization>(
-  [{key:"name",label:"Name"}],
 
+  const columns = createColumns<Specialization>(
+    [{ key: "name", label: t("name") }], // Translated
     "specialization",
     role,
     handleOpenEditDialog,
     handleOpenDeleteDialog
   );
-  if (isSuccess && !hasPermission(role, "assistant", "read")) {
+
+  if (isSuccess && !hasPermission(role, "specialization", "read")) {
     router.push("/unauthorized");
   }
 
   return (
     <>
       <TableHeadLayout>
-        <Heading title="Specializations" />
+        <Heading title={t("title")} /> {/* Translated */}
         {hasPermission(role, "specialization", "create") ? (
           <AddButton handleAddDialog={handleOpenAddDialog} />
         ) : (
@@ -87,7 +94,7 @@ export default function App() {
           columns={columns}
           data={specializationsData}
           filterKeys={["name"]}
-          filterPlaceholder="Filter name..."
+          filterPlaceholder={t("filterPlaceholder")} 
           page={page}
           pageSize={pageSize}
           totalPages={totalPages}
@@ -110,7 +117,7 @@ export default function App() {
         url={specializationUrl}
         mutationKey="deleteSpecialization"
         queryKey="allSpecialization"
-        itemName="specialization"
+        itemName={t("deleteSpecialization")} // Translated
       />
     </>
   );

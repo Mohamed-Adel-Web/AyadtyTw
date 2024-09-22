@@ -49,7 +49,7 @@ const RegisterComponent: React.FC = () => {
                     id={field.name}
                     type={field.type}
                     placeholder={
-                      field.name == "subdomain" ? "yourdomain.com" : ""
+                      field.name == "subdomain" ? ".ayadty.com" : ""
                     }
                     {...register(field.name, {
                       required: t(`fields.${field.name}.required`),

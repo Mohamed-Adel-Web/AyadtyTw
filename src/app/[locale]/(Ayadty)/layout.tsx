@@ -8,7 +8,7 @@ export default function AyadtyLayout({
   return (
     <>
       <NavBar />
-        <div className="container">{children}</div>
+        <div className="container flex justify-center items-center min-h-screen">{children}</div>
     </>
   );
 }

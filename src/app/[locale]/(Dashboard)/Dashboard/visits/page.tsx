@@ -7,8 +7,10 @@ import useUser from "@/customHooks/loginHooks/useUser";
 import { hasPermission } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useTranslations } from "next-intl"; // Import useTranslations
 
 export default function App() {
+  const t = useTranslations("Dashboard.visits"); // Initialize useTranslations hook
   const [doctorId, setDoctorId] = useState<string | null>(null);
   const router = useRouter();
   const handleReservations = (doctorId: string) => {
@@ -22,8 +24,7 @@ export default function App() {
   return (
     <>
       <TableHeadLayout>
-        <Heading title="Reservations Confirm    " />
-
+        <Heading title={t("title")} /> {/* Translated */}
         {hasPermission(role, "visits", "create") && (
           <>
             <SelectDoctorReservation handleReservations={handleReservations} />

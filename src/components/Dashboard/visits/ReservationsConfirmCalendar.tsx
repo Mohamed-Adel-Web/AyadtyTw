@@ -6,20 +6,19 @@ import interactionPlugin from "@fullcalendar/interaction";
 import momentPlugin from "@fullcalendar/moment";
 import { useState, useEffect } from "react";
 import ReservationDetailsModal from "./ReservationDetailsModal";
-import {
-  reservationDetails,
-} from "@/types/reservationTypes/reservation";
+import { reservationDetails } from "@/types/reservationTypes/reservation";
 import listPlugin from "@fullcalendar/list";
-
 import { EventInput } from "@fullcalendar/core/index.js";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { reservationUrl } from "@/backend/backend";
+import { useLocale } from "next-intl";
 
 export default function ReservationsCalendar({
   doctorId,
 }: {
   doctorId: string | null;
 }) {
+  const locale = useLocale();
   const [events, setEvents] = useState<EventInput[]>();
   const { data, isSuccess } = useGetData(
     doctorId ? `${reservationUrl}/doctor/${doctorId}` : reservationUrl,
@@ -110,6 +109,7 @@ export default function ReservationsCalendar({
           minute: "2-digit",
           hour12: true,
         }}
+        locale={locale}
       />
       {selectedReservation && (
         <ReservationDetailsModal

@@ -19,6 +19,8 @@ import { patient, patientDetails } from "@/types/patientTypes/patient";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { Role } from "@/types/RolesTypes/role";
 import DialogLayout from "../generalDialog/DialogLayout";
+import { useTranslations } from "next-intl"; // Import useTranslations
+
 export function EditDialog({
   open,
   onOpenChange,
@@ -28,6 +30,8 @@ export function EditDialog({
   onOpenChange: (open: boolean) => void;
   patient: patientDetails | null;
 }) {
+  const t = useTranslations("Dashboard.Patients.Dialog");
+
   const { register, formState, handleSubmit, reset } = useForm<patient>();
   const { mutate, isSuccess, isPending } = useEditData<FormData>(
     patientsUrl,
@@ -69,9 +73,9 @@ export function EditDialog({
     <DialogLayout open={open} onOpenChange={onOpenChange}>
       <form noValidate onSubmit={handleSubmit(onSubmit)}>
         <DialogHeader>
-          <DialogTitle>Edit Doctor</DialogTitle>
+          <DialogTitle>{t("editPatient")}</DialogTitle> {/* Translated */}
           <DialogDescription>
-            Enter the details of the doctor. Click save when you&apos;re done.
+            {t("enterDoctorDetails")} {/* Translated */}
           </DialogDescription>
         </DialogHeader>
         {fields
@@ -79,7 +83,7 @@ export function EditDialog({
           .map((field) => (
             <div className="space-y-2 my-2" key={field.name}>
               <Label htmlFor={field.name} className="text-right">
-                {field.label}
+                {t(field.label)} {/* Translated */}
               </Label>
               <Input
                 id={field.name}
@@ -97,16 +101,15 @@ export function EditDialog({
               )}
             </div>
           ))}
-
-        <h3 className="text-xl font-bold"> Role</h3>
+        <h3 className="text-xl font-bold">{t("role")}</h3> {/* Translated */}
         <select
           id="role"
           {...register("role_id", {
-            required: "role is required",
+            required: t("roleRequired"), // Translated validation message
           })}
           className="block w-full mt-3 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
         >
-          <option value="">Select role</option>
+          <option value="">{t("selectRole")}</option> {/* Translated */}
           {rolesData?.map((spec: Role) => (
             <option key={spec.id} value={spec.id} className="m5-2">
               {spec.name}
@@ -116,10 +119,9 @@ export function EditDialog({
         {errors.role_id && (
           <div className="text-red-500 w-full">{errors.role_id.message}</div>
         )}
-
         <DialogFooter className="mt-3">
           <Button type="submit" disabled={isPending}>
-            Save changes
+            {t("saveChanges")} {/* Translated */}
           </Button>
         </DialogFooter>
       </form>
