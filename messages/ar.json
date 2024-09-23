@@ -102,6 +102,15 @@
       "toggle_menu": "تبديل القائمة",
       "avatar_alt": "الصورة الرمزية"
     },
+    "delete": {
+      "Confirm Delete": "تأكيد الحذف",
+      "Are you sure you want to delete this {itemName}?": "هل أنت متأكد أنك تريد حذف هذا {itemName}؟",
+      "Are you sure you want to cancel this {itemName}?": "هل أنت متأكد أنك تريد إلغاء هذا {itemName}؟",
+      "Are you sure you want to delete all {itemName}?": "هل أنت متأكد أنك تريد حذف جميع {itemName}؟",
+      "Are you sure you want to cancel all {itemName}?": "هل أنت متأكد أنك تريد إلغاء جميع {itemName}؟",
+      "Cancel": "إلغاء",
+      "Delete": "حذف"
+    },
     "examinationType": {
       "ExaminationType": "نوع الفحص",
       "ID": "الرقم التعريفي",
@@ -428,7 +437,8 @@
         "selectPaymentMethod": "اختر طريقة الدفع",
         "examinationPrice": "سعر الفحص",
         "book": "احجز",
-        "paymentMethodRequired": "طريقة الدفع مطلوبة"
+        "paymentMethodRequired": "طريقة الدفع مطلوبة",
+        "SelectPatient": "اختار مريض"
       }
     },
     "Specializations": {

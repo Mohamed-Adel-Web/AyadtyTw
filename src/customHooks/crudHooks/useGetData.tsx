@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useAuth } from "../loginHooks/useAuth";
+import { getBaseUrl } from "@/lib/utils";
 
 const useGetData = (
   url: string,
@@ -20,7 +21,7 @@ const useGetData = (
   }
 
   const getDataRequest = () => {
-    return axios.get(url, {
+    return axios.get(getBaseUrl() + url, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -1,5 +1,7 @@
 import { Role } from "@/types/RolesTypes/role";
 import { type ClassValue, clsx } from "clsx";
+import Cookies from "js-cookie";
+
 import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -7,6 +9,7 @@ export function cn(...inputs: ClassValue[]) {
 export const formatUrl = (str: string): string => {
   return str.toLowerCase().replace(/ /g, "-");
 };
+
 export function hasPermission(
   role: Role,
   section: string,
@@ -55,4 +58,10 @@ export const generateYears = (startYear: number, endYear: number) => {
     years.push(year.toString());
   }
   return years;
+};
+export const getBaseUrl = () => {
+  const subdomain = Cookies.get("subdomain");
+  if (subdomain) {
+    return `https://${subdomain}.ayadty.com/el3yada_new/api`;
+  }
 };

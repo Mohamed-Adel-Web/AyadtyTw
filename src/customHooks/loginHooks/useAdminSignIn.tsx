@@ -6,11 +6,16 @@ import Cookies from "js-cookie";
 import { loginData } from "@/types/AuthTypes/loginTypes";
 import { useAuth } from "./useAuth";
 import { loginUrl } from "@/backend/backend";
+import { getBaseUrl } from "@/lib/utils";
+import { useLocale } from "next-intl";
+import { useRouter } from "@/i18n/routing";
 const useAdminSignIn = () => {
   const { token, setToken, setUser } = useAuth();
+  const locale = useLocale();
   const { toast } = useToast();
+  const router = useRouter();
   const signInRequest = (adminData: loginData) => {
-    return axios.post(loginUrl, adminData);
+    return axios.post(getBaseUrl() + loginUrl, adminData);
   };
   const { mutate, data, error, isPending, isSuccess, isError } = useMutation({
     mutationKey: ["SignIn"],
@@ -24,7 +29,7 @@ const useAdminSignIn = () => {
         Cookies.set("user", JSON.stringify(data.data.user), { expires: 30 });
         setToken(data.data.token);
         setUser(data.data.user);
-        window.location.href = "/Dashboard/MyProfile";
+        router.push("/Dashboard/MyProfile");
       } else {
         toast({
           variant: "destructive",

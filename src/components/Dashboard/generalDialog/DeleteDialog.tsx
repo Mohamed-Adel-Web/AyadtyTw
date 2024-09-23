@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import useDeleteData from "@/customHooks/crudHooks/useDeleteData";
+import { useTranslations } from "next-intl"; // Import useTranslations
 
 interface DeleteDialogProps<T> {
   open: boolean;
@@ -31,7 +32,6 @@ const DeleteDialog = <T extends { id: number | undefined }>({
   queryKey,
   itemName = "item",
   method = "delete",
-  
 }: DeleteDialogProps<T>) => {
   const { mutate, isSuccess, isPending } = useDeleteData(
     url,
@@ -40,6 +40,8 @@ const DeleteDialog = <T extends { id: number | undefined }>({
     queryKey,
     method
   );
+
+  const t = useTranslations("Dashboard.delete"); // Initialize translations
 
   const handleDelete = () => {
     mutate();
@@ -55,23 +57,29 @@ const DeleteDialog = <T extends { id: number | undefined }>({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Confirm Delete</DialogTitle>
+          <DialogTitle>{t("Confirm Delete")}</DialogTitle>{" "}
+          {/* Translate title */}
         </DialogHeader>
         <DialogDescription>
           {method == "put"
-            ? `Are you sure you want to cancel this ${itemName}`
-            : `Are you sure you want to delete this ${itemName}`}
+            ? t("Are you sure you want to cancel this {itemName}?", {
+                itemName,
+              })
+            : t("Are you sure you want to delete this {itemName}?", {
+                itemName,
+              })}
         </DialogDescription>
         <DialogFooter>
           <Button variant="ghost" onClick={() => onOpenChange(false)}>
-            Cancel
+            {t("Cancel")} {/* Translate button text */}
           </Button>
           <Button
             variant="destructive"
             disabled={isPending}
             onClick={handleDelete}
           >
-            {method == "put" ? "Cancel" : "Delete"}
+            {method == "put" ? t("Cancel") : t("Delete")}{" "}
+            {/* Translate button text */}
           </Button>
         </DialogFooter>
       </DialogContent>

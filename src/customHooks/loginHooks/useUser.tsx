@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import { useAuth } from "./useAuth";
 import useGetData from "../crudHooks/useGetData";
 import { rolesUrl } from "@/backend/backend";
+import { getBaseUrl } from "@/lib/utils";
 
 export default function useUser() {
   const { user, setUser } = useAuth();

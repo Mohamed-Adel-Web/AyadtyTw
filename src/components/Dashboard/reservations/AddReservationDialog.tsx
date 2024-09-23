@@ -23,6 +23,7 @@ import Select from "react-select";
 import useUser from "@/customHooks/loginHooks/useUser";
 import DialogLayout from "../generalDialog/DialogLayout";
 import { useTranslations } from "next-intl"; // Import useTranslations
+import { AsyncSelectComponent } from "../Common/AsyncSelect";
 
 export function AddDialog({
   open,
@@ -36,7 +37,7 @@ export function AddDialog({
   appointmentId: number;
 }) {
   const t = useTranslations("Dashboard.Reservation.AddDialog"); // Initialize useTranslations hook
-  const { formState, handleSubmit, reset, setValue, register } =
+  const { formState, handleSubmit, reset, setValue, register, control } =
     useForm<reservation>();
   const paymentMethods = ["cash", "visa", "wallet", "fawry"];
   const { user, role } = useUser();
@@ -102,17 +103,14 @@ export function AddDialog({
           ""
         ) : (
           <div className="space-y-2 my-3">
-            <Label htmlFor="patient" className="text-right">
-              {t("patientName")} {/* Translated */}
-            </Label>
-            <Select
-              id="patient"
-              options={patientsData?.map((patient: patient) => ({
-                value: patient.id,
-                label: `${patient.first_name} ${patient.last_name}`,
-              }))}
-              onChange={handlePatientChange}
-              className="block w-full mt-3"
+   
+            <AsyncSelectComponent
+              control={control}
+              name="patient_id"
+              label={t("patientName")}
+              url={patientsUrl}
+              placeholder={t("SelectPatient")}
+              isRequired={true}
             />
             {errors.patient_id && (
               <div className="text-red-500 w-full">

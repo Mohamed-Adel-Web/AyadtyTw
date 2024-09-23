@@ -4,6 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "../loginHooks/useAuth";
+import { getBaseUrl } from "@/lib/utils";
 
 const useAddData = <T,>(
   url: string,
@@ -19,7 +20,7 @@ const useAddData = <T,>(
   }
 
   const addDataRequest = (data: T) => {
-    return axios.post(url, data, {
+    return axios.post(getBaseUrl() + url, data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -13,12 +13,14 @@ import ReservationFilter from "@/components/Dashboard/reservations/reservationFi
 import { AddDialog } from "@/components/Dashboard/reservations/AddReservationDialog";
 import { appointment } from "@/types/appointmentTypes/appointments";
 import LoadingSpinner from "@/components/Dashboard/Common/LoadingSpinner";
+import { useLocale } from "next-intl";
 
 export default function DoctorAppointment({
   params,
 }: {
   params: { id: string };
 }) {
+  const locale = useLocale();
   const doctorId = params.id;
   const { data, isSuccess, isLoading } = useGetData(
     `${doctorUrl}/${doctorId}`,
@@ -105,6 +107,7 @@ export default function DoctorAppointment({
             minute: "2-digit",
             hour12: true,
           }}
+          locale={locale}
         />
       )}
 

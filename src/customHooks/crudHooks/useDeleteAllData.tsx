@@ -4,6 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "../loginHooks/useAuth";
+import { getBaseUrl } from "@/lib/utils";
 
 const useDeleteAllData = (
   url: string,
@@ -20,7 +21,7 @@ const useDeleteAllData = (
   }
 
   const deleteDataRequest = () => {
-    return axios[method](`${url}`, {
+    return axios[method](`${getBaseUrl()}${url}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

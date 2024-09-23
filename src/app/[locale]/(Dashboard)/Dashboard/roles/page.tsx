@@ -15,7 +15,7 @@ import DeleteDialog from "@/components/Dashboard/generalDialog/DeleteDialog";
 import { createColumns } from "@/components/Dashboard/Datatable/columns";
 import { useTranslations } from "next-intl"; // Import useTranslations
 export default function App() {
-  const  t  = useTranslations("Dashboard.role");
+  const t = useTranslations("Dashboard.role");
   const router = useRouter();
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
@@ -25,6 +25,7 @@ export default function App() {
   const [pageSize, setPageSize] = React.useState(10);
   const [selectedFilterKey, setSelectedFilterKey] = React.useState<string>();
   const [filterValue, setFilterValue] = React.useState<string>("");
+  const { user, role, isSuccess } = useUser();
 
   const { data } = useGetData(
     rolesUrl,
@@ -39,7 +40,7 @@ export default function App() {
 
   const totalPages = data?.data.last_page || 1;
   const totalRecords = data?.data.total || 0;
-  const roleData: Role[] = data?.data||[];
+  const roleData: Role[] = data?.data || [];
 
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
@@ -60,9 +61,9 @@ export default function App() {
     setFilterValue(value);
   };
 
-  const { user, role, isSuccess } = useUser();
+  console.log(role);
   const columns = createColumns<Role>(
-    [{ key: "name", label: t("Name") }], // Use translation key for column label
+    [{ key: "name", label: t("Name") }],
     "doctor",
     role,
     handleOpenEditDialog,
@@ -77,7 +78,7 @@ export default function App() {
     <>
       <TableHeadLayout>
         <Heading title={t("Roles")} /> {/* Translated */}
-        <AddButton handleAddDialog={handleOpenAddDialog}/> {/* Translated */}
+        <AddButton handleAddDialog={handleOpenAddDialog} /> {/* Translated */}
       </TableHeadLayout>
       {roleData && (
         <DataTable

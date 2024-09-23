@@ -4,6 +4,7 @@ import { Controller, Control } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { IAsyncSelectOption } from "@/types/AsyncSelectOption";
 import { useTranslations } from "next-intl";
+import { getBaseUrl } from "@/lib/utils";
 
 interface IAsyncSelectComponentProps {
   control: Control<any>;
@@ -26,11 +27,13 @@ export const AsyncSelectComponent: React.FC<IAsyncSelectComponentProps> = ({
   id,
   defaultValue = null,
 }) => {
-  const [initialValue, setInitialValue] = useState<IAsyncSelectOption | null>(defaultValue);
-const t =useTranslations("Dashboard.AsyncSelect")
+  const [initialValue, setInitialValue] = useState<IAsyncSelectOption | null>(
+    defaultValue
+  );
+  const t = useTranslations("Dashboard.AsyncSelect");
   const loadOptions = useCallback(
     async (inputValue: string): Promise<IAsyncSelectOption[]> => {
-      const response = await fetch(`${url}?name=${inputValue}`);
+      const response = await fetch(`${getBaseUrl()}${url}?name=${inputValue}`);
       const result = await response.json();
       return result.data.map(
         (item: { first_name: string; last_name: string; id: string }) => ({
@@ -57,7 +60,9 @@ const t =useTranslations("Dashboard.AsyncSelect")
       <Controller
         control={control}
         name={name}
-        rules={isRequired ? { required: `${label} ${t("AsyncRequire")}` } : undefined}
+        rules={
+          isRequired ? { required: `${label} ${t("AsyncRequire")}` } : undefined
+        }
         defaultValue={defaultValue?.value || ""} // Use the value of defaultValue or empty string
         render={({ field, fieldState: { error } }) => (
           <>

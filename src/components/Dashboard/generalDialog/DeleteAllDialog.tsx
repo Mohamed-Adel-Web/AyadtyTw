@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import useDeleteAllData from "@/customHooks/crudHooks/useDeleteAllData";
+import { useTranslations } from "next-intl"; // Import useTranslations
 
 interface DeleteDialogProps {
   open: boolean;
@@ -36,6 +37,8 @@ const DeleteAllDialog = ({
     queryKey
   );
 
+  const t = useTranslations("Dashboard.delete"); // Initialize translations
+
   const handleDelete = () => {
     mutate();
   };
@@ -50,23 +53,27 @@ const DeleteAllDialog = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Confirm Delete</DialogTitle>
+          <DialogTitle>{t("Confirm Delete")}</DialogTitle>{" "}
+          {/* Translate title */}
         </DialogHeader>
         <DialogDescription>
           {method == "put"
-            ? `Are you sure you want to cancel all ${itemName}`
-            : `Are you sure you want to delete all  ${itemName}`}
+            ? t("Are you sure you want to cancel all {itemName}?", { itemName })
+            : t("Are you sure you want to delete all {itemName}?", {
+                itemName,
+              })}
         </DialogDescription>
         <DialogFooter>
           <Button variant="ghost" onClick={() => onOpenChange(false)}>
-            Cancel
+            {t("Cancel")} {/* Translate button text */}
           </Button>
           <Button
             variant="destructive"
             disabled={isPending}
             onClick={handleDelete}
           >
-            {method == "put" ? "Cancel" : "Delete"}
+            {method == "put" ? t("Cancel") : t("Delete")}{" "}
+            {/* Translate button text */}
           </Button>
         </DialogFooter>
       </DialogContent>

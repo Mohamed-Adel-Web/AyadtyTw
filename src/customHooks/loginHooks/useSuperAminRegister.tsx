@@ -1,7 +1,9 @@
 "use client";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { clinicRegister } from "@/backend/backend";
+import Cookies from "js-cookie";
+
 import { useToast } from "@/components/ui/use-toast";
 import { ISuperAdmin } from "@/types/superAdminTypes/isuperAdmin";
 export const useRegisterSuperAdmin = () => {
@@ -13,14 +15,15 @@ export const useRegisterSuperAdmin = () => {
     mutationKey: ["registerSuperAmin"],
     mutationFn: registerSuperAdminRequest,
     onSuccess: (data) => {
-      
       if (data.data.status === 200) {
         console.log(data.data);
         toast({
           title: `${data.data.message}`,
         });
-
-        window.location.href = "";
+        const subdomain = data.data.subdomain;
+        Cookies.set("subdomain", subdomain, { expires: 30 });
+        const subdomainUrl = `https://${subdomain}.ayadty.com`;
+        // window.location.href = subdomainUrl;
       } else {
         toast({
           variant: "destructive",
@@ -28,7 +31,7 @@ export const useRegisterSuperAdmin = () => {
         });
       }
     },
-    onError: (error) => {
+    onError: (error: AxiosError) => {
       toast({
         variant: "destructive",
         title: `${error.message}`,

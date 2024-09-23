@@ -4,6 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "../loginHooks/useAuth";
+import { getBaseUrl } from "@/lib/utils";
 const useEditData = <T,>(
   url: string,
   id: number | undefined,
@@ -19,7 +20,7 @@ const useEditData = <T,>(
     setToken(cookieToken);
   }
   const editDataRequest = (data?: T) => {
-    return axios[method](`${url}/${id}`, data, {
+    return axios[method](`${getBaseUrl()}${url}/${id}`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

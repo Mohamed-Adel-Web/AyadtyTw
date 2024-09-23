@@ -2,8 +2,8 @@
 import { Doctor } from "@/types/doctorsTypes/doctors";
 import { MailIcon, PhoneIcon } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useTranslations } from "next-intl"; // Import useTranslations
+import { Link } from "@/i18n/routing";
 
 export default function DoctorReservationCard({ doctor }: { doctor: Doctor }) {
   const t = useTranslations("Dashboard.Reservation.DoctorReservationCard"); // Initialize useTranslations hook
@@ -11,13 +11,13 @@ export default function DoctorReservationCard({ doctor }: { doctor: Doctor }) {
   return (
     <div className="lg:col-span-3 md:col-span-6 col-span-12 shadow-lg border bg-white rounded-lg m-2 p-4">
       <div className="col-span-12 md:col-span-1">
-        <Image
+        {/* <Image
           src={`${doctor.image}`}
           width={100}
           height={100}
           alt="Doctor's avatar"
           className="rounded-full mx-auto"
-        />
+        /> */}
       </div>
       <div className="col-span-12 md:col-span-5">
         <h3 className="text-xl font-semibold text-gray-800">
