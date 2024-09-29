@@ -6,7 +6,6 @@ import useGetData from "@/customHooks/crudHooks/useGetData";
 import { appointmentUrl, deleteAllAppointmentsUrl } from "@/backend/backend";
 import { hasPermission } from "@/lib/utils";
 import useUser from "@/customHooks/loginHooks/useUser";
-import { useRouter } from "next/navigation";
 import { appointmentDetails } from "@/types/appointmentTypes/appointments";
 import { AddDialog } from "@/components/Dashboard/appointments/AddAppointmentsDialog";
 import { EditDialog } from "@/components/Dashboard/appointments/EditAppointmentsDialog";
@@ -18,6 +17,7 @@ import { DataTable } from "@/components/Dashboard/Datatable/DataTable";
 import DeleteDialog from "@/components/Dashboard/generalDialog/DeleteDialog";
 import DeleteAllDialog from "@/components/Dashboard/generalDialog/DeleteAllDialog";
 import { useTranslations } from "next-intl"; // Import useTranslations
+import { useRouter } from "@/i18n/routing";
 
 export default function App() {
   const t = useTranslations("Dashboard.appointment"); // Initialize useTranslations hook

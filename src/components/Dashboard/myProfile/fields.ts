@@ -14,7 +14,7 @@ export const fields: {
   {
     name: "first_name",
     type: "text",
-    label: "First Name",
+    label: "firstName",
     required: "First name is required",
     validate: true,
     showInAdd: true,
@@ -23,21 +23,21 @@ export const fields: {
   {
     name: "last_name",
     type: "text",
-    label: "last Name",
+    label: "lastName",
     required: "last name is required",
     validate: true,
   },
   {
     name: "email",
     type: "email",
-    label: "Email",
+    label: "email",
     required: "Email name is required",
     validate: true,
   },
   {
     name: "phone",
     type: "phone",
-    label: "Phone",
+    label: "phone",
     required: "Phone number is required",
     validate: true,
   },
@@ -45,7 +45,7 @@ export const fields: {
   {
     name: "image",
     type: "file",
-    label: "Image",
+    label: "image",
     required: "Image is required",
     validate: false,
   },

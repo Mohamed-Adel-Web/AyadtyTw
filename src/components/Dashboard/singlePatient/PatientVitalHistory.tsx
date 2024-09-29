@@ -7,7 +7,6 @@ import useGetData from "@/customHooks/crudHooks/useGetData";
 import { patientVitalHistoryUrl, vitalHistoryUrl } from "@/backend/backend";
 import { hasPermission } from "@/lib/utils";
 import useUser from "@/customHooks/loginHooks/useUser";
-import { useRouter } from "next/navigation";
 import { IVitalHistory } from "@/types/vitalHistoryTypes/vitalHistory";
 import { AddDialog } from "@/components/Dashboard/vitalHistory/AddVitalDialog";
 import { EditDialog } from "@/components/Dashboard/vitalHistory/EditVitalDialog";
@@ -15,6 +14,7 @@ import ReportSheetComponent from "@/components/Dashboard/vitalHistory/ReportDial
 import AddButton from "@/components/Dashboard/DashboardLayout/AddButton";
 import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeadingLayout";
 import DeleteDialog from "../generalDialog/DeleteDialog";
+import { useRouter } from "@/i18n/routing";
 export default function PatientVitalHistory({
   patientId,
 }: {
@@ -69,14 +69,14 @@ export default function PatientVitalHistory({
       { key: "blood_sugar", label: "Blood Sugar" },
       { key: "doctor_id", label: "Doctor id" },
     ],
-    "vital history",
+    "vitalHistory",
     role,
     handleOpenEditDialog,
     handleOpenDeleteDialog,
     undefined,
     handleShowReportDialog
   );
-  if (isSuccess && !hasPermission(role, "vital history", "read")) {
+  if (isSuccess && !hasPermission(role, "vitalHistory", "read")) {
     router.push("/unauthorized");
   }
 

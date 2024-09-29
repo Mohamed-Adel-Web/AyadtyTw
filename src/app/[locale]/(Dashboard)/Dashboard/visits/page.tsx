@@ -5,9 +5,9 @@ import ReservationsCalendar from "@/components/Dashboard/visits/ReservationsConf
 import SelectDoctorReservation from "@/components/Dashboard/visits/SelectDoctorReservations";
 import useUser from "@/customHooks/loginHooks/useUser";
 import { hasPermission } from "@/lib/utils";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslations } from "next-intl"; // Import useTranslations
+import { useRouter } from "@/i18n/routing";
 
 export default function App() {
   const t = useTranslations("Dashboard.visits"); // Initialize useTranslations hook

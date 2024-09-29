@@ -4,10 +4,10 @@ import { createColumns } from "../../../components/Dashboard/Datatable/columns";
 import { DataTable } from "../../../components/Dashboard/Datatable/DataTable";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { patientReservationUrl, patientsUrl } from "@/backend/backend";
-import { useRouter } from "next/navigation";
 import useUser from "@/customHooks/loginHooks/useUser";
 import { hasPermission } from "@/lib/utils";
 import { reservationDetails } from "@/types/reservationTypes/reservation";
+import { useRouter } from "@/i18n/routing";
 export default function PatientReservation({
   patientId,
 }: {

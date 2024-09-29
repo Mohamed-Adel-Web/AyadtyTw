@@ -20,13 +20,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
 import { PanelLeftIcon } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Cookies from "js-cookie";
 import { Links } from "@/app/[locale]/(Dashboard)/Dashboard/links";
 import useUser from "@/customHooks/loginHooks/useUser";
-import { Link } from "@/i18n/routing";
+import { Link, useRouter } from "@/i18n/routing";
 import LanguageSwitcher from "@/components/lang/LanguageSwitcher";
-import { useTranslations } from "next-intl"; // Import useTranslations
+import { useTranslations } from "next-intl"; 
 
 const Header = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -42,7 +42,7 @@ const Header = () => {
   const handleLogout = () => {
     Cookies.remove("token");
     Cookies.remove("user");
-    router.push("/login");
+    router.push("/clinic-website/login");
   };
 
   return (

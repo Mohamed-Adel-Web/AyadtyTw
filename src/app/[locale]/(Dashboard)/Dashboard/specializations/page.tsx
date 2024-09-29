@@ -7,7 +7,6 @@ import { specializationUrl } from "@/backend/backend";
 import { AddDialog } from "@/components/Dashboard/specializations/AddSpecializationDialog";
 import EditDialog from "@/components/Dashboard/specializations/EditSpecializationDialog";
 import useUser from "@/customHooks/loginHooks/useUser";
-import { useRouter } from "next/navigation";
 import { hasPermission } from "@/lib/utils";
 import AddButton from "@/components/Dashboard/DashboardLayout/AddButton";
 import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeadingLayout";
@@ -15,6 +14,7 @@ import DeleteDialog from "@/components/Dashboard/generalDialog/DeleteDialog";
 import { DataTable } from "@/components/Dashboard/Datatable/DataTable";
 import { createColumns } from "@/components/Dashboard/Datatable/columns";
 import { useTranslations } from "next-intl"; // Import useTranslations
+import { useRouter } from "@/i18n/routing";
 
 export default function App() {
   const t = useTranslations("Dashboard.Specializations"); // Initialize useTranslations hook

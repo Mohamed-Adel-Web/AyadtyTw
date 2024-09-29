@@ -23,7 +23,7 @@ export const useRegisterSuperAdmin = () => {
         const subdomain = data.data.subdomain;
         Cookies.set("subdomain", subdomain, { expires: 30 });
         const subdomainUrl = `https://${subdomain}.ayadty.com`;
-        // window.location.href = subdomainUrl;
+        window.location.href = subdomainUrl;
       } else {
         toast({
           variant: "destructive",

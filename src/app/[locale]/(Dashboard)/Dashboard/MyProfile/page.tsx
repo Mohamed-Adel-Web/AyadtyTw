@@ -1,18 +1,19 @@
 "use client";
 import { patientsUrl, assistantsUrl, doctorUrl } from "@/backend/backend";
 import LoadingSpinner from "@/components/Dashboard/Common/LoadingSpinner";
-import DoctorProfileReservation from "@/components/Dashboard/myProfile/DoctorProfile/DoctorProfileReservation ";
 import DoctorProfileSetting from "@/components/Dashboard/myProfile/DoctorProfile/DoctorProfileSetting";
 import PatientProfileReservation from "@/components/Dashboard/myProfile/PatientProfile/PatientProfileReservation";
 import PatientProfileVitalHistory from "@/components/Dashboard/myProfile/PatientProfile/PatientProfileVitalHistory";
 import ProfileSetting from "@/components/Dashboard/myProfile/ProfileSetting";
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import useUser from "@/customHooks/loginHooks/useUser";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
+import DoctorProfileReservation from "@/components/Dashboard/myProfile/DoctorProfile/DoctorProfileReservation ";
 
 export default function App() {
+  const t = useTranslations("Dashboard.profile");
   const { user, role, isSuccess } = useUser();
   const [endpointUrl, setEndpointUrl] = useState<string | null>(null);
 
@@ -41,7 +42,6 @@ export default function App() {
     !!user?.id && !!endpointUrl
   );
   const profileData = data?.data.data;
-  const reservationData = data?.data.reservations || [];
   if (isLoading)
     return (
       <div>
@@ -53,13 +53,13 @@ export default function App() {
   return (
     <Tabs defaultValue="AccountSettings" className="w-full mx-auto">
       <TabsList className="grid w-full grid-cols-3">
-        <TabsTrigger value="AccountSettings">My account</TabsTrigger>
-        <TabsTrigger value="reservation">Reservation</TabsTrigger>
+        <TabsTrigger value="AccountSettings">{t("account")}</TabsTrigger>
+        <TabsTrigger value="reservation">{t("reservation")}</TabsTrigger>
         {role?.permissions?.profileType?.type === "doctor" && (
-          <TabsTrigger value="settings">setting</TabsTrigger>
+          <TabsTrigger value="settings">{t("settings")}</TabsTrigger>
         )}
         {role?.permissions?.profileType?.type === "patient" && (
-          <TabsTrigger value="vitalHistory">Vital History</TabsTrigger>
+          <TabsTrigger value="vitalHistory">{t("vitalHistory")}</TabsTrigger>
         )}
       </TabsList>
       <TabsContent value="AccountSettings">
@@ -72,14 +72,14 @@ export default function App() {
           <PatientProfileReservation reservations={profileData?.reservations} />
         )}
         {role?.permissions?.profileType?.type === "doctor" && (
-          <DoctorProfileReservation reservations={reservationData} />
+          <DoctorProfileReservation doctorId={data?.data.data.id} />
         )}
       </TabsContent>
       {role?.permissions?.profileType?.type === "patient" && (
         <TabsContent value="vitalHistory">
           <PatientProfileVitalHistory patient={profileData} />
         </TabsContent>
-      )}{" "}
+      )}
       {role?.permissions?.profileType?.type === "doctor" && (
         <TabsContent value="settings">
           <DoctorProfileSetting doctor={profileData} />

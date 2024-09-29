@@ -315,6 +315,20 @@
       "Previous": "السابق",
       "Next": "التالي"
     },
+    "column": {
+      "selectAll": "تحديد الكل",
+      "selectRow": "تحديد الصف",
+      "action": "الإجراء",
+      "actions": "الإجراءات",
+      "delete": "حذف",
+      "edit": "تعديل",
+      "openMenu": "فتح القائمة",
+      "showTransactionDetails": "عرض تفاصيل المعاملة",
+      "showReport": "عرض التقرير",
+      "showPatientDetails": "عرض تفاصيل المريض",
+      "showAppointmentDetails": "عرض تفاصيل الموعد"
+    },
+
     "appointment": {
       "appointments": "المواعيد",
       "start_time": "وقت البدء",
@@ -479,6 +493,40 @@
       "appointmentEnd": "نهاية الموعد",
       "reservedOn": "تم الحجز في",
       "showAllDoctors": "عرض جميع الأطباء"
+    },
+    "profile": {
+      "account": "حسابي",
+      "reservation": "الحجز",
+      "settings": "الإعدادات",
+      "vitalHistory": "التاريخ الطبي",
+      "personalInfo": "المعلومات الشخصية",
+      "updateDetails": "تحديث معلوماتك الشخصية.",
+      "saveChanges": "حفظ التغييرات",
+      "firstName": "الاسم الأول",
+      "lastName": "اسم العائلة",
+      "email": "البريد الإلكتروني",
+      "phone": "رقم الهاتف",
+      "password": "كلمة المرور",
+      "edit": "تعديل",
+      "image": "الصورة   الشخصية",
+      "DoctorProfileReservation": {
+        "id": "المعرف",
+        "patientId": "معرف المريض",
+        "status": "الحالة",
+        "createdAt": "تاريخ الإنشاء",
+        "examinationAmount": "قيمة الفحص",
+        "examinationType": "نوع الفحص",
+        "filterPlaceholder": "بحث حسب الاسم"
+      },
+      "DoctorProfileSetting": {
+        "profileSettings": "إعدادات الحساب",
+        "profileSettingsDescription": "إدارة إعدادات حسابك ومفتاح API الخاص بك.",
+        "apiKeyTitle": "مفتاح API",
+        "apiKeyDescription": "يُستخدم مفتاح API الخاص بك لمصادقة طلباتك إلى منصتنا.",
+        "apiKeyLabel": "مفتاح API",
+        "updateApiKey": "تحديث مفتاح API",
+        "addApiKey": "إضافة مفتاح API"
+      }
     }
   }
 }

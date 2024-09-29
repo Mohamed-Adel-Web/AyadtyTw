@@ -16,8 +16,10 @@ import { doctorSettingUrl } from "@/backend/backend";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { useMemo } from "react";
 import useEditData from "@/customHooks/crudHooks/useEditData";
+import { useTranslations } from "next-intl"; // Import useTranslations
 
 export default function DoctorProfileSetting({ doctor }: { doctor: Doctor }) {
+  const t = useTranslations("Dashboard.profile.DoctorProfileSetting"); // Initialize useTranslations hook
   const { data } = useGetData(
     `${doctorSettingUrl}/doctor/${doctor.id}`,
     "AllDoctorSettings",
@@ -60,23 +62,24 @@ export default function DoctorProfileSetting({ doctor }: { doctor: Doctor }) {
   return (
     <div className="container mx-auto max-w-3xl px-4 py-12 md:px-6 md:py-16 shadow-2xl bg-white my-5 rounded-lg">
       <div className="space-y-4">
-        <h1 className="text-3xl font-bold">Profile Settings</h1>
+        <h1 className="text-3xl font-bold">{t("profileSettings")}</h1>{" "}
+        {/* Translated */}
         <p className="text-muted-foreground">
-          Manage your account settings and API key.
-        </p>
+          {t("profileSettingsDescription")}
+        </p>{" "}
+        {/* Translated */}
       </div>
       <Card className="mt-8 border-4 border-[#5A5FE0] border-solid">
         <CardHeader>
-          <CardTitle>API Key</CardTitle>
-          <CardDescription>
-            Your API key is used to authenticate your requests to our platform.
-          </CardDescription>
+          <CardTitle>{t("apiKeyTitle")}</CardTitle> {/* Translated */}
+          <CardDescription>{t("apiKeyDescription")}</CardDescription>{" "}
+          {/* Translated */}
         </CardHeader>
         <CardContent>
           <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
             <div className="grid gap-2">
-              <Label htmlFor="apiKey">API Key</Label>
-
+              <Label htmlFor="apiKey">{t("apiKeyLabel")}</Label>{" "}
+              {/* Translated */}
               <Input
                 id="apiKey"
                 type="text"
@@ -86,8 +89,8 @@ export default function DoctorProfileSetting({ doctor }: { doctor: Doctor }) {
             </div>
             <Button type="submit" disabled={addLoading || updateLoading}>
               {doctorSetting?.api_key_myfatoorah
-                ? "Update API Key"
-                : "Add API Key"}
+                ? t("updateApiKey") // Translated
+                : t("addApiKey")}
             </Button>
           </form>
         </CardContent>

@@ -6,7 +6,6 @@ import useGetData from "@/customHooks/crudHooks/useGetData";
 import { vitalHistoryUrl } from "@/backend/backend";
 import { hasPermission } from "@/lib/utils";
 import useUser from "@/customHooks/loginHooks/useUser";
-import { useRouter } from "next/navigation";
 import { IVitalHistory } from "@/types/vitalHistoryTypes/vitalHistory";
 import { AddDialog } from "@/components/Dashboard/vitalHistory/AddVitalDialog";
 import { EditDialog } from "@/components/Dashboard/vitalHistory/EditVitalDialog";
@@ -16,6 +15,7 @@ import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeading
 import { createColumns } from "@/components/Dashboard/Datatable/columns";
 import { DataTable } from "@/components/Dashboard/Datatable/DataTable";
 import DeleteDialog from "@/components/Dashboard/generalDialog/DeleteDialog";
+import { useRouter } from "@/i18n/routing";
 export default function App() {
   const { user, role, isSuccess } = useUser();
   const router = useRouter();
@@ -66,14 +66,14 @@ export default function App() {
       { key: "blood_sugar", label: "Blood Sugar" },
       { key: "doctor_id", label: "Doctor id" },
     ],
-    "vital history",
+    "vitalHistory",
     role,
     handleOpenEditDialog,
     handleOpenDeleteDialog,
     undefined,
     handleShowReportDialog
   );
-  if (isSuccess && !hasPermission(role, "vital history", "read")) {
+  if (isSuccess && !hasPermission(role, "vitalHistory", "read")) {
     router.push("/unauthorized");
   }
 
@@ -85,7 +85,7 @@ export default function App() {
     <>
       <TableHeadLayout>
         <Heading title="Vital History" />
-        {hasPermission(role, "vital history", "create") && (
+        {hasPermission(role, "vitalHistory", "create") && (
           <AddButton handleAddDialog={handleOpenAddDialog} />
         )}
       </TableHeadLayout>

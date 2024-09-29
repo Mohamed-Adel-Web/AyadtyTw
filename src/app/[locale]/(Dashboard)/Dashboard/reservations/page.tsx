@@ -6,14 +6,14 @@ import { Specialization } from "@/types/specializationsTypes/specialization";
 import { Doctor } from "@/types/doctorsTypes/doctors";
 import ReservationSearch from "@/components/Dashboard/reservations/reservationFilters/ReservationSearch";
 import SpecializationFilter from "@/components/Dashboard/reservations/reservationFilters/SpecializationFilter";
-import { getBaseUrl, hasPermission } from "@/lib/utils";
+import {  hasPermission } from "@/lib/utils";
 import useUser from "@/customHooks/loginHooks/useUser";
-import { useRouter } from "next/navigation";
 import DoctorReservationCard from "@/components/Dashboard/reservations/DoctorReservationCard";
 import { useDebounce } from "@/customHooks/useDebounce";
 import LoadingSpinner from "@/components/Dashboard/Common/LoadingSpinner";
 import NoDataMessage from "@/components/Dashboard/Common/NoDataMessage";
 import { useTranslations } from "next-intl"; // Import useTranslations
+import { useRouter } from "@/i18n/routing";
 
 const App: React.FC = () => {
   const router = useRouter();

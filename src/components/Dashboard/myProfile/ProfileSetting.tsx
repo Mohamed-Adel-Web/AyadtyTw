@@ -19,6 +19,7 @@ import useEditData from "@/customHooks/crudHooks/useEditData";
 import { patientsUrl, assistantsUrl, doctorUrl } from "@/backend/backend";
 import { DoctorDetails } from "@/types/doctorsTypes/doctors";
 import { Role } from "@/types/RolesTypes/role";
+import { useTranslations } from "next-intl"; // Import useTranslations
 
 type ProfileType = DoctorDetails;
 
@@ -29,6 +30,7 @@ export default function ProfileSetting({
   profileData: ProfileType;
   role: Role;
 }) {
+  const  t = useTranslations("Dashboard.profile"); // Fetch translations from the profile namespace
   const { register, formState, handleSubmit, control, reset } =
     useForm<ProfileType>();
   let endpointUrl;
@@ -56,7 +58,6 @@ export default function ProfileSetting({
   useMemo(() => {
     if (profileData) {
       const { image, ...resetData } = profileData;
-
       reset(resetData);
     }
   }, [profileData, reset]);
@@ -104,10 +105,8 @@ export default function ProfileSetting({
             <form noValidate onSubmit={handleSubmit(onSubmit)}>
               <Card>
                 <CardHeader>
-                  <CardTitle>Personal Information</CardTitle>
-                  <CardDescription>
-                    Update your personal details.
-                  </CardDescription>
+                  <CardTitle>{t("personalInfo")}</CardTitle>
+                  <CardDescription>{t("updateDetails")}</CardDescription>
                 </CardHeader>
                 <CardContent className="grid gap-6">
                   {fields.map((field) => (
@@ -115,7 +114,7 @@ export default function ProfileSetting({
                       key={field.name}
                       className="grid grid-cols-[minmax(100px,_1fr)_2fr] items-center gap-4"
                     >
-                      <Label htmlFor={field.name}>{field.label}</Label>
+                      <Label htmlFor={field.name}>{t(field.label)}</Label>
                       <div className="flex items-center gap-2">
                         <Input
                           id={field.name}
@@ -133,14 +132,14 @@ export default function ProfileSetting({
                         )}
                         <Button variant="outline" size="icon">
                           <PencilIcon className="h-4 w-4" />
-                          <span className="sr-only">Edit</span>
+                          <span className="sr-only">{t("edit")}</span>
                         </Button>
                       </div>
                     </div>
                   ))}
                 </CardContent>
                 <CardFooter className="flex justify-end">
-                  <Button disabled={isPending}>Save Changes</Button>
+                  <Button disabled={isPending}>{t("saveChanges")}</Button>
                 </CardFooter>
               </Card>
             </form>

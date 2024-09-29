@@ -3,7 +3,6 @@ import * as React from "react";
 import Heading from "@/components/Dashboard/DashboardLayout/Heading";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { examinationTypeUrl } from "@/backend/backend";
-import { useRouter } from "next/navigation";
 import useUser from "@/customHooks/loginHooks/useUser";
 import { hasPermission } from "@/lib/utils";
 import { examinationDetails } from "@/types/examinationTypes/examinationTypes";
@@ -15,6 +14,7 @@ import { DataTable } from "@/components/Dashboard/Datatable/DataTable";
 import DeleteDialog from "@/components/Dashboard/generalDialog/DeleteDialog";
 import { createColumns } from "@/components/Dashboard/Datatable/columns";
 import { useTranslations } from "next-intl"; // Import useTranslations
+import { useRouter } from "@/i18n/routing";
 
 export default function App() {
   const router = useRouter();

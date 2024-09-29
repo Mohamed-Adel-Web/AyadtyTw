@@ -7,10 +7,10 @@ import useGetData from "@/customHooks/crudHooks/useGetData";
 import { patientTransactionUrl } from "@/backend/backend";
 import { hasPermission } from "@/lib/utils";
 import useUser from "@/customHooks/loginHooks/useUser";
-import { useRouter } from "next/navigation";
 import { IPayment } from "@/types/paymentTypes/payment";
 import TransactionDetailsDialog from "@/components/Dashboard/income/TransactionDetailsDialog";
 import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeadingLayout";
+import { useRouter } from "@/i18n/routing";
 export default function PatientTransactionDetails({
   patientId,
 }: {

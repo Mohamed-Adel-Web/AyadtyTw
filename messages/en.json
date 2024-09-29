@@ -124,7 +124,19 @@
       "Previous": "Previous",
       "Next": "Next"
     },
-
+    "column": {
+      "selectAll": "Select all",
+      "selectRow": "Select row",
+      "action": "Action",
+      "actions": "Actions",
+      "delete": "Delete",
+      "edit": "Edit",
+      "openMenu": "Open menu",
+      "showTransactionDetails": "Show Transaction Details",
+      "showReport": "Show Report",
+      "showPatientDetails": "Show Patient Details",
+      "showAppointmentDetails": "Show Appointment Details"
+    },
     "AsyncSelect": {
       "AsyncRequire": "is required"
     },
@@ -480,6 +492,41 @@
       "appointmentEnd": "Appointment End",
       "reservedOn": "Reserved On",
       "showAllDoctors": "Show ALL Doctors"
+    },
+    "profile": {
+      "account": "My Account",
+      "reservation": "Reservation",
+      "settings": "Settings",
+      "vitalHistory": "Vital History",
+      "personalInfo": "Personal Information",
+      "updateDetails": "Update your personal details.",
+      "saveChanges": "Save Changes",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phone": "Phone",
+      "password": "Password",
+      "image": "Image",
+      "edit": "Edit",
+      "DoctorProfileReservation": {
+        "id": "ID",
+        "patientId": "Patient ID",
+        "status": "Status",
+        "createdAt": "Created At",
+        "examinationAmount": "Examination Amount",
+        "examinationType": "Examination Type",
+        "filterPlaceholder": "Filter by name"
+      },
+      "DoctorProfileSetting":{
+        "profileSettings": "Profile Settings",
+        "profileSettingsDescription": "Manage your account settings and API key.",
+        "apiKeyTitle": "API Key",
+        "apiKeyDescription": "Your API key is used to authenticate your requests to our platform.",
+        "apiKeyLabel": "API Key",
+        "updateApiKey": "Update API Key",
+        "addApiKey": "Add API Key"
+      }
+      
     }
   }
 }

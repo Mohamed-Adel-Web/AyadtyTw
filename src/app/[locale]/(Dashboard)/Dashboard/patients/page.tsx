@@ -1,6 +1,5 @@
 "use client";
 import * as React from "react";
-import { useRouter } from "next/navigation";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { patientsUrl } from "@/backend/backend";
 import { AddDialog } from "@/components/Dashboard/patients/AddPateintDialog";
@@ -15,10 +14,11 @@ import { DataTable } from "@/components/Dashboard/Datatable/DataTable";
 import DeleteDialog from "@/components/Dashboard/generalDialog/DeleteDialog";
 import { useTranslations } from "next-intl"; // Import useTranslations
 import Heading from "@/components/Dashboard/DashboardLayout/Heading";
+import { useRouter } from "@/i18n/routing";
 
 export default function App() {
   const router = useRouter();
-  const t = useTranslations("Dashboard.Patients"); 
+  const t = useTranslations("Dashboard.Patients");
 
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
@@ -89,9 +89,9 @@ export default function App() {
     <>
       <TableHeadLayout>
         <Heading title={t("patients")} /> {/* Translated */}
-        {/* {hasPermission(role, "patient", "create") && ( */}
+        {hasPermission(role, "patient", "create") && (
           <AddButton handleAddDialog={handleOpenAddDialog} />
-        {/* )} */}
+        )}
       </TableHeadLayout>
       {patientsData && (
         <DataTable

@@ -8,13 +8,13 @@ import { AddDialog } from "@/components/Dashboard/doctors/AddDoctorDialog";
 import { EditDialog } from "@/components/Dashboard/doctors/EditDoctorDialog";
 import useUser from "@/customHooks/loginHooks/useUser";
 import { hasPermission } from "@/lib/utils";
-import { useRouter } from "next/navigation";
 import AddButton from "@/components/Dashboard/DashboardLayout/AddButton";
 import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeadingLayout";
 import { createColumns } from "@/components/Dashboard/Datatable/columns";
 import DeleteDialog from "@/components/Dashboard/generalDialog/DeleteDialog";
 import { DataTable } from "@/components/Dashboard/Datatable/DataTable";
 import { useTranslations } from "next-intl"; // Import useTranslations
+import { useRouter } from "@/i18n/routing";
 
 export default function App() {
   const router = useRouter();

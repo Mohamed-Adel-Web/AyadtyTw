@@ -39,9 +39,7 @@ export default function ReservationDetailsModal({
         <DialogTitle className="text-xl font-semibold text-gray-800">
           {t("reservationDetails")} {/* Translated */}
         </DialogTitle>
-        <DialogDescription className="text-gray-600">
-          {t("detailsDescription")} {/* Translated */}
-        </DialogDescription>
+  
       </DialogHeader>
       <div className="mt-4 space-y-4">
         <div className="flex items-center">

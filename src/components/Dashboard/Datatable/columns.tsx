@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { formatDateTime, hasPermission } from "@/lib/utils";
 import { Role } from "@/types/RolesTypes/role";
+import { useTranslations } from "next-intl"; // Import useTranslations
 
 function getNestedValue(obj: any, path: string): any {
   return path.split(".").reduce((o, p) => (o ? o[p] : ""), obj);
@@ -37,8 +38,12 @@ export function createColumns<T extends BaseData>(
   handleOpenEditDialog?: (row: T) => void,
   handleOpenDeleteDialog?: (row: T) => void,
   handleShowTransactionsDialog?: (row: T) => void,
-  handleShowReportDialog?: (row: T) => void
+  handleShowReportDialog?: (row: T) => void,
+  handleShowPatientDetails?: (row: T) => void,
+  handleShowAppointmentDetails?: (row: T) => void
 ): ColumnDef<T>[] {
+  const t = useTranslations("Dashboard.column");
+
   return [
     {
       id: "select",
@@ -49,14 +54,14 @@ export function createColumns<T extends BaseData>(
             (table.getIsSomePageRowsSelected() && "indeterminate")
           }
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
+          aria-label={t("selectAll")} // Translated
         />
       ),
       cell: ({ row }) => (
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
+          aria-label={t("selectRow")} // Translated
         />
       ),
       enableSorting: false,
@@ -70,7 +75,7 @@ export function createColumns<T extends BaseData>(
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {prop.label}
+          {prop.label} {/* Translated */}
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
@@ -94,7 +99,8 @@ export function createColumns<T extends BaseData>(
             }`}
           >
             {row.original.status.charAt(0).toUpperCase() +
-              row.original.status.slice(1)}
+              row.original.status.slice(1)}{" "}
+            {/* Translated */}
           </div>
         ) : prop.key === "time_start" ||
           prop.key === "time_end" ||
@@ -121,7 +127,7 @@ export function createColumns<T extends BaseData>(
       header:
         hasPermission(role, currentSection, "update") ||
         hasPermission(role, currentSection, "delete")
-          ? "Action"
+          ? t("action") // Translated
           : "",
       enableHiding: false,
       cell: ({ row }) => {
@@ -131,12 +137,14 @@ export function createColumns<T extends BaseData>(
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
+                <span className="sr-only">{t("openMenu")}</span>{" "}
+                {/* Translated */}
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>{" "}
+              {/* Translated */}
               <DropdownMenuSeparator />
               {hasPermission(role, currentSection, "delete") &&
               handleOpenDeleteDialog ? (
@@ -144,7 +152,7 @@ export function createColumns<T extends BaseData>(
                   className="w-full bg-red-700 hover:bg-red-700"
                   onClick={() => handleOpenDeleteDialog(rowOriginal)}
                 >
-                  Delete
+                  {t("delete")} {/* Translated */}
                 </Button>
               ) : (
                 ""
@@ -156,7 +164,7 @@ export function createColumns<T extends BaseData>(
                   className="w-full bg-blue-600 hover:bg-blue-600"
                   onClick={() => handleOpenEditDialog(rowOriginal)}
                 >
-                  Edit
+                  {t("edit")} {/* Translated */}
                 </Button>
               ) : (
                 ""
@@ -166,17 +174,37 @@ export function createColumns<T extends BaseData>(
                   className="w-full bg-blue-600 hover:bg-blue-600"
                   onClick={() => handleShowTransactionsDialog(rowOriginal)}
                 >
-                  Show Transaction Details
+                  {t("showTransactionDetails")} {/* Translated */}
                 </Button>
               ) : (
                 ""
-              )}{" "}
+              )}
               {handleShowReportDialog ? (
                 <Button
                   className="w-full bg-green-600 hover:bg-green-600 my-2"
                   onClick={() => handleShowReportDialog(rowOriginal)}
                 >
-                  Show Report
+                  {t("showReport")} {/* Translated */}
+                </Button>
+              ) : (
+                ""
+              )}
+              {handleShowPatientDetails ? (
+                <Button
+                  className="w-full bg-green-600 hover:bg-green-600 my-2"
+                  onClick={() => handleShowPatientDetails(rowOriginal)}
+                >
+                  {t("showPatientDetails")} {/* Translated */}
+                </Button>
+              ) : (
+                ""
+              )}
+              {handleShowAppointmentDetails ? (
+                <Button
+                  className="w-full bg-sky-700 hover:bg-sky-700  my-2"
+                  onClick={() => handleShowAppointmentDetails(rowOriginal)}
+                >
+                  {t("showAppointmentDetails")} {/* Translated */}
                 </Button>
               ) : (
                 ""
