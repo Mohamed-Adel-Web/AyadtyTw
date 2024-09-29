@@ -12,7 +12,7 @@ import AddButton from "@/components/Dashboard/DashboardLayout/AddButton";
 import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeadingLayout";
 import { DataTable } from "@/components/Dashboard/Datatable/DataTable";
 import DeleteDialog from "@/components/Dashboard/generalDialog/DeleteDialog";
-import { createColumns } from "@/components/Dashboard/Datatable/columns";
+import { CreateColumns } from "@/components/Dashboard/Datatable/columns";
 import { useTranslations } from "next-intl"; // Import useTranslations
 import { useRouter } from "@/i18n/routing";
 
@@ -61,7 +61,7 @@ export default function App() {
 
   const { user, role, isSuccess } = useUser();
 
-  const columns = createColumns<examinationDetails>(
+  const columns = CreateColumns<examinationDetails>(
     [
       { key: "id", label: t("ID") }, // Translated
       { key: "name", label: t("Name") }, // Translated
@@ -88,7 +88,7 @@ export default function App() {
   return (
     <>
       <TableHeadLayout>
-        <Heading title={t("ExaminationType")} /> 
+        <Heading title={t("ExaminationType")} />
         {hasPermission(role, "examination Type", "create") && (
           <AddButton handleAddDialog={handleOpenAddDialog} />
         )}

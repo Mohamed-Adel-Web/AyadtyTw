@@ -12,14 +12,14 @@ import AddButton from "@/components/Dashboard/DashboardLayout/AddButton";
 import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeadingLayout";
 import { DataTable } from "@/components/Dashboard/Datatable/DataTable";
 import DeleteDialog from "@/components/Dashboard/generalDialog/DeleteDialog";
-import { createColumns } from "@/components/Dashboard/Datatable/columns";
+import { CreateColumns } from "@/components/Dashboard/Datatable/columns";
 import { useTranslations } from "next-intl"; // Import useTranslations
 import { useRouter } from "@/i18n/routing";
 
 export default function App() {
   const { user, role, isSuccess } = useUser();
   const router = useRouter();
-  const t = useTranslations("Dashboard.assistant"); 
+  const t = useTranslations("Dashboard.assistant");
 
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
@@ -57,7 +57,7 @@ export default function App() {
     setOpenDelete(true);
   };
 
-  const columns = createColumns<assistantDetails>(
+  const columns = CreateColumns<assistantDetails>(
     [
       { key: "id", label: "ID" },
       { key: "first_name", label: t("FirstName") }, // Use translated label
@@ -87,7 +87,7 @@ export default function App() {
       <TableHeadLayout>
         <Heading title={t("assistants")} /> {/* Use translated title */}
         {/* {hasPermission(role, "assistant", "create") && ( */}
-          <AddButton handleAddDialog={handleOpenAddDialog} />
+        <AddButton handleAddDialog={handleOpenAddDialog} />
         {/* )} */}
       </TableHeadLayout>
 

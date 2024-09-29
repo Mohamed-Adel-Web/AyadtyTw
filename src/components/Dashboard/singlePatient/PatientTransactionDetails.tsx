@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { createColumns } from "../../../components/Dashboard/Datatable/columns";
+import { CreateColumns } from "../../../components/Dashboard/Datatable/columns";
 import { DataTable } from "../../../components/Dashboard/Datatable/DataTable";
 import Heading from "@/components/Dashboard/DashboardLayout/Heading";
 import useGetData from "@/customHooks/crudHooks/useGetData";
@@ -44,8 +44,7 @@ export default function PatientTransactionDetails({
     setOpenTransaction(true);
   };
 
-
-  const columns = createColumns<IPayment>(
+  const columns = CreateColumns<IPayment>(
     [
       { key: "id", label: "ID" },
       { key: "amount", label: "Amount" },
@@ -102,7 +101,6 @@ export default function PatientTransactionDetails({
         onOpenChange={setOpenTransaction}
         payment={selectedData}
       />
-      
     </>
   );
 }

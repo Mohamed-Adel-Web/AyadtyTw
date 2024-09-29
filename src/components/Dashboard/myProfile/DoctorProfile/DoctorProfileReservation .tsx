@@ -8,7 +8,7 @@ import {
   patientsUrl,
 } from "@/backend/backend";
 import { DataTable } from "../../Datatable/DataTable";
-import { createColumns } from "../../Datatable/columns";
+import { CreateColumns } from "../../Datatable/columns";
 import useUser from "@/customHooks/loginHooks/useUser";
 import AppointmentDetails from "./AppointementDetails";
 import PatientDetails from "./PatientDetails";
@@ -57,7 +57,7 @@ export default function DoctorProfileReservation({
   const handleViewAppointmentDetails = (reservation: reservation) => {
     setAppointmentId(reservation.appointment_id);
   };
-  const columns = createColumns<reservation>(
+  const columns = CreateColumns<reservation>(
     [
       { key: "id", label: t("id") }, // Translated
       { key: "patient_id", label: t("patientId") }, // Translated

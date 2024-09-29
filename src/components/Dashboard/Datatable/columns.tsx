@@ -31,7 +31,7 @@ interface ColumnConfig<T> {
   label: string;
 }
 
-export function createColumns<T extends BaseData>(
+export function CreateColumns<T extends BaseData>(
   props: ColumnConfig<T>[],
   currentSection: string,
   role: Role,

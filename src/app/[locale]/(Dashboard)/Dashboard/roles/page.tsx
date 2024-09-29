@@ -11,7 +11,7 @@ import AddButton from "@/components/Dashboard/DashboardLayout/AddButton";
 import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeadingLayout";
 import { DataTable } from "@/components/Dashboard/Datatable/DataTable";
 import DeleteDialog from "@/components/Dashboard/generalDialog/DeleteDialog";
-import { createColumns } from "@/components/Dashboard/Datatable/columns";
+import { CreateColumns } from "@/components/Dashboard/Datatable/columns";
 import { useTranslations } from "next-intl"; // Import useTranslations
 import { useRouter } from "@/i18n/routing";
 export default function App() {
@@ -62,7 +62,7 @@ export default function App() {
   };
 
   console.log(role);
-  const columns = createColumns<Role>(
+  const columns = CreateColumns<Role>(
     [{ key: "name", label: t("Name") }],
     "doctor",
     role,

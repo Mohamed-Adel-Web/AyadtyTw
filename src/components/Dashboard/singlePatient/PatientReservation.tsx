@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { createColumns } from "../../../components/Dashboard/Datatable/columns";
+import { CreateColumns } from "../../../components/Dashboard/Datatable/columns";
 import { DataTable } from "../../../components/Dashboard/Datatable/DataTable";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { patientReservationUrl, patientsUrl } from "@/backend/backend";
@@ -34,7 +34,7 @@ export default function PatientReservation({
   const patientReservationData = data?.data.data || [];
 
   const { user, role, isSuccess } = useUser();
-  const columns = createColumns<reservationDetails>(
+  const columns = CreateColumns<reservationDetails>(
     [
       { key: "id", label: " ID" },
       { key: "status", label: "Status" },

@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { createColumns } from "../../../components/Dashboard/Datatable/columns";
+import { CreateColumns } from "../../../components/Dashboard/Datatable/columns";
 import { DataTable } from "../../../components/Dashboard/Datatable/DataTable";
 import Heading from "@/components/Dashboard/DashboardLayout/Heading";
 import useGetData from "@/customHooks/crudHooks/useGetData";
@@ -61,7 +61,7 @@ export default function PatientVitalHistory({
     setSelectedData(data);
     setOpenSheet(true);
   };
-  const columns = createColumns<IVitalHistory>(
+  const columns = CreateColumns<IVitalHistory>(
     [
       { key: "patient_id", label: "patient id" },
       { key: "pressure", label: "Pressure" },

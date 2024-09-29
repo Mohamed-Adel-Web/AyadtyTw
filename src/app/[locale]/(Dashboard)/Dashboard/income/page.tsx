@@ -8,7 +8,7 @@ import useUser from "@/customHooks/loginHooks/useUser";
 import { IPayment } from "@/types/paymentTypes/payment";
 import TransactionDetailsDialog from "@/components/Dashboard/income/TransactionDetailsDialog";
 import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeadingLayout";
-import { createColumns } from "@/components/Dashboard/Datatable/columns";
+import { CreateColumns } from "@/components/Dashboard/Datatable/columns";
 import { DataTable } from "@/components/Dashboard/Datatable/DataTable";
 import { useTranslations } from "next-intl"; // Import useTranslations
 import { useRouter } from "@/i18n/routing";
@@ -44,7 +44,7 @@ export default function App() {
     setOpenTransaction(true);
   };
 
-  const columns = createColumns<IPayment>(
+  const columns = CreateColumns<IPayment>(
     [
       { key: "id", label: t("ID") }, // Translated
       { key: "amount", label: t("Amount") }, // Translated

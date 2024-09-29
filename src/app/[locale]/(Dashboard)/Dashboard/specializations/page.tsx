@@ -12,7 +12,7 @@ import AddButton from "@/components/Dashboard/DashboardLayout/AddButton";
 import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeadingLayout";
 import DeleteDialog from "@/components/Dashboard/generalDialog/DeleteDialog";
 import { DataTable } from "@/components/Dashboard/Datatable/DataTable";
-import { createColumns } from "@/components/Dashboard/Datatable/columns";
+import { CreateColumns } from "@/components/Dashboard/Datatable/columns";
 import { useTranslations } from "next-intl"; // Import useTranslations
 import { useRouter } from "@/i18n/routing";
 
@@ -67,7 +67,7 @@ export default function App() {
     setFilterValue(value);
   };
 
-  const columns = createColumns<Specialization>(
+  const columns = CreateColumns<Specialization>(
     [{ key: "name", label: t("name") }], // Translated
     "specialization",
     role,
@@ -94,7 +94,7 @@ export default function App() {
           columns={columns}
           data={specializationsData}
           filterKeys={["name"]}
-          filterPlaceholder={t("filterPlaceholder")} 
+          filterPlaceholder={t("filterPlaceholder")}
           page={page}
           pageSize={pageSize}
           totalPages={totalPages}

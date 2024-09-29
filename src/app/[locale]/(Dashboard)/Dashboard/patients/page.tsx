@@ -9,7 +9,7 @@ import useUser from "@/customHooks/loginHooks/useUser";
 import { hasPermission } from "@/lib/utils";
 import AddButton from "@/components/Dashboard/DashboardLayout/AddButton";
 import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeadingLayout";
-import { createColumns } from "@/components/Dashboard/Datatable/columns";
+import { CreateColumns } from "@/components/Dashboard/Datatable/columns";
 import { DataTable } from "@/components/Dashboard/Datatable/DataTable";
 import DeleteDialog from "@/components/Dashboard/generalDialog/DeleteDialog";
 import { useTranslations } from "next-intl"; // Import useTranslations
@@ -62,7 +62,7 @@ export default function App() {
 
   const { user, role, isSuccess } = useUser();
 
-  const columns = createColumns<patientDetails>(
+  const columns = CreateColumns<patientDetails>(
     [
       { key: "id", label: t("id") },
       { key: "first_name", label: t("firstName") },

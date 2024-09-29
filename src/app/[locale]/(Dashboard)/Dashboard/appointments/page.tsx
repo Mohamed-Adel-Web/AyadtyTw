@@ -12,7 +12,7 @@ import { EditDialog } from "@/components/Dashboard/appointments/EditAppointments
 import SelectDoctorAppointment from "@/components/Dashboard/appointments/SelectDoctorAppointment";
 import AddButton from "@/components/Dashboard/DashboardLayout/AddButton";
 import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeadingLayout";
-import { createColumns } from "@/components/Dashboard/Datatable/columns";
+import { CreateColumns } from "@/components/Dashboard/Datatable/columns";
 import { DataTable } from "@/components/Dashboard/Datatable/DataTable";
 import DeleteDialog from "@/components/Dashboard/generalDialog/DeleteDialog";
 import DeleteAllDialog from "@/components/Dashboard/generalDialog/DeleteAllDialog";
@@ -62,7 +62,7 @@ export default function App() {
     setOpenDeleteAll(true);
   };
   const { user, role, isSuccess } = useUser();
-  const columns = createColumns<appointmentDetails>(
+  const columns = CreateColumns<appointmentDetails>(
     [
       { key: "id", label: "id" },
       { key: "time_start", label: t("start_time") }, // Use translated text

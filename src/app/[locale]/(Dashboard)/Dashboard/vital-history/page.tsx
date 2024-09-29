@@ -12,7 +12,7 @@ import { EditDialog } from "@/components/Dashboard/vitalHistory/EditVitalDialog"
 import ReportSheetComponent from "@/components/Dashboard/vitalHistory/ReportDialog";
 import AddButton from "@/components/Dashboard/DashboardLayout/AddButton";
 import TableHeadLayout from "@/components/Dashboard/DashboardLayout/TableHeadingLayout";
-import { createColumns } from "@/components/Dashboard/Datatable/columns";
+import { CreateColumns } from "@/components/Dashboard/Datatable/columns";
 import { DataTable } from "@/components/Dashboard/Datatable/DataTable";
 import DeleteDialog from "@/components/Dashboard/generalDialog/DeleteDialog";
 import { useRouter } from "@/i18n/routing";
@@ -58,7 +58,7 @@ export default function App() {
     setSelectedData(data);
     setOpenSheet(true);
   };
-  const columns = createColumns<IVitalHistory>(
+  const columns = CreateColumns<IVitalHistory>(
     [
       { key: "patient_id", label: "patient id" },
       { key: "pressure", label: "Pressure" },
