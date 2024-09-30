@@ -26,35 +26,36 @@ const TransactionDetailsDialog: React.FC<TransactionDetailsDialogProps> = ({
 }) => {
   const { data: reservationData, isLoading: isLoadingReservation } = useGetData(
     `${reservationUrl}/${payment?.reservation_id}`,
-    "transactionDetails",
+    "reservationDetails",
     [payment?.reservation_id],
     !!payment?.reservation_id
   );
   const reservation = reservationData?.data.data;
   const { data: examinationData, isLoading: isLoadingExamination } = useGetData(
     `${examinationTypeUrl}/${reservation?.examination_id}`,
-    "transactionDetails",
+    "examinationDetails",
     [reservation?.examination_id],
     !!reservation?.examination_id
   );
+  const doctorId = reservation?.appointment?.doctor_id;
   const examination = examinationData?.data;
 
   const { data: patientData, isLoading: isLoadingPatient } = useGetData(
     `${patientsUrl}/${reservation?.patient_id}`,
-    "transactionDetails",
+    "patientDetails",
     [reservation?.patient_id],
     !!reservation?.patient_id
   );
   const patient: patient = patientData?.data.data;
 
   const { data: doctorData, isLoading: isLoadingDoctor } = useGetData(
-    `${doctorUrl}/${reservation?.appointment.doctor_id}`,
-    "transactionDetails",
-    [reservation?.appointment.doctor_id],
-    !!reservation?.appointment.doctor_id
+    `${doctorUrl}/${doctorId}`,
+    "doctorDetails",
+    [doctorId],
+    !!doctorId
   );
   const doctor: Doctor = doctorData?.data.data;
-
+  console.log("doctor data",doctor);
   if (
     isLoadingReservation ||
     isLoadingPatient ||

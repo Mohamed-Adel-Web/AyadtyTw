@@ -46,14 +46,14 @@ export default function App() {
 
   const columns = CreateColumns<IPayment>(
     [
-      { key: "id", label: t("ID") }, // Translated
-      { key: "amount", label: t("Amount") }, // Translated
-      { key: "extra_amount", label: t("ExtraAmount") }, // Translated
-      { key: "discount", label: t("Discount") }, // Translated
-      { key: "total", label: t("Total") }, // Translated
-      { key: "status", label: t("Status") }, // Translated
-      { key: "created_at", label: t("CreatedAt") }, // Translated
-      { key: "payment_method", label: t("PaymentMethod") }, // Translated
+      { key: "id", label: t("ID") }, 
+      { key: "amount", label: t("Amount") }, 
+      { key: "extra_amount", label: t("ExtraAmount") }, 
+      { key: "discount", label: t("Discount") }, 
+      { key: "total", label: t("Total") }, 
+      { key: "status", label: t("Status") }, 
+      { key: "created_at", label: t("CreatedAt") }, 
+      { key: "payment_method", label: t("PaymentMethod") }, 
     ],
     "income",
     role,
@@ -74,7 +74,7 @@ export default function App() {
   return (
     <>
       <TableHeadLayout>
-        <Heading title={t("Transactions")} /> {/* Translated */}
+        <Heading title={t("Transactions")} /> 
       </TableHeadLayout>
       {paymentsData && (
         <DataTable
@@ -87,7 +87,7 @@ export default function App() {
             "created_at",
             "payment_method",
           ]}
-          filterPlaceholder={t("Filter")} // Translated
+          filterPlaceholder={t("Filter")} 
           page={page}
           pageSize={pageSize}
           totalPages={totalPages}

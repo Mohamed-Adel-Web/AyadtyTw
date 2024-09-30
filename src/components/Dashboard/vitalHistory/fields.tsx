@@ -1,6 +1,3 @@
-import { assistant } from "@/types/assistantTypes/assistants";
-import { Doctor } from "@/types/doctorsTypes/doctors";
-import { patient } from "@/types/patientTypes/patient";
 import { IVitalHistory } from "@/types/vitalHistoryTypes/vitalHistory";
 
 export const fields: {
@@ -15,8 +12,8 @@ export const fields: {
   {
     name: "pressure",
     type: "number",
-    label: "Pressure",
-    required: "Pressure is required",
+    label: "pressure", // Translation key for the label
+    required: "pressureRequired", // Translation key for the required message
     validate: false,
     showInAdd: true,
     showInEdit: true,
@@ -24,8 +21,8 @@ export const fields: {
   {
     name: "blood_sugar",
     type: "number",
-    label: "Blood Sugar",
-    required: "Blood Sugar is required",
+    label: "bloodSugar", // Translation key for the label
+    required: "bloodSugarRequired", // Translation key for the required message
     validate: false,
     showInAdd: true,
     showInEdit: true,
@@ -33,8 +30,8 @@ export const fields: {
   {
     name: "weight",
     type: "number",
-    label: "Weight",
-    required: "Weight is required",
+    label: "weight", // Translation key for the label
+    required: "weightRequired", // Translation key for the required message
     validate: false,
     showInAdd: true,
     showInEdit: true,
@@ -42,11 +39,10 @@ export const fields: {
   {
     name: "date",
     type: "date",
-    label: "Date",
-    required: "Date is required",
+    label: "date", // Translation key for the label
+    required: "dateRequired", // Translation key for the required message
     validate: false,
     showInAdd: true,
     showInEdit: true,
   },
-
 ];

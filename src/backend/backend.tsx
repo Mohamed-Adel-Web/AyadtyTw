@@ -20,6 +20,6 @@ export const statisticsUrl = `/statistics`;
 export const yearlyTransactionUrl = `/payment/totals`;
 export const patientReservationUrl = `/reservations/patients`;
 export const patientVitalHistoryUrl = `/vital-histories-patients`;
-export const patientTransactionUrl = `/payments/patients`;
+export const patientTransactionUrl = `/payments/patients`;  
 export const doctorReservationsUrl = `/reservations/doctor`;
 export const clinicRegister = `${globalBaseUrl}/registerNewClient`;

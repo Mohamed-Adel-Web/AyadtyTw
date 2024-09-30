@@ -62,10 +62,10 @@ const DeleteDialog = <T extends { id: number | undefined }>({
         </DialogHeader>
         <DialogDescription>
           {method == "put"
-            ? t("Are you sure you want to cancel this {itemName}?", {
+            ? t("Are you sure you want to cancel  ?", {
                 itemName,
               })
-            : t("Are you sure you want to delete this {itemName}?", {
+            : t("Are you sure you want to delete ?", {
                 itemName,
               })}
         </DialogDescription>

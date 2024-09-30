@@ -108,12 +108,39 @@
     },
     "delete": {
       "Confirm Delete": "Confirm Delete",
-      "Are you sure you want to delete this {itemName}?": "Are you sure you want to delete this {itemName}?",
-      "Are you sure you want to cancel this {itemName}?": "Are you sure you want to cancel this {itemName}?",
-      "Are you sure you want to delete all {itemName}?": "Are you sure you want to delete all {itemName}?",
-      "Are you sure you want to cancel all {itemName}?": "Are you sure you want to cancel all {itemName}?",
+      "Are you sure you want to delete ?": "Are you sure you want to delete ?",
+      "Are you sure you want to cancel ?": "Are you sure you want to cancel ?",
+      "Are you sure you want to delete all ?": "Are you sure you want to delete all ?",
+      "Are you sure you want to cancel all ?": "Are you sure you want to cancel all ?",
       "Cancel": "Cancel",
       "Delete": "Delete"
+    },
+    "vitalHistory": {
+      "vitalHistory": "Vital History",
+      "patient_id": "Patient ID",
+      "pressure": "Pressure",
+      "weight": "Weight",
+      "blood_sugar": "Blood Sugar",
+      "doctor_id": "Doctor ID",
+      "Filter": "Filter",
+      "ID": "ID",
+      "Dialog": {
+        "addTitle": "Add New Vital History",
+        "addDescription": "Enter the details of the new Vital History. Click save when you're done.",
+        "editTitle": "Edit Vital History",
+        "editDescription": "Enter the details of the Vital History. Click save when you're done.",
+        "pressure": "Pressure",
+        "bloodSugar": "Blood Sugar",
+        "weight": "Weight",
+        "date": "Date",
+        "report": "Report",
+        "patientName": "Patient Name",
+        "selectPatient": "Select patient...",
+        "doctorName": "Doctor Name",
+        "selectDoctor": "Select doctor...",
+        "saveChanges": "Save changes",
+        "showInProfile": "Show in patient profile"
+      }
     },
     "dataTable": {
       "SelectFilter": "Select Filter",
@@ -517,7 +544,7 @@
         "examinationType": "Examination Type",
         "filterPlaceholder": "Filter by name"
       },
-      "DoctorProfileSetting":{
+      "DoctorProfileSetting": {
         "profileSettings": "Profile Settings",
         "profileSettingsDescription": "Manage your account settings and API key.",
         "apiKeyTitle": "API Key",
@@ -526,7 +553,6 @@
         "updateApiKey": "Update API Key",
         "addApiKey": "Add API Key"
       }
-      
     }
   }
 }

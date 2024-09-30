@@ -58,8 +58,8 @@ const DeleteAllDialog = ({
         </DialogHeader>
         <DialogDescription>
           {method == "put"
-            ? t("Are you sure you want to cancel all {itemName}?", { itemName })
-            : t("Are you sure you want to delete all {itemName}?", {
+            ? t("Are you sure you want to cancel all ?", { itemName })
+            : t("Are you sure you want to delete all ?", {
                 itemName,
               })}
         </DialogDescription>

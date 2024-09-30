@@ -32,8 +32,8 @@ export default function App() {
   const [page, setPage] = React.useState(1);
   const [pageSize, setPageSize] = React.useState(10);
   let { data } = useGetData(
-    `${appointmentUrl}${doctorId}`,
-    "allAppointment",
+    `${appointmentUrl}?doctor_id=${doctorId}`,
+    "allAppointment", 
     [doctorId],
     true,
     page,

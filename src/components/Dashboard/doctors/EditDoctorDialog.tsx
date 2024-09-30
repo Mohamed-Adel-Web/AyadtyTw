@@ -59,7 +59,7 @@ export function EditDialog({
       formData.append("image", data.image[0]);
     }
 
-    formData.append("role_id", data.role.id.toString());
+    formData.append("role_id", data.role_id.toString());
     formData.append("_method", "PUT");
     mutate(formData);
   };
@@ -77,7 +77,7 @@ export function EditDialog({
         last_name: doctor.last_name,
         email: doctor.email,
         phone: doctor.phone,
-        specialization_id: doctor.specialization.id,
+        specialization_id: doctor?.specialization?.id,
         role_id: doctor.role_id,
       });
     }
@@ -88,7 +88,8 @@ export function EditDialog({
       <form noValidate onSubmit={handleSubmit(onSubmit)}>
         <DialogHeader>
           <DialogTitle>{t("EditDoctor")}</DialogTitle> {/* Translated */}
-          <DialogDescription>{t("EnterDoctorDetails")}</DialogDescription> {/* Translated */}
+          <DialogDescription>{t("EnterDoctorDetails")}</DialogDescription>{" "}
+          {/* Translated */}
         </DialogHeader>
         {fields
           .filter((field) => field.showInEdit)
@@ -124,7 +125,8 @@ export function EditDialog({
             })}
             className="block w-full mt-2 rounded-md border border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           >
-            <option value="">{t("SelectSpecialization")}</option> {/* Translated */}
+            <option value="">{t("SelectSpecialization")}</option>{" "}
+            {/* Translated */}
             {specializationsData?.map((spec: Specialization) => (
               <option key={spec.id} value={spec.id} className="m5-2">
                 {spec.name}
@@ -156,9 +158,7 @@ export function EditDialog({
             ))}
           </select>
           {errors.role?.id && (
-            <div className="text-red-500 w-full">
-              {errors.role?.id.message}
-            </div>
+            <div className="text-red-500 w-full">{errors.role?.id.message}</div>
           )}
         </div>
         <DialogFooter className="mt-3">

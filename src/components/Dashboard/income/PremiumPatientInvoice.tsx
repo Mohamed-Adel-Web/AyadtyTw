@@ -14,7 +14,10 @@ import { patient } from "@/types/patientTypes/patient";
 import { Doctor } from "@/types/doctorsTypes/doctors";
 import { formatDateTime } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { reservation, reservationDetails } from "@/types/reservationTypes/reservation";
+import {
+  reservation,
+  reservationDetails,
+} from "@/types/reservationTypes/reservation";
 import { examination } from "@/types/examinationTypes/examinationTypes";
 import { useTranslations } from "next-intl"; // Import useTranslations
 
@@ -23,7 +26,7 @@ interface PremiumPatientInvoiceProps {
   patient: patient;
   doctor: Doctor;
   reservation: reservationDetails;
-  examination:examination
+  examination: examination;
 }
 
 export default function PremiumPatientInvoice({
@@ -31,13 +34,12 @@ export default function PremiumPatientInvoice({
   patient,
   doctor,
   reservation,
-  examination
+  examination,
 }: PremiumPatientInvoiceProps) {
-  const  t  = useTranslations("Dashboard.amount"); 
-
-  const handlePrint=()=>{
-    window.print()
-  }
+  const t = useTranslations("Dashboard.amount");
+  const handlePrint = () => {
+    window.print();
+  };
 
   return (
     <Card className="w-full max-w-5xl mx-auto bg-gradient-to-b from-white to-gray-50 text-gray-800 shadow-lg">

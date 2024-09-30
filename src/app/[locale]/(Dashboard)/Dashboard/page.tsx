@@ -23,8 +23,8 @@ import { statisticsUrl, yearlyTransactionUrl } from "@/backend/backend";
 import { IStatistics } from "@/types/statisticsTypes/statistics";
 import { generateYears } from "@/lib/utils";
 import useUser from "@/customHooks/loginHooks/useUser";
-import { useRouter } from "next/navigation";
 import LoadingSpinner from "@/components/Dashboard/Common/LoadingSpinner";
+import { useRouter } from "@/i18n/routing";
 
 export default function App() {
   const currentYear = new Date().getFullYear();

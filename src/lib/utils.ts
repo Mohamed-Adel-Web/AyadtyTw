@@ -60,8 +60,5 @@ export const generateYears = (startYear: number, endYear: number) => {
   return years;
 };
 export const getBaseUrl = () => {
-  const subdomain = Cookies.get("subdomain");
-  if (subdomain) {
-    return `https://${subdomain}.ayadty.com/el3yada_new/api`;
-  }
+  return `https://mohamedkb.ayadty.com/el3yada_new/api`;
 };

@@ -45,19 +45,23 @@ const Sidebar = () => {
           {Links(role).map((link) => (
             <Tooltip key={link.href}>
               <TooltipTrigger asChild>
-                <Link
-                  href={link.href}
-                  className={`flex items-center justify-start rounded-lg transition-colors ${
-                    currentPath === link.href
-                      ? "text-white bg-[#666CFF]"
-                      : "text-black hover:bg-[#666CFF] hover:text-white"
-                  } w-full px-2 py-2`}
-                >
-                  <div className="flex items-center m-">
-                    {link.icon}
-                    {isHovered && <span className="mx-4">{link.label}</span>}
-                  </div>
-                </Link>
+                {link.permission ? (
+                  <Link
+                    href={link.href}
+                    className={`flex items-center justify-start rounded-lg transition-colors ${
+                      currentPath === link.href
+                        ? "text-white bg-[#666CFF]"
+                        : "text-black hover:bg-[#666CFF] hover:text-white"
+                    } w-full px-2 py-2`}
+                  >
+                    <div className="flex items-center m-">
+                      {link.icon}
+                      {isHovered && <span className="mx-4">{link.label}</span>}
+                    </div>
+                  </Link>
+                ) : (
+                  ""
+                )}
               </TooltipTrigger>
               {!isHovered && (
                 <TooltipContent side="right">

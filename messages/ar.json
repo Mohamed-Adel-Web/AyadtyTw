@@ -104,10 +104,10 @@
     },
     "delete": {
       "Confirm Delete": "تأكيد الحذف",
-      "Are you sure you want to delete this {itemName}?": "هل أنت متأكد أنك تريد حذف هذا {itemName}؟",
-      "Are you sure you want to cancel this {itemName}?": "هل أنت متأكد أنك تريد إلغاء هذا {itemName}؟",
-      "Are you sure you want to delete all {itemName}?": "هل أنت متأكد أنك تريد حذف جميع {itemName}؟",
-      "Are you sure you want to cancel all {itemName}?": "هل أنت متأكد أنك تريد إلغاء جميع {itemName}؟",
+      "Are you sure you want to delete ?": "هل أنت متأكد أنك تريد الحذف  ؟",
+      "Are you sure you want to cancel ?": "هل أنت متأكد أنك تريد إلغاء  ؟",
+      "Are you sure you want to delete all ?": "هل أنت متأكد أنك تريد حذف الجميع ؟",
+      "Are you sure you want to cancel all ?": "هل أنت متأكد أنك تريد إلغاء الجميع ؟",
       "Cancel": "إلغاء",
       "Delete": "حذف"
     },
@@ -138,6 +138,33 @@
         "AmountRequired": "المبلغ مطلوب",
         "ColorRequired": "اللون مطلوب",
         "DoctorNameRequired": "اسم الطبيب مطلوب"
+      }
+    },
+    "vitalHistory": {
+      "vitalHistory": "سجل الحيوية",
+      "patient_id": "رقم المريض",
+      "pressure": "الضغط",
+      "weight": "الوزن",
+      "blood_sugar": "سكر الدم",
+      "doctor_id": "رقم الطبيب",
+      "Filter": "تصفية",
+      "ID": "الرقم",
+      "Dialog": {
+        "addTitle": "إضافة سجل حيوية جديد",
+        "addDescription": "أدخل تفاصيل سجل الحيوية الجديد. اضغط حفظ عند الانتهاء.",
+        "editTitle": "تعديل سجل الحيوية",
+        "editDescription": "أدخل تفاصيل سجل الحيوية. اضغط حفظ عند الانتهاء.",
+        "pressure": "الضغط",
+        "bloodSugar": "سكر الدم",
+        "weight": "الوزن",
+        "date": "التاريخ",
+        "report": "التقرير",
+        "patientName": "اسم المريض",
+        "selectPatient": "اختر المريض...",
+        "doctorName": "اسم الطبيب",
+        "selectDoctor": "اختر الطبيب...",
+        "saveChanges": "حفظ التغييرات",
+        "showInProfile": "عرض في ملف المريض"
       }
     },
     "amount": {

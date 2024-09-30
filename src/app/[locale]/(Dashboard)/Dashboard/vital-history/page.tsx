@@ -1,6 +1,5 @@
 "use client";
 import * as React from "react";
-
 import Heading from "@/components/Dashboard/DashboardLayout/Heading";
 import useGetData from "@/customHooks/crudHooks/useGetData";
 import { vitalHistoryUrl } from "@/backend/backend";
@@ -16,7 +15,10 @@ import { CreateColumns } from "@/components/Dashboard/Datatable/columns";
 import { DataTable } from "@/components/Dashboard/Datatable/DataTable";
 import DeleteDialog from "@/components/Dashboard/generalDialog/DeleteDialog";
 import { useRouter } from "@/i18n/routing";
+import { useTranslations } from "next-intl"; // Import useTranslations
+
 export default function App() {
+  const t = useTranslations("Dashboard.vitalHistory"); // Initialize useTranslations hook
   const { user, role, isSuccess } = useUser();
   const router = useRouter();
   const [openAdd, setOpenAdd] = React.useState(false);
@@ -30,6 +32,7 @@ export default function App() {
   const [pageSize, setPageSize] = React.useState(10);
   const [selectedFilterKey, setSelectedFilterKey] = React.useState<string>();
   const [filterValue, setFilterValue] = React.useState<string>("");
+
   const { data } = useGetData(
     vitalHistoryUrl,
     "allVitalHistory",
@@ -40,31 +43,37 @@ export default function App() {
     selectedFilterKey,
     filterValue
   );
+
   const vitalHistoryData = data?.data.data || [];
   const totalPages = data?.data.last_page || 1;
   const totalRecords = data?.data.total || 0;
+
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
   };
+
   const handleOpenEditDialog = (data: IVitalHistory) => {
     setSelectedData(data);
     setOpenEdit(true);
   };
+
   const handleOpenDeleteDialog = (data: IVitalHistory) => {
     setSelectedData(data);
     setOpenDelete(true);
   };
+
   const handleShowReportDialog = (data: IVitalHistory) => {
     setSelectedData(data);
     setOpenSheet(true);
   };
+
   const columns = CreateColumns<IVitalHistory>(
     [
-      { key: "patient_id", label: "patient id" },
-      { key: "pressure", label: "Pressure" },
-      { key: "weight", label: "Weight" },
-      { key: "blood_sugar", label: "Blood Sugar" },
-      { key: "doctor_id", label: "Doctor id" },
+      { key: "patient_id", label: t("patient_id") },
+      { key: "pressure", label: t("pressure") },
+      { key: "weight", label: t("weight") },
+      { key: "blood_sugar", label: t("blood_sugar") },
+      { key: "doctor_id", label: t("doctor_id") },
     ],
     "vitalHistory",
     role,
@@ -73,6 +82,7 @@ export default function App() {
     undefined,
     handleShowReportDialog
   );
+
   if (isSuccess && !hasPermission(role, "vitalHistory", "read")) {
     router.push("/unauthorized");
   }
@@ -81,10 +91,11 @@ export default function App() {
     setSelectedFilterKey(key);
     setFilterValue(value);
   };
+
   return (
     <>
       <TableHeadLayout>
-        <Heading title="Vital History" />
+        <Heading title={t("vitalHistory")} />
         {hasPermission(role, "vitalHistory", "create") && (
           <AddButton handleAddDialog={handleOpenAddDialog} />
         )}
@@ -100,7 +111,7 @@ export default function App() {
             "blood_sugar",
             "doctor_id",
           ]}
-          filterPlaceholder="Filter name..."
+          filterPlaceholder={t("Filter")} // Use translation for filter placeholder
           page={page}
           pageSize={pageSize}
           totalPages={totalPages}
@@ -124,7 +135,7 @@ export default function App() {
         url={vitalHistoryUrl}
         mutationKey="deleteVitalHistory"
         queryKey="allVitalHistory"
-        itemName="vital history"
+        itemName={t("vitalHistory")} // Use translation for item name
       />
       <ReportSheetComponent
         openSheet={openSheet}
